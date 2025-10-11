@@ -98,7 +98,7 @@ def push_plus(title, content, digest):
     get_access_token_url = f'https://qyapi.weixin.qq.com/cgi-bin/gettoken?corpid={corpid}&corpsecret={corpsecret}'
     access_token = requests.get(get_access_token_url).json()['access_token']
     push_url = f'https://qyapi.weixin.qq.com/cgi-bin/message/send?access_token={access_token}'
-    result = result.replace("<div>", "").replace("</div>", "").replace("<ul>",  "").replace("</ul>", "").replace("<li>", "").replace("</li>", "").replace("<span>", "\n").replace("</span>", "")
+    digest = digest.replace("<div>", "").replace("</div>", "").replace("<ul>",  "").replace("</ul>", "").replace("<li>", "").replace("</li>", "").replace("<span>", "\n").replace("</span>", "")
     data = {
         "touser": "@all",
         "msgtype": "mpnews",
