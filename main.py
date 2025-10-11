@@ -1,7 +1,7 @@
 # -*- coding: utf8 -*-
 import math
 import traceback
-from datetime import datetime, fromisoformat
+from datetime import datetime
 import pytz
 import uuid
 
