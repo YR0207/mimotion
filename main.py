@@ -83,24 +83,48 @@ def get_error_code(location):
 
 
 # pushplus消息推送
-def push_plus(title, content):
-    requestUrl = f"http://www.pushplus.plus/send"
+def push_plus(title, content, digest):
+    # 发送至企业微信
+    corpid = "wwe11a5be7fd163e38"  # 企业ID
+    corpsecret = "RXJ_zT0JE6t-dvkFYBJe8nk75zeWpYDI0zHX9ASohkg"  # Secret
+    Agentid = "1000003"
+    headers = {
+        "accept": "application/json, text/plain, */*",
+        "accept-encoding": "gzip, deflate, br",
+        "accept-language": "zh-CN,zh;q=0.9",
+        "content-type": "application/json;charset=UTF-8",
+        "user-agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 18_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148",
+    }
+    get_access_token_url = f'https://qyapi.weixin.qq.com/cgi-bin/gettoken?corpid={corpid}&corpsecret={corpsecret}'
+    access_token = requests.get(get_access_token_url).json()['access_token']
+    push_url = f'https://qyapi.weixin.qq.com/cgi-bin/message/send?access_token={access_token}'
+    result = result.replace("<div>", "").replace("</div>", "").replace("<ul>",  "").replace("</ul>", "").replace("<li>", "").replace("</li>", "").replace("<span>", "\n").replace("</span>", "")
     data = {
-        "token": PUSH_PLUS_TOKEN,
-        "title": title,
-        "content": content,
-        "template": "html",
-        "channel": "wechat"
+        "touser": "@all",
+        "msgtype": "mpnews",
+        "agentid": int(Agentid),
+        "mpnews": {
+            "articles": [
+                {
+                    "title": title.replace("\n", ""),
+                    "thumb_media_id": "2olmh7kAnR5KVR0BuHzAiOuWEFkBF8ITqi6AQxTUR3bQiFpnP2UukUn9xNtk-LvIm",
+                    "author": "锐大神",
+                    "content_source_url": "https://www.fglt.net/index.php",
+                    "content": content,
+                    "digest": digest.strip(),
+                }
+            ]
+        },
     }
     try:
-        response = requests.post(requestUrl, data=data)
+        response = requests.post(url=push_url, json=data, headers=headers)
         if response.status_code == 200:
             json_res = response.json()
-            print(f"pushplus推送完毕：{json_res['code']}-{json_res['msg']}")
+            print(f"企业微信推送完毕：{json_res['errcode']}-{json_res['errmsg']}")
         else:
-            print("pushplus推送失败")
+            print("企业微信推送失败")
     except:
-        print("pushplus推送异常")
+        print("企业微信推送异常")
 
 
 class MiMotionRunner:
@@ -210,12 +234,12 @@ class MiMotionRunner:
 
 # 启动主函数
 def push_to_push_plus(exec_results, summary):
-    # 判断是否需要pushplus推送
-    if PUSH_PLUS_TOKEN is not None and PUSH_PLUS_TOKEN != '' and PUSH_PLUS_TOKEN != 'NO':
-        if PUSH_PLUS_HOUR is not None and PUSH_PLUS_HOUR.isdigit():
-            if time_bj.hour != int(PUSH_PLUS_HOUR):
-                print(f"当前设置push_plus推送整点为：{PUSH_PLUS_HOUR}, 当前整点为：{time_bj.hour}，跳过推送")
-                return
+    # # 判断是否需要pushplus推送
+    # if PUSH_PLUS_TOKEN is not None and PUSH_PLUS_TOKEN != '' and PUSH_PLUS_TOKEN != 'NO':
+    #     if PUSH_PLUS_HOUR is not None and PUSH_PLUS_HOUR.isdigit():
+    #         if time_bj.hour != int(PUSH_PLUS_HOUR):
+    #             print(f"当前设置push_plus推送整点为：{PUSH_PLUS_HOUR}, 当前整点为：{time_bj.hour}，跳过推送")
+    #             return
         html = f'<div>{summary}</div>'
         if len(exec_results) >= PUSH_PLUS_MAX:
             html += '<div>账号数量过多，详细情况请前往github actions中查看</div>'
@@ -228,7 +252,7 @@ def push_to_push_plus(exec_results, summary):
                 else:
                     html += f'<li><span>账号：{exec_result["user"]}</span>刷步数失败，失败原因：{exec_result["msg"]}</li>'
             html += '</ul>'
-        push_plus(f"{format_now()} 刷步数通知", html)
+        push_plus(f"{format_now()} 刷步数通知", html, html)
 
 
 def run_single_account(total, idx, user_mi, passwd_mi):
