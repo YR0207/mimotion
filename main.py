@@ -1,7 +1,7 @@
 # -*- coding: utf8 -*-
 import math
 import traceback
-from datetime import datetime
+from datetime import datetime, fromisoformat
 import pytz
 import uuid
 
@@ -125,6 +125,22 @@ def push_plus(title, content, digest):
             print("企业微信推送失败")
     except:
         print("企业微信推送异常")
+
+def Bark(title, message):
+    headers = {
+        "Content-Type": "application/json; charset=utf-8"
+    }
+    url = "https://api.day.app/Bt66kBfHey8kWU6zLHACtR"
+    message = message.replace("<div>", "").replace("</div>", "").replace("<ul>",  "").replace("</ul>", "").replace("<li>", "").replace("</li>", "").replace("<span>", "\n").replace("</span>", "")
+    data = {
+        "title": title.strip(),
+        "body": message.strip()
+    }
+    try:
+        response = requests.post(url, headers=headers, json=data)
+        print(f"状态码: {response.status_code}\n响应内容: {response.text}")
+    except requests.RequestException as e:
+        print("请求失败:", e)
 
 
 class MiMotionRunner:
@@ -252,8 +268,9 @@ def push_to_push_plus(exec_results, summary):
                 else:
                     html += f'<li><span>账号：{exec_result["user"]}</span>刷步数失败，失败原因：{exec_result["msg"]}</li>'
             html += '</ul>'
-        push_plus(f"{format_now()} 刷步数通知", html, html)
-
+        date_obj = datetime.fromisoformat(str(get_beijing_time()))
+        # 判断星期几（0=周一, 1=周二, ..., 5=周六, 6=周日）
+        Bark(summary, html) if date_obj.weekday() in (5, 6) else push_plus(f"{format_now()} 刷步数通知", html, html)
 
 def run_single_account(total, idx, user_mi, passwd_mi):
     idx_info = ""
