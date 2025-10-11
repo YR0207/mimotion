@@ -256,7 +256,8 @@ def push_to_push_plus(exec_results, summary):
     #         if time_bj.hour != int(PUSH_PLUS_HOUR):
     #             print(f"当前设置push_plus推送整点为：{PUSH_PLUS_HOUR}, 当前整点为：{time_bj.hour}，跳过推送")
     #             return
-        html = f'<div>{summary}</div>'
+        # html = f'<div>{summary}</div>'
+        html = ""
         if len(exec_results) >= PUSH_PLUS_MAX:
             html += '<div>账号数量过多，详细情况请前往github actions中查看</div>'
         else:
@@ -270,7 +271,8 @@ def push_to_push_plus(exec_results, summary):
             html += '</ul>'
         date_obj = datetime.fromisoformat(str(get_beijing_time()))
         # 判断星期几（0=周一, 1=周二, ..., 5=周六, 6=周日）
-        Bark(summary, html) if date_obj.weekday() in (5, 6) else push_plus(f"{format_now()} 刷步数通知", html, html)
+        # Bark(summary, html) if date_obj.weekday() in (5, 6) else push_plus(f"{format_now()} 刷步数通知", html, html)
+        Bark(summary, html) if date_obj.weekday() in (5, 6) else push_plus(summary, html, html)
 
 def run_single_account(total, idx, user_mi, passwd_mi):
     idx_info = ""
