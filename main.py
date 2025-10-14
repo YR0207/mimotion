@@ -297,7 +297,6 @@ def run_single_account(total, idx, user_mi, passwd_mi):
 
 
 def execute():
-    start_time = time.time()
     user_list = users.split('#')
     passwd_list = passwords.split('#')
     exec_results = []
@@ -323,12 +322,7 @@ def execute():
             push_results.append(result)
             if result['success'] is True:
                 success_count += 1
-        # 计算执行时间
-        execution_time = time.time() - start_time
-        
-        # 摘要信息也更新为当前批次的信息
-        summary = f"\n执行账号总数{total}，成功：{success_count}，失败：{total - success_count}，耗时：{execution_time:.2f}秒"
-        # summary = f"\n执行账号总数{total}，成功：{success_count}，失败：{total - success_count}"
+        summary = f"\n执行账号总数{total}，成功：{success_count}，失败：{total - success_count}"
         print(summary)
         push_to_push_plus(push_results, summary)
     else:
