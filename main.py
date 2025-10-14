@@ -297,6 +297,7 @@ def run_single_account(total, idx, user_mi, passwd_mi):
 
 
 def execute():
+    start_time = time.time()
     user_list = users.split('#')
     passwd_list = passwords.split('#')
     exec_results = []
