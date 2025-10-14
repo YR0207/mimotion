@@ -30,7 +30,8 @@ jobs:
             AES_KEY: ${{ secrets.AES_KEY }}
         run: |
           pip3 install requests pytz pycryptodome
-          python3 main.py
+          python3 main.py > script_output.log 2>&1
+          echo "Python脚本执行完成"
 
       - name: persist tokens
         run: |
