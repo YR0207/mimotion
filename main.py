@@ -276,7 +276,7 @@ def push_to_push_plus(exec_results, summary):
         # 判断星期几（0=周一, 1=周二, ..., 5=周六, 6=周日）
         # Bark(summary, html) if date_obj.weekday() in (5, 6) else push_plus(f"{format_now()} 刷步数通知", html, html)
         Bark(summary, html) if date_obj.weekday() in (5, 6) else push_plus(summary, html, html)
-    Bark(summary, html) if date_obj.weekday() in (5, 6) else WeChatPush(PUSH_PLUS_TOKEN).send_message(summary, html)
+        Bark(summary, html) if date_obj.weekday() in (5, 6) else WeChatPush(PUSH_PLUS_TOKEN).send_message(summary, html)
 
 def run_single_account(total, idx, user_mi, passwd_mi):
     idx_info = ""
