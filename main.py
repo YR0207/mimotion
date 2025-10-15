@@ -85,10 +85,11 @@ def get_error_code(location):
 
 # pushplus消息推送
 def push_plus(title, content, digest):
+    token_list = PUSH_PLUS_TOKEN.split('#')
     # 发送至企业微信
-    corpid = "wwe11a5be7fd163e38"  # 企业ID
-    corpsecret = "RXJ_zT0JE6t-dvkFYBJe8nk75zeWpYDI0zHX9ASohkg"  # Secret
-    Agentid = "1000003"
+    corpid = token_list[0]  # 企业ID
+    corpsecret = token_list[1]  # Secret
+    Agentid = token_list[2]
     headers = {
         "accept": "application/json, text/plain, */*",
         "accept-encoding": "gzip, deflate, br",
