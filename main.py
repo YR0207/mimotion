@@ -14,7 +14,6 @@ import os
 import requests
 from util.aes_help import  encrypt_data, decrypt_data
 import util.zepp_helper as zeppHelper
-from util.WeChatPush import WeChatPush
 
 # 获取默认值转int
 def get_int_value_default(_config: dict, _key, default):
@@ -275,8 +274,7 @@ def push_to_push_plus(exec_results, summary):
         date_obj = datetime.fromisoformat(str(get_beijing_time()))
         # 判断星期几（0=周一, 1=周二, ..., 5=周六, 6=周日）
         # Bark(summary, html) if date_obj.weekday() in (5, 6) else push_plus(f"{format_now()} 刷步数通知", html, html)
-        # Bark(summary, html) if date_obj.weekday() in (5, 6) else push_plus(summary, html, html)
-        Bark(summary, html) if date_obj.weekday() in (5, 6) else WeChatPush(PUSH_PLUS_TOKEN).send_message(summary, html)
+        Bark(summary, html) if date_obj.weekday() in (5, 6) else push_plus(summary, html, html)
 
 def run_single_account(total, idx, user_mi, passwd_mi):
     idx_info = ""
