@@ -137,7 +137,7 @@ class WeChatPush:
 # 使用示例
 if __name__ == "__main__":
     # 创建 WeChatPush 实例
-    Corppid_Corpsecret_Agentid = "wwe11a5be7fd163e38#RXJ_zT0JE6t-dvkFYBJe8nk75zeWpYDI0zHX9ASohkg#1000003"
+    Corppid_Corpsecret_Agentid = "abc"
     wx = WeChatPush(Corppid_Corpsecret_Agentid)
 
     # 消息内容
@@ -147,3 +147,4 @@ if __name__ == "__main__":
 
     # 发送消息
     wx.send_message(summary, result)
+
