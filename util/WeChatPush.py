@@ -1,6 +1,4 @@
-import requests
-import json
-import time
+import requests, json, os, time
 
 class WeChatPush:
     def __init__(self, token_str, token_file='access_token.json'):
@@ -16,6 +14,7 @@ class WeChatPush:
         self.corpsecret = self.token_list[1]  # 企业微信的 corpsecret
         self.agentid = self.token_list[2]  # 企业微信的 agentid
         self.token_file = token_file
+        self.token_file = os.path.join(os.getcwd(), token_file)
         # 加载本地保存的 access_token
         self.access_token = self._load_access_token()
 
@@ -147,3 +146,4 @@ if __name__ == "__main__":
 
     # 发送消息
     wx.send_message(summary, result)
+
