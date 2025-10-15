@@ -1,15 +1,16 @@
 import requests
 import json
 import time
+import pickle
 
 class WeChatPush:
-    def __init__(self, token_str, token_file='access_token.json'):
+    def __init__(self, token_str, token_file='access_token.data'):
         """
         初始化 WeChatPush 类的实例
         corpid: 企业微信的 corpid（公司 ID）
         corpsecret: 企业微信的 corpsecret（应用密钥）
         agentid: 企业微信的 agentid（应用 ID）
-        :param token_file: 存储 access_token 的文件路径（默认 'access_token.json'）
+        :param token_file: 存储 access_token 的文件路径（默认 'access_token.data'）
         """
         self.token_list = token_str.split('#')
         self.corpid = self.token_list[0]  # 企业微信的 corpid
@@ -21,25 +22,25 @@ class WeChatPush:
 
     def _load_access_token(self):
         """
-        从文件读取 access_token，如果 token 有效则返回，否则返回 None
+        从二进制文件读取 access_token，如果 token 有效则返回，否则返回 None
         :return: 返回有效的 access_token 或 None
         """
         try:
-            with open(self.token_file, 'r') as f:
-                data = json.load(f)
+            with open(self.token_file, 'rb') as f:
+                data = pickle.load(f)
                 access_token = data.get('access_token')
                 expire_time = data.get('expire_time')
                 # 如果 token 存在且没有过期，则返回该 token
                 if access_token and time.time() < expire_time:
                     return access_token
-        except FileNotFoundError:
-            # 如果文件未找到，则返回 None
+        except (FileNotFoundError, EOFError):
+            # 如果文件未找到或为空，则返回 None
             return None
         return None
 
     def _save_access_token(self, access_token, expires_in):
         """
-        保存新的 access_token 到文件
+        以二进制方式保存新的 access_token 到文件
         :param access_token: 新的 access_token
         :param expires_in: 过期时间（单位：秒）
         """
@@ -48,9 +49,9 @@ class WeChatPush:
             "access_token": access_token,
             "expire_time": expire_time
         }
-        # 将 access_token 和过期时间保存到文件
-        with open(self.token_file, 'w') as f:
-            json.dump(data, f)
+        # 将 access_token 和过期时间以二进制方式保存到文件
+        with open(self.token_file, 'wb') as f:
+            pickle.dump(data, f)
         self.access_token = access_token
 
     def _get_access_token(self):
@@ -81,9 +82,8 @@ class WeChatPush:
     def send_message(self, title, content):
         """
         发送企业微信消息
-        :param summary: 消息的标题
-        :param result: 消息的摘要（HTML 格式）
-        :param results: 消息的详细内容
+        :param title: 消息的标题
+        :param content: 消息的内容（HTML 格式）
         :return: 返回发送请求的响应 JSON 数据
         """
         headers = {
@@ -137,7 +137,7 @@ class WeChatPush:
 # 使用示例
 if __name__ == "__main__":
     # 创建 WeChatPush 实例
-    Corppid_Corpsecret_Agentid = "abc"
+    Corppid_Corpsecret_Agentid = "wwe11a5be7f"
     wx = WeChatPush(Corppid_Corpsecret_Agentid)
 
     # 消息内容
@@ -147,4 +147,3 @@ if __name__ == "__main__":
 
     # 发送消息
     wx.send_message(summary, result)
-
