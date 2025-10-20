@@ -259,7 +259,7 @@ def push_to_push_plus(exec_results, summary):
     #             print(f"当前设置push_plus推送整点为：{PUSH_PLUS_HOUR}, 当前整点为：{time_bj.hour}，跳过推送")
     #             return
         # html = f'<div>{summary}</div>'
-        # html = f'<div>{format_now()} 刷步数通知</div>'
+        html = f'<div>{format_now()} 刷步数通知</div>'
         if len(exec_results) >= PUSH_PLUS_MAX:
             html += '<div>账号数量过多，详细情况请前往github actions中查看</div>'
         else:
