@@ -9,6 +9,7 @@ HM_AES_IV = b'MAAAYAAAAAAAAABg'  # 16 bytes
 AES_BLOCK_SIZE = AES.block_size  # 16
 
 
+
 def _pkcs7_pad(data: bytes) -> bytes:
     pad_len = AES_BLOCK_SIZE - (len(data) % AES_BLOCK_SIZE)
     return data + bytes([pad_len]) * pad_len
