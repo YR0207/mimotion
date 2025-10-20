@@ -84,7 +84,7 @@ def get_error_code(location):
 
 
 # pushplus消息推送
-def push_plus(title, content, digest):
+def push_plus(title, content):
     token_list = PUSH_PLUS_TOKEN.split('#')
     # 发送至企业微信
     corpid = token_list[0]  # 企业ID
@@ -100,7 +100,7 @@ def push_plus(title, content, digest):
     get_access_token_url = f'https://qyapi.weixin.qq.com/cgi-bin/gettoken?corpid={corpid}&corpsecret={corpsecret}'
     access_token = requests.get(get_access_token_url).json()['access_token']
     push_url = f'https://qyapi.weixin.qq.com/cgi-bin/message/send?access_token={access_token}'
-    digest = digest.replace("<div>", "").replace("</div>", "").replace("<ul>",  "").replace("</ul>", "").replace("<li>", "").replace("</li>", "").replace("<span>", "\n").replace("</span>", "")
+    digest = content.replace("<div>", "").replace("</div>", "").replace("<ul>",  "").replace("</ul>", "").replace("<li>", "").replace("</li>", "").replace("<span>", "\n").replace("</span>", "")
     data = {
         "touser": "@all",
         "msgtype": "mpnews",
@@ -259,7 +259,7 @@ def push_to_push_plus(exec_results, summary):
     #             print(f"当前设置push_plus推送整点为：{PUSH_PLUS_HOUR}, 当前整点为：{time_bj.hour}，跳过推送")
     #             return
         # html = f'<div>{summary}</div>'
-        html = ""
+        # html = f'<div>{format_now()} 刷步数通知</div>'
         if len(exec_results) >= PUSH_PLUS_MAX:
             html += '<div>账号数量过多，详细情况请前往github actions中查看</div>'
         else:
@@ -274,7 +274,7 @@ def push_to_push_plus(exec_results, summary):
         date_obj = datetime.fromisoformat(str(get_beijing_time()))
         # 判断星期几（0=周一, 1=周二, ..., 5=周六, 6=周日）
         # Bark(summary, html) if date_obj.weekday() in (5, 6) else push_plus(f"{format_now()} 刷步数通知", html, html)
-        Bark(summary, html) if date_obj.weekday() in (5, 6) else push_plus(summary, html, html)
+        Bark(summary, html) if date_obj.weekday() in (5, 6) else push_plus(summary, html)
 
 def run_single_account(total, idx, user_mi, passwd_mi):
     idx_info = ""
