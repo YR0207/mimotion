@@ -273,9 +273,9 @@ def push_to_push_plus(exec_results, summary):
                 success = exec_result['success']
                 if success is not None and success is True:
                     color = "#" + "".join([random.choice("0123456789ABCDEF") for j in range(6)])
-                    html += f'<li style="color: {color};"><span>\n账号：{exec_result["user"]}</span>刷步数成功，接口返回：{exec_result["msg"]}</li>'
+                    html += f'\n<li style="color: {color};"><span>账号：{exec_result["user"]}</span>刷步数成功，接口返回：{exec_result["msg"]}</li>'
                 else:
-                    html += f'<li><span>\n账号：{exec_result["user"]}</span>刷步数失败，失败原因：{exec_result["msg"]}</li>'
+                    html += f'\n<li><span>账号：{exec_result["user"]}</span>刷步数失败，失败原因：{exec_result["msg"]}</li>'
             html += '</ul>'
         date_obj = datetime.fromisoformat(str(get_beijing_time()))
         # 判断星期几（0=周一, 1=周二, ..., 5=周六, 6=周日）
