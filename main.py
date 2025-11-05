@@ -82,7 +82,12 @@ def get_error_code(location):
         return None
     return result[0]
 
-
+# 去除html标签函数
+def remove_html_tags_precise(text):
+    # 更精确的HTML标签匹配
+    clean_text = re.sub(r'<[^>]+>', '', text)
+    return clean_text
+    
 # pushplus消息推送
 def push_plus(title, content):
     token_list = PUSH_PLUS_TOKEN.split('#')
@@ -100,7 +105,7 @@ def push_plus(title, content):
     get_access_token_url = f'https://qyapi.weixin.qq.com/cgi-bin/gettoken?corpid={corpid}&corpsecret={corpsecret}'
     access_token = requests.get(get_access_token_url).json()['access_token']
     push_url = f'https://qyapi.weixin.qq.com/cgi-bin/message/send?access_token={access_token}'
-    digest = content.replace("<div>", "").replace("</div>", "").replace("<ul>",  "").replace("</ul>", "").replace("<li>", "").replace("</li>", "").replace("<span>", "\n").replace("</span>", "")
+    digest = remove_html_tags_precise(content)
     data = {
         "touser": "@all",
         "msgtype": "mpnews",
