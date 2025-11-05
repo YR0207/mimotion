@@ -267,7 +267,8 @@ def push_to_push_plus(exec_results, summary):
             for exec_result in exec_results:
                 success = exec_result['success']
                 if success is not None and success is True:
-                    html += f'<li><span>账号：{exec_result["user"]}</span>刷步数成功，接口返回：{exec_result["msg"]}</li>'
+                    color = "#" + "".join([random.choice("0123456789ABCDEF") for j in range(6)])
+                    html += f'<li style="color: {color};"><span>账号：{exec_result["user"]}</span>刷步数成功，接口返回：{exec_result["msg"]}</li>'
                 else:
                     html += f'<li><span>账号：{exec_result["user"]}</span>刷步数失败，失败原因：{exec_result["msg"]}</li>'
             html += '</ul>'
