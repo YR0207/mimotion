@@ -138,7 +138,7 @@ def Bark(title, message):
         "Content-Type": "application/json; charset=utf-8"
     }
     url = "https://api.day.app/Bt66kBfHey8kWU6zLHACtR"
-    message = message.replace("<div>", "").replace("</div>", "").replace("<ul>",  "").replace("</ul>", "").replace("<li>", "").replace("</li>", "").replace("<span>", "\n").replace("</span>", "")
+    message = remove_html_tags_precise(message)
     data = {
         "title": title.strip(),
         "body": message.strip()
