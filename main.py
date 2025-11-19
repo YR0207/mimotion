@@ -252,6 +252,7 @@ class MiMotionRunner:
         step = str(random.randint(min_step, max_step))
         self.log_str += f"已设置为随机步数范围({min_step}~{max_step}) 随机值:{step}\n"
         ok, msg = zeppHelper.post_fake_brand_data(step, app_token, self.user_id)
+        msg = "成功" if msg == "success" else "失败"
         # return f"修改步数（{step}）[" + msg + "]", ok
         return f"（{step}）[" + msg + "]", ok
 
@@ -277,7 +278,7 @@ def push_to_push_plus(exec_results, summary):
                 if success is not None and success is True:
                     color = "#" + "".join([random.choice("0123456789ABCDEF") for j in range(6)])
                     # html += f'\n<li style="color: {color};"><span>账号：{exec_result["user"]}</span>刷步数成功，接口返回：{exec_result["msg"]}</li>'
-                    html += f'\n<li style="color: {color};"><span>{exec_result["user"]}</span>修改步数：{exec_result["msg"]}</li>'
+                    html += f'\n<li style="color: {color};"><span>账号：{exec_result["user"]}</span>修改步数：{exec_result["msg"]}</li>'
                 else:
                     html += f'\n<li><span>账号：{exec_result["user"]}</span>刷步数失败，失败原因：{exec_result["msg"]}</li>'
             html += '</ul>'
