@@ -261,7 +261,7 @@ def push_to_push_plus(exec_results, summary):
             success = exec_result['success']
             if success is not None and success is True:
                 color = "#" + "".join([random.choice("0123456789ABCDEF") for j in range(6)])
-                userId = (exec_result["user"]).replace("@", "<span>@</span>").replace(".", "<span>.</span>")
+                userId = exec_result["user"].replace("@", "<span>@</span>").replace(".", "<span>.</span>") if "@" in exec_result["user"].strip() else userId = exec_result["user"].strip()
                 # 样式预览 😢：93094681@4681.me修改步数：(28413) ✅
                 html += f'\n<li style="color: {color};"><span>{random.choice(emojis)}：{userId}</span>修改步数：{exec_result["msg"]}</li>'
             else:
