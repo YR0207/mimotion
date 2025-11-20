@@ -1,17 +1,6 @@
 # -*- coding: utf8 -*-
-import math
-import traceback
+import math, traceback, pytz, uuid, json, random, re, time, os, requests
 from datetime import datetime
-import pytz
-import uuid
-
-import json
-import random
-import re
-import time
-import os
-
-import requests
 from util.aes_help import  encrypt_data, decrypt_data
 import util.zepp_helper as zeppHelper
 
@@ -268,6 +257,7 @@ def push_to_push_plus(exec_results, summary):
     #             print(f"当前设置push_plus推送整点为：{PUSH_PLUS_HOUR}, 当前整点为：{time_bj.hour}，跳过推送")
     #             return
         # html = f'<div>{summary}</div>'
+        emojis = ["😀", "😁", "😃", "😄", "😊", "🙂", "😉", "😍", "😘", "😚", "😜", "🤪", "😎", "😏", "🤔", "🤨", "😔", "😢", "😭", "😡", "😴", "🤯", "👋", "🤝", "👍", "👎", "👏", "🙌", "🧑‍🤝‍🧑", "👨‍👩‍👧", "👶", "🧒", "👦", "👧", "👨", "👩", "🧑", "🧓", "🧑‍⚕️", "🧑‍🏫", "🧑‍💻", "🧑‍🎓", "🧑‍🍳", "👮‍♀️", "👮‍♂️", "👩‍🚀", "🕵️‍♀️", "🕵️‍♂️", "🏃‍♀️", "🏃", "🧘‍♀️", "🧘", "💃"]
         html = f'<div>{format_now()} 刷步数通知</div>'
         if len(exec_results) >= PUSH_PLUS_MAX:
             html += '<div>账号数量过多，详细情况请前往github actions中查看</div>'
@@ -278,7 +268,7 @@ def push_to_push_plus(exec_results, summary):
                 if success is not None and success is True:
                     color = "#" + "".join([random.choice("0123456789ABCDEF") for j in range(6)])
                     # html += f'\n<li style="color: {color};"><span>账号：{exec_result["user"]}</span>刷步数成功，接口返回：{exec_result["msg"]}</li>'
-                    html += f'\n<li style="color: {color};"><span>账号：{exec_result["user"]}</span>修改步数：{exec_result["msg"]}</li>'
+                    html += f'\n<li style="color: {color};"><span>{random.choice(emojis)}：{exec_result["user"]}</span>修改步数：{exec_result["msg"]}</li>'
                 else:
                     html += f'\n<li><span>账号：{exec_result["user"]}</span>刷步数失败，失败原因：{exec_result["msg"]}</li>'
             html += '</ul>'
