@@ -242,7 +242,6 @@ class MiMotionRunner:
         self.log_str += f"已设置为随机步数范围({min_step}~{max_step}) 随机值:{step}\n"
         ok, msg = zeppHelper.post_fake_brand_data(step, app_token, self.user_id)
         msg = "✅" if msg == "success" else msg
-        # return f"修改步数（{step}）[" + msg + "]", ok
         return f"({step}) {msg}", ok
 
 # 处理账号超过7个字符显示
@@ -283,7 +282,7 @@ def run_single_account(total, idx, user_mi, passwd_mi):
         runner = MiMotionRunner(user_mi, passwd_mi)
         exec_msg, success = runner.login_and_post_step(min_step, max_step)
         log_str += runner.log_str
-        log_str += f'{exec_msg}\n'
+        log_str += f'修改步数 {exec_msg}\n'
         exec_result = {"user": user_mi, "success": success,
                        "msg": exec_msg}
     except:
