@@ -250,32 +250,26 @@ def short(text, max_len=7):
     return text if len(text) <= max_len else text[:max_len] + "..."
 # 启动主函数
 def push_to_push_plus(exec_results, summary):
-    # # 判断是否需要pushplus推送
-    # if PUSH_PLUS_TOKEN is not None and PUSH_PLUS_TOKEN != '' and PUSH_PLUS_TOKEN != 'NO':
-    #     if PUSH_PLUS_HOUR is not None and PUSH_PLUS_HOUR.isdigit():
-    #         if time_bj.hour != int(PUSH_PLUS_HOUR):
-    #             print(f"当前设置push_plus推送整点为：{PUSH_PLUS_HOUR}, 当前整点为：{time_bj.hour}，跳过推送")
-    #             return
-        # html = f'<div>{summary}</div>'
-        emojis = ["😀", "😁", "😃", "😄", "😊", "🙂", "😉", "😍", "😘", "😚", "😜", "🤪", "😎", "😏", "🤔", "🤨", "😔", "😢", "😭", "😡", "😴", "🤯", "👋", "🤝", "👍", "👎", "👏", "🙌", "🧑‍🤝‍🧑", "👨‍👩‍👧", "👶", "🧒", "👦", "👧", "👨", "👩", "🧑", "🧓", "🧑‍⚕️", "🧑‍🏫", "🧑‍💻", "🧑‍🎓", "🧑‍🍳", "👮‍♀️", "👮‍♂️", "👩‍🚀", "🕵️‍♀️", "🕵️‍♂️", "🏃‍♀️", "🏃", "🧘‍♀️", "🧘", "💃"]
-        html = f'<div>{format_now()} 刷步数通知</div>'
-        if len(exec_results) >= PUSH_PLUS_MAX:
-            html += '<div>账号数量过多，详细情况请前往github actions中查看</div>'
-        else:
-            html += '<ul>'
-            for exec_result in exec_results:
-                success = exec_result['success']
-                if success is not None and success is True:
-                    color = "#" + "".join([random.choice("0123456789ABCDEF") for j in range(6)])
-                    # html += f'\n<li style="color: {color};"><span>账号：{exec_result["user"]}</span>刷步数成功，接口返回：{exec_result["msg"]}</li>'
-                    html += f'\n<li style="color: {color};"><span>{random.choice(emojis)}：{exec_result["user"]}</span>修改步数：{exec_result["msg"]}</li>'
-                else:
-                    html += f'\n<li><span>账号：{exec_result["user"]}</span>刷步数失败，失败原因：{exec_result["msg"]}</li>'
-            html += '</ul>'
-        date_obj = datetime.fromisoformat(str(get_beijing_time()))
-        # 判断星期几（0=周一, 1=周二, ..., 5=周六, 6=周日）
-        # Bark(summary, html) if date_obj.weekday() in (5, 6) else push_plus(f"{format_now()} 刷步数通知", html, html)
-        Bark(summary, html) if date_obj.weekday() in (5, 6) else push_plus(summary, html)
+    # 判断是否需要pushplus推送
+    emojis = ["😀", "😁", "😃", "😄", "😊", "🙂", "😉", "😍", "😘", "😚", "😜", "🤪", "😎", "😏", "🤔", "🤨", "😔", "😢", "😭", "😡", "😴", "🤯", "👋", "🤝", "👍", "👎", "👏", "🙌", "🧑‍🤝‍🧑", "👨‍👩‍👧", "👶", "🧒", "👦", "👧", "👨", "👩", "🧑", "🧓", "🧑‍⚕️", "🧑‍🏫", "🧑‍💻", "🧑‍🎓", "🧑‍🍳", "👮‍♀️", "👮‍♂️", "👩‍🚀", "🕵️‍♀️", "🕵️‍♂️", "🏃‍♀️", "🏃", "🧘‍♀️", "🧘", "💃"]
+    html = f'<div>{format_now()} 刷步数通知</div>'
+    if len(exec_results) >= PUSH_PLUS_MAX:
+        html += '<div>账号数量过多，详细情况请前往github actions中查看</div>'
+    else:
+        html += '<ul>'
+        for exec_result in exec_results:
+            success = exec_result['success']
+            if success is not None and success is True:
+                color = "#" + "".join([random.choice("0123456789ABCDEF") for j in range(6)])
+                userId = (exec_result["user"]).replace("@", "<span>@</span>").replace(".", "<span>.</span>")
+                # 样式预览 😢：93094681@4681.me修改步数：(28413) ✅
+                html += f'\n<li style="color: {color};"><span>{random.choice(emojis)}：{userId}</span>修改步数：{exec_result["msg"]}</li>'
+            else:
+                html += f'\n<li><span>账号：{exec_result["user"]}</span>刷步数失败，失败原因：{exec_result["msg"]}</li>'
+        html += '</ul>'
+    date_obj = datetime.fromisoformat(str(get_beijing_time()))
+    # 判断星期几（0=周一, 1=周二, ..., 5=周六, 6=周日）
+    Bark(summary, html) if date_obj.weekday() in (5, 6) else push_plus(summary, html)
 
 def run_single_account(total, idx, user_mi, passwd_mi):
     idx_info = ""
