@@ -266,7 +266,7 @@ def push_to_push_plus(exec_results, summary):
                 else:
                     userId = exec_result["user"].strip()
                 # 样式预览 😢：93094681@4681.me修改步数：(28413) ✅
-                html += f'\n<li style="color: {color};"><span>{random.choice(emojis)}：{userId}</span>修改步数：{exec_result["msg"]}</li>'
+                html += f'\n<li><span>{random.choice(emojis)}：{userId}</span>修改步数：{exec_result["msg"]}</li>'
             else:
                 html += f'\n<li><span>账号：{exec_result["user"]}</span>刷步数失败，失败原因：{exec_result["msg"]}</li>'
         html += '</ul>'
