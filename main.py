@@ -255,7 +255,7 @@ def push_to_push_plus(exec_results, summary):
     if len(exec_results) >= PUSH_PLUS_MAX:
         html += '<div>账号数量过多，详细情况请前往github actions中查看</div>'
     else:
-        html += '<ul>'
+        html += '<ul style="padding-left: 10px;">'
         for exec_result in exec_results:
             success = exec_result['success']
             if success is not None and success is True:
@@ -265,7 +265,7 @@ def push_to_push_plus(exec_results, summary):
                 else:
                     userId = exec_result["user"].strip()
                 # 样式预览 😢：93094681@4681.me修改步数：(28413) ✅
-                html += f'\n<li>{random.choice(emojis)}：{userId}<strong style="float: right;margin-right:50px;">修改步数：{exec_result["msg"]}</strong></li>'
+                html += f'\n<li>{random.choice(emojis)}：{userId}<strong style="float: right;margin-right:60px;">修改步数：{exec_result["msg"]}</strong></li>'
             else:
                 html += f'\n<li><span>账号：{exec_result["user"]}</span>刷步数失败，失败原因：{exec_result["msg"]}</li>'
         html += '</ul>'
