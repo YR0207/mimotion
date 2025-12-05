@@ -83,13 +83,11 @@ def get_sentence():
     sentence = get_sen['hitokoto']
     source = get_sen.get('from', '佚名')
     author = get_sen.get('from_who', '佚名')
-
     quote_line = f"“{sentence}”"
     source_line = f"—— {source} · {author}"
     # 让引用来源尽量靠右对齐在引用的末尾
     padding = max(0, len(quote_line)-len(source_line))
     aligned_source = ' ' * padding + source_line
-
     formatted = f"{quote_line}\n{aligned_source}"
     return formatted
     
