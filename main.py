@@ -76,6 +76,22 @@ def remove_html_tags_precise(text):
     # 更精确的HTML标签匹配
     clean_text = re.sub(r'<[^>]+>', '', text)
     return clean_text
+
+def get_sentence():
+    sen_url = 'https://v1.hitokoto.cn?c=d&c=h&c=i&c=k'
+    get_sen = requests.get(url=sen_url).json()
+    sentence = get_sen['hitokoto']
+    source = get_sen.get('from', '佚名')
+    author = get_sen.get('from_who', '佚名')
+
+    quote_line = f"“{sentence}”"
+    source_line = f"—— {source} · {author}"
+    # 让引用来源尽量靠右对齐在引用的末尾
+    padding = max(0, len(quote_line))
+    aligned_source = ' ' * padding + source_line
+
+    formatted = f"{quote_line}\n{aligned_source}"
+    return formatted
     
 # pushplus消息推送
 def push_plus(title, content):
@@ -94,7 +110,7 @@ def push_plus(title, content):
     get_access_token_url = f'https://qyapi.weixin.qq.com/cgi-bin/gettoken?corpid={corpid}&corpsecret={corpsecret}'
     access_token = requests.get(get_access_token_url).json()['access_token']
     push_url = f'https://qyapi.weixin.qq.com/cgi-bin/message/send?access_token={access_token}'
-    digest = remove_html_tags_precise(content)
+    digest = remove_html_tags_precise(content).split("🧾 每日一句：", 1)[0].strip()
     data = {
         "touser": "@all",
         "msgtype": "mpnews",
@@ -269,6 +285,8 @@ def push_to_push_plus(exec_results, summary):
             else:
                 html += f'\n<li><span>账号：{exec_result["user"]}</span>刷步数失败，失败原因：{exec_result["msg"]}</li>'
         html += '</ul>'
+        html += '\n<div style="margin-top:12px;"><strong>🧾 每日一句：</strong></div>'
+        html += f'\n<pre style="background:#f5f5f5; padding:10px; border-radius:6px; overflow:auto; max-height:100px;scrollbar-width: none;font-size: 12px;">{get_sentence()}</pre>'
     date_obj = datetime.fromisoformat(str(get_beijing_time()))
     # 判断星期几（0=周一, 1=周二, ..., 5=周六, 6=周日）
     Bark(summary, html) if date_obj.weekday() in (5, 6) else push_plus(summary, html)
