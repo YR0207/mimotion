@@ -203,3 +203,313 @@
   北京时间: '37 9,12,15,18,20,22 * * *'
   next exec time: UTC(14:37) 北京时间(22:37)
   ```
+
+
+  # Zepp 刷步脚本全面解析（Markdown 格式）
+
+以下内容结合 `main` 脚本、`zepp_helper.py`、`aes_help.py`，提供完整的深入分析、请求流程图、字段说明、测试脚本与调试建议，全部以 Markdown 格式组织，便于阅读与归档。
+
+---
+
+## 一、组件概览
+
+| 组件 | 作用 |
+|------|------|
+| `aes_help.py` | 提供 AES-128-CBC 加解密并定义固定密钥/IV，用于登录请求加密和 token 持久化。 |
+| `zepp_helper.py` | 封装 Zepp/Huami API：登录、token 获取/刷新、步数数据提交等。 |
+| 主脚本（入口） | 读取配置、管理 token、执行多账号流程、推送结果、控制并发与日志。 |
+
+---
+
+## 二、加密基础（`aes_help.py`）
+
+### 1. 固定密钥与 IV
+
+```python
+HM_AES_KEY = b'xeNtBVqzDc6tuNTh'
+HM_AES_IV = b'MAAAYAAAAAAAAABg'
+```
+
+- 对应官方 Mi Fit 登录加密参数；
+- AES-128-CBC + PKCS#7 填充；
+- 主要用于 `login_access_token` 的请求体加密。
+
+### 2. 填充与校验
+
+- `_pkcs7_pad`: 保证输入长度为 16 的倍数；
+- `_pkcs7_unpad`: 校验填充并还原原始明文；
+- `_validate_key`: 输入 key 必须为 16 字节（AES-128）。
+
+### 3. 加密与解密函数
+
+- `encrypt_data(plain, key, iv=None)`：
+  - 若 `iv=None`，生成随机 IV 并返回 `IV + ciphertext`；
+  - 若提供 IV（例如固定 `HM_AES_IV`），仅输出 `ciphertext`，服务端已知 IV。
+- `decrypt_data(data, key, iv=None)`：
+  - 若 `iv=None`，从前 16 字节取 IV；
+  - 解密后去除 PKCS#7 填充返回原始 bytes。
+
+### 4. 应用场景
+
+- Zepp 登录：将用户名/密码通过固定 key/iv AES 加密后发送；
+- Token 持久化：将 `user_tokens` JSON 结构用 Secret 中的 AES key 加密存磁盘，防止泄露。
+
+---
+
+## 三、Zepp/Huami API 封装（`zepp_helper.py`）
+
+### 1. Token 与接口概览
+
+| 接口 | 返回内容 | 注释 |
+|------|----------|------|
+| `/v2/registrations/tokens` | `access_token` | 用 AES 加密的账号密码交换；服务器返回 303，带 `access` 参数。 |
+| `/v2/client/login` | `login_token`, `app_token`, `user_id` | 使用 `access_token` 获取客户令牌；`third_name` 决定邮箱/手机号模式。 |
+| `/v1/client/app_tokens` | 新 `app_token` | 由 `login_token` 换取，用于数据提交。 |
+| `/huami.health.getUserInfo.json` | 验证 `app_token` | 通过 `ap p token` 请求头校验有效性。 |
+| `/v1/client/renew_login_token` | 新 `login_token` | 可选接口，延长 `login_token`；脚本目前未主动使用。 |
+| `/v1/data/band_data.json` | 数据上传结果 | 上报伪造步数、心率等；`data_json` 包含 `date`、`summary.stp.ttl` 等。 |
+
+### 2. 核心函数说明
+
+#### login_access_token
+
+- 构建 form 表单（含 `emailOrPhone`, `password`, `client_id`, `redirect_uri` 等）；
+- 使用 `encrypt_data(..., HM_AES_KEY, HM_AES_IV)` 加密；
+- POST 后从响应的 `Location` header 抽取 `access` 参数作为 `access_token`。
+
+#### grant_login_tokens
+
+- 请求 `https://account.huami.com/v2/client/login`；
+- 需要 `device_id`, `grant_type`, `code`（即 `access_token`）等；
+- 返回 `login_token`, `app_token`, `user_id`；
+- 若手机号登录，设置 `third_name="huami_phone"`，否则是 `email`。
+
+#### grant_app_token
+
+- GET `https://account-cn.huami.com/v1/client/app_tokens`；
+- 参数包括 `login_token`, `app_name`, `dn`；
+- 返回新的 `app_token`；供后续数据上传。
+
+#### check_app_token
+
+- 访问 `/huami.health.getUserInfo.json`，headers 中写 `ap p token`（注意包括空格）；
+- 返回 `"message": "success"` 表示 `app_token` 有效；
+- 可以避免频繁重新登录。
+
+#### renew_login_token
+
+- 可选接口，用于延长 `login_token`；
+- 通过 `timestamp` 和 `os_version` 等字段模拟官方客户端；
+- 若 `login_token` 频繁失效，可添加逻辑调用。
+
+### 3. 伪造步数数据（`post_fake_brand_data`）
+
+- 使用 URL 编码后的 JSON 字符串 `data_json`，包含 `data_hr`, `data`, `summary`；
+- 通过正则提取并替换：
+  - `date` → 当前日期（`time.strftime("%F")`）；
+  - `summary.stp.ttl` → 目标步数（随机值）；
+- 构建 POST 请求，body 包含 `userid`, `last_sync_data_time`, `last_deviceid`, `data_json`；
+- Header `ap p token` 填入 `app_token`；
+- 返回 `message` 对应成功/失败信息。
+
+---
+
+## 四、主脚本执行逻辑
+
+### 1. 配置读取
+
+- 从 `CONFIG` 环境变量加载 JSON，字段包括：
+  - `USER`, `PWD`：账号/密码，用 `#` 分隔；
+  - `MIN_STEP`, `MAX_STEP`：生成随机步数区间；
+  - `SLEEP_GAP`：串行模式下请求间隔；
+  - `USE_CONCURRENT`：是否使用线程池；
+  - `PUSH_PLUS_TOKEN`, `PUSH_PLUS_MAX`：企业微信推送配置。
+
+- `AES_KEY` 需为 16 字节，决定是否启用 token 加密持久化。
+
+### 2. Token 管理流程
+
+- `user_tokens` 保存每个账号的 `access_token`, `login_token`, `app_token`, `user_id`, 获取时间、`device_id`；
+- `prepare_user_tokens`：若 `AES_KEY` 存在，读取并 `decrypt_data` 还原；
+- `persist_user_tokens`：执行结束后 AES 加密写入 `encrypted_tokens.data`；
+- 登录逻辑：
+  - 若存在 `app_token` 且 `check_app_token` 返回 true，继续使用；
+  - 若失效，先尝试 `grant_app_token(login_token)`；
+  - 若 `login_token` 也失效，重新 `grant_login_tokens(access_token)`；
+  - 若 `access_token` 也失效，重新输入账号/密码登录；
+- 每次成功登录或刷新后更新 `user_tokens` 并记录时间。
+
+### 3. 单账号执行（`MiMotionRunner` + `run_single_account`）
+
+- 构造 `MiMotionRunner(user, passwd)`：处理手机号前缀、UUID device_id；
+- `login_and_post_step`：
+  - 调用 `login` 获取 `app_token`；
+  - 随机生成 `step`（`min_step~max_step`）；
+  - 调用 `post_fake_brand_data(step, app_token, user_id)`；
+  - 返回执行信息和状态；
+- `run_single_account` 捕获异常并记录 `traceback`，确保一个账号失败不影响其他账号。
+
+### 4. 执行集成（`execute()`）
+
+- 获取账号/密码列表，数量需一致；
+- 根据 `USE_CONCURRENT` 选择并发（`ThreadPoolExecutor`）或串行（附带间隔）；
+- 每个账号执行后累积结果，统计成功数量；
+- 若 `encrypt_support`，保存 token；
+- 生成 summary，调用 `push_to_push_plus` 发送推送（工作日企微，周末 Bark）；
+- 若账号数超过 `PUSH_PLUS_MAX`，在推送中提示数量过多，避免内容过长。
+
+### 5. 推送机制（`push_to_push_plus`, `push_plus`, `Bark`）
+
+- 构造 HTML 内容：
+  - 当前时间说明；
+  - 每个账号状态（成功带 emoji + 颜色，失败直接说明）；
+  - 「每日一句」通过 `https://v1.hitokoto.cn` 获取；
+- 摘要 `digest`：剔除 HTML 标签，用于企业微信推送的简述；
+- 根据 `weekday` 选择推送：
+  - 周中（周一~五）使用企业微信 `push_plus`；
+  - 周末（周六/周日）使用 Bark；
+- Bark 请求使用固定地址（`https://api.day.app/Bt66kBfHey8kWU6zLHACtR`），只需标题与简短正文。
+
+---
+
+## 五、请求流程图（Mermaid）
+
+```mermaid
+sequenceDiagram
+    autonumber
+    participant Runner as 主脚本
+    participant AES as aes_help
+    participant Zepp as Zepp/Huami API
+    participant Push as 企业微信/Bark
+
+    Runner->>AES: AES(HM_AES_KEY, HM_AES_IV) 加密 login 表单
+    AES-->>Runner: 密文
+    Runner->>Zepp: POST /v2/registrations/tokens (ciphertext)
+    Zepp-->>Runner: 303 + Location(access=xxx)
+    Runner->>Zepp: POST /v2/client/login (access_token)
+    Zepp-->>Runner: login_token + app_token + user_id
+    Runner->>Zepp: GET /v1/client/app_tokens (login_token)
+    Zepp-->>Runner: 新 app_token
+    Runner->>Zepp: GET /huami.health.getUserInfo.json (app_token 验证)
+    alt app_token 有效
+        Zepp-->>Runner: success
+    else app_token 失效
+        Runner->>Zepp: GET /v1/client/app_tokens or 重新登录
+        Zepp-->>Runner: 新 app_token
+    end
+    Runner->>Zepp: POST /v1/data/band_data.json (app_token, user_id, data_json)
+    Zepp-->>Runner: success/fail
+    Runner->>Runner: 日志 + token persist
+    Runner->>Push: 企业微信/Bark 推送结果
+```
+
+---
+
+## 六、字段说明表
+
+| 接口 | 字段 | 描述 |
+|------|------|------|
+| `/v2/registrations/tokens` | `emailOrPhone` | 用户账号（带 `+86`） |
+|  | `password` | 登录密码（AES 加密） |
+|  | `client_id` | 固定 `HuaMi` |
+|  | `token` | 固定 `access` |
+|  | `redirect_uri` | 用于返回 `access` 参数 |
+| `/v2/client/login` | `code` | `access_token` |
+|  | `device_id` | UUID（硬件标识） |
+|  | `grant_type` | `access_token` |
+|  | `third_name` | `email` 或 `huami_phone` |
+|  | `dn` | 域名白名单（模拟官方客户端） |
+| `/v1/client/app_tokens` | `login_token` | 换取 `app_token` |
+| `/huami.health.getUserInfo.json` | `ap p token` | `app_token`（需在 Header 中，带空格） |
+| `/v1/data/band_data.json` | `userid` | 上一步返回 `user_id` |
+|  | `data_json` | URL 编码 JSON（包含 `date`, `summary.stp.ttl` 等） |
+|  | `last_deviceid` | 模拟的设备 ID，可自定义 |
+|  | Header `ap p token` | 当前 `app_token` |
+
+---
+
+## 七、测试/调试辅助脚本（`test_runner.py`）
+
+```python
+import os
+from util.aes_help import HM_AES_KEY, HM_AES_IV, encrypt_data, decrypt_data
+import util.zepp_helper as zeppHelper
+
+def test_aes():
+    payload = b"hello-zepp"
+    cipher = encrypt_data(payload, HM_AES_KEY, HM_AES_IV)
+    assert decrypt_data(cipher, HM_AES_KEY, HM_AES_IV) == payload
+    print("[AES] 固定 IV 的加解密成功")
+
+def test_login_flow(user, password):
+    access_token, err = zeppHelper.login_access_token(user, password)
+    assert access_token, f"login_access_token 失败：{err}"
+    login_token, app_token, user_id, msg = zeppHelper.grant_login_tokens(access_token, "TEST_DEVICE", user.startswith("+86"))
+    assert login_token and app_token and user_id, f"grant_login_tokens 失败：{msg}"
+    print("[Flow] access→login tokens OK")
+    ok, errmsg = zeppHelper.check_app_token(app_token)
+    assert ok, f"check_app_token 失败：{errmsg}"
+    print("[Flow] app_token 验证 OK")
+
+if __name__ == "__main__":
+    user = os.environ.get("TEST_USER")
+    pwd = os.environ.get("TEST_PWD")
+    if not user or not pwd:
+        raise SystemExit("请设置 TEST_USER/TEST_PWD 环境变量")
+    test_aes()
+    test_login_flow(user, pwd)
+```
+
+### 使用说明
+
+1. 设置环境变量：
+
+   ```bash
+   export TEST_USER="+8613800xxxx"
+   export TEST_PWD="yourpassword"
+   ```
+
+2. 运行脚本：
+
+   ```bash
+   python test_runner.py
+   ```
+
+3. 可扩展：若想验证 `post_fake_brand_data`，在 `test_login_flow` 捕获 `app_token` 与 `user_id` 后调用该接口，检测步数上报。
+
+---
+
+## 八、调试与扩展建议
+
+1. **增加详细日志输出**
+   - 在 `zepp_helper` 各接口处打印 `json.dumps(resp, ensure_ascii=False, indent=2)` 以观察返回结构。
+
+2. **抓包实际 App 请求**
+   - 使用 Fiddler/mitmproxy 抓取 Mi Fit 客户端请求，校对 `dn`, `source`, `cv`, `device_model` 等字段，提高请求模拟精度。
+
+3. **Token 生命周期管理**
+   - 使用 `access_token_time`, `login_token_time` 判断是否触发刷新；
+   - 若 `login_token` 即将过期，可调用 `renew_login_token`；
+   - 可添加逻辑：若已经 > 24h，重新获取 `access_token`。
+
+4. **优化 `data_json` 模板**
+   - 当前模板为 URL 编码字符串，维护困难；
+   - 建议先定义 Python dict（含 `data`, `summary`, `goal` 等），再 `json.dumps` 后 `urllib.parse.quote_plus`。
+
+5. **控制并发与重试**
+   - 并发模式可设置 `ThreadPoolExecutor(max_workers=min(8, total_accounts))`；
+   - 对网络异常、接口 5xx 等添加重试（例如最多 3 次，退避延时）。
+
+6. **推送优化**
+   - 若失败比例超过阈值（例如 50%），在推送中突出 “高失败率”；
+   - 可将 `traceback`/+ `exec_msg` 保存到日志文件，并在推送中附带链接或附件。
+
+---
+
+## 九、总结
+
+- **安全**：使用 AES 加密登录请求与 token 文件；`AES_KEY` 需外部提供。
+- **授权流程**：`access_token → login_token → app_token → data_api`，主脚本负责 token 缓存与刷新。
+- **数据上报**：通过替换 `data_json` 的 `date` 与 `summary.stp.ttl` 上报伪造步数。
+- **运行策略**：支持串行/并发、失败捕获、企业微信/Bark 推送、每日一句。
+- **扩展点**：涵盖 `renew_login_token`、结构化 `data_json`、日志归档、限流重试等。
