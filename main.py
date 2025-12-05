@@ -87,7 +87,7 @@ def get_sentence():
     quote_line = f"“{sentence}”"
     source_line = f"—— {source} · {author}"
     # 让引用来源尽量靠右对齐在引用的末尾
-    padding = max(0, len(quote_line))
+    padding = max(0, len(quote_line)-len(source_line))
     aligned_source = ' ' * padding + source_line
 
     formatted = f"{quote_line}\n{aligned_source}"
@@ -286,7 +286,7 @@ def push_to_push_plus(exec_results, summary):
                 html += f'\n<li><span>账号：{exec_result["user"]}</span>刷步数失败，失败原因：{exec_result["msg"]}</li>'
         html += '</ul>'
         html += '\n<div style="margin-top:12px;"><strong>🧾 每日一句：</strong></div>'
-        html += f'\n<pre style="background:#f5f5f5; padding:10px; border-radius:6px; overflow:auto; max-height:100px;scrollbar-width: none;font-size: 12px;">{get_sentence()}</pre>'
+        html += f'\n<pre style="background:#f5f5f5; padding:10px; border-radius:6px; overflow:auto; max-height:100px;scrollbar-width: none;font-size: 12px;text-align: center;">{get_sentence()}</pre>'
     date_obj = datetime.fromisoformat(str(get_beijing_time()))
     # 判断星期几（0=周一, 1=周二, ..., 5=周六, 6=周日）
     Bark(summary, html) if date_obj.weekday() in (5, 6) else push_plus(summary, html)
