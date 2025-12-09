@@ -84,7 +84,7 @@ def get_sentence():
     source = get_sen.get('from', '佚名')
     author = get_sen.get('from_who', '佚名')
     quote_line = f"“{sentence}”"
-    source_line = f"—— {source} · {author}"
+    source_line = f"—— {source} · {author}" if bool(author) else f"—— {source}"
     # 让引用来源尽量靠右对齐在引用的末尾
     padding = max(0, len(quote_line)-len(source_line))
     aligned_source = ' ' * padding + source_line
