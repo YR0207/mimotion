@@ -137,10 +137,17 @@ def push_plus(title, content):
         print("企业微信推送异常")
 
 def Bark(title, message):
+    if not message or not title:
+        print("❌ 无需Bark消息推送。")
+        return
+    BARK_KEY = os.getenv("BARK_KEY")
+    if not BARK_KEY:
+        print("❌ 未配置 BARK_KEY，无法进行Bark消息推送。")
+        return
     headers = {
         "Content-Type": "application/json; charset=utf-8"
     }
-    url = "https://api.day.app/Bt66kBfHey8kWU6zLHACtR"
+    url = f"https://api.day.app/{BARK_KEY}"
     message = remove_html_tags_precise(message)
     data = {
         "title": title.strip(),

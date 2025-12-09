@@ -28,6 +28,7 @@ jobs:
         env:
             CONFIG: ${{ secrets.CONFIG }}
             AES_KEY: ${{ secrets.AES_KEY }}
+            BARK_KEY: ${{ secrets.BARK_KEY }}
         run: |
           pip3 install requests pytz pycryptodome
           # python3 main.py > script_output.log 2>&1
