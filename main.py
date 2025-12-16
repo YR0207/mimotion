@@ -63,18 +63,22 @@ def remove_html_tags_precise(text):
 
 
 def get_sentence():
-    sen_url = 'https://v1.hitokoto.cn?c=d&c=h&c=i&c=k'
-    get_sen = requests.get(url=sen_url).json()
-    sentence = get_sen['hitokoto']
-    source = get_sen.get('from', '佚名')
-    author = get_sen.get('from_who', '佚名')
-    quote_line = f"“{sentence}”"
-    source_line = f"—— {source} · {author}" if bool(author) else f"—— {source}"
-    # 让引用来源尽量靠右对齐在引用的末尾
-    padding = max(0, len(quote_line)-len(source_line))
-    aligned_source = ' ' * padding + source_line
-    formatted = f"{quote_line}\n{aligned_source}"
-    return formatted
+    sen_url = 'https://v1.hitokoto.cn'
+    try:
+        get_sen = requests.get(url=sen_url, timeout=5).json()
+        sentence = get_sen['hitokoto']
+        source = get_sen.get('from', '佚名')
+        author = get_sen.get('from_who', '佚名')
+        quote_line = f"“{sentence}”"
+        source_line = f"—— {source} · {author}" if bool(author) else f"—— {source}"
+        # 让引用来源尽量靠右对齐在引用的末尾
+        padding = max(0, len(quote_line)-len(source_line))
+        aligned_source = ' ' * padding + source_line
+        formatted = f"{quote_line}\n{aligned_source}"
+        return formatted
+    except:
+        formatted = "敬请期待😁"
+        return formatted
 
 
 # pushplus消息推送
