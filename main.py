@@ -55,27 +55,12 @@ def get_time():
     return "%.0f" % (current_time.timestamp() * 1000)
 
 
-# 获取登录code
-def get_access_token(location):
-    code_pattern = re.compile("(?<=access=).*?(?=&)")
-    result = code_pattern.findall(location)
-    if result is None or len(result) == 0:
-        return None
-    return result[0]
-
-
-def get_error_code(location):
-    code_pattern = re.compile("(?<=error=).*?(?=&)")
-    result = code_pattern.findall(location)
-    if result is None or len(result) == 0:
-        return None
-    return result[0]
-
 # 去除html标签函数
 def remove_html_tags_precise(text):
     # 更精确的HTML标签匹配
     clean_text = re.sub(r'<[^>]+>', '', text)
     return clean_text
+
 
 def get_sentence():
     sen_url = 'https://v1.hitokoto.cn?c=d&c=h&c=i&c=k'
@@ -90,7 +75,8 @@ def get_sentence():
     aligned_source = ' ' * padding + source_line
     formatted = f"{quote_line}\n{aligned_source}"
     return formatted
-    
+
+
 # pushplus消息推送
 def push_plus(title, content):
     token_list = PUSH_PLUS_TOKEN.split('#')
@@ -135,6 +121,7 @@ def push_plus(title, content):
             print("企业微信推送失败")
     except:
         print("企业微信推送异常")
+
 
 def Bark(title, message):
     if not message or not title:
@@ -184,6 +171,7 @@ class MiMotionRunner:
         self.user = user
         # self.fake_ip_addr = fake_ip()
         # self.log_str += f"创建虚拟ip地址：{self.fake_ip_addr}\n"
+
 
     # 登录
     def login(self):
@@ -244,6 +232,7 @@ class MiMotionRunner:
         user_token_info["access_token_time"] = get_time()
         user_token_info["login_token_time"] = get_time()
         user_token_info["app_token_time"] = get_time()
+        self.user_id = user_id
         if self.device_id is None:
             self.device_id = uuid.uuid4()
         user_token_info["device_id"] = self.device_id
@@ -258,16 +247,19 @@ class MiMotionRunner:
         app_token = self.login()
         if app_token is None:
             return "登陆失败！", False
-
+        0 if bool(zeppHelper.info_device(app_token, self.user_id).get("items")) else zeppHelper.bind_device(app_token, self.user_id)
         step = str(random.randint(min_step, max_step))
         self.log_str += f"已设置为随机步数范围({min_step}~{max_step}) 随机值:{step}\n"
         ok, msg = zeppHelper.post_fake_brand_data(step, app_token, self.user_id)
         msg = "✅" if msg == "success" else msg
         return f"({step}) {msg}", ok
 
+
 # 处理账号超过7个字符显示
 def short(text, max_len=7):
     return text if len(text) <= max_len else text[:max_len] + "..."
+
+
 # 启动主函数
 def push_to_push_plus(exec_results, summary):
     # 判断是否需要pushplus推送
@@ -295,6 +287,7 @@ def push_to_push_plus(exec_results, summary):
     date_obj = datetime.fromisoformat(str(get_beijing_time()))
     # 判断星期几（0=周一, 1=周二, ..., 5=周六, 6=周日）
     Bark(summary, html) if date_obj.weekday() in (5, 6) else push_plus(summary, html)
+
 
 def run_single_account(total, idx, user_mi, passwd_mi):
     idx_info = ""
@@ -374,6 +367,7 @@ def persist_user_tokens():
         f.write(cipher_data)
         f.flush()
         f.close()
+
 
 if __name__ == "__main__":
     # 北京时间
