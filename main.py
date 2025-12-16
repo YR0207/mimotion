@@ -77,8 +77,7 @@ def get_sentence():
         formatted = f"{quote_line}\n{aligned_source}"
         return formatted
     except:
-        formatted = "敬请期待😁"
-        return formatted
+        return "敬请期待😁"
 
 
 # pushplus消息推送
