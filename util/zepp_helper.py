@@ -369,3 +369,106 @@ def post_fake_brand_data(step, app_token, userid):
         return True, message
     else:
         return False, message
+
+
+# 处理账号超过7个字符显示
+def short(text, max_len=7):
+    return text if len(text) <= max_len else text[:max_len] + "..."
+
+
+class WeComClient:
+    def __init__(self, corpid, corpsecret, agentid):
+        self.corpid = corpid
+        self.corpsecret = corpsecret
+        self.agentid = int(agentid)
+        self._access_token = None
+        self._expire_at = 0
+
+    def _request(self, method, url, **kwargs):
+        retries = 3
+        last_exc = None
+        for i in range(retries):
+            try:
+                return requests.request(method, url, timeout=(5, 15), **kwargs)
+            except requests.exceptions.RequestException as e:
+                last_exc = e
+                time.sleep(1)
+        raise last_exc
+
+    def _get_access_token(self):
+        now = time.time()
+        if self._access_token and now < self._expire_at:
+            return self._access_token
+        url = f"https://qyapi.weixin.qq.com/cgi-bin/gettoken?corpid={self.corpid}&corpsecret={self.corpsecret}"
+        resp = self._request("GET", url)
+        resp.raise_for_status()
+        data = resp.json()
+        if data.get("errcode") != 0:
+            raise RuntimeError(f"获取 token 失败：{data}")
+        self._access_token = data["access_token"]
+        self._expire_at = now + data.get("expires_in", 7200) - 300
+        return self._access_token
+
+    def send_mpnews(self, title, content, digest):
+        token = self._get_access_token()
+
+        url = f"https://qyapi.weixin.qq.com/cgi-bin/message/send?access_token={token}"
+
+        payload = {
+            "touser": "@all",
+            "msgtype": "mpnews",
+            "agentid": self.agentid,
+            "mpnews": {
+                "articles": [
+                    {
+                        "title": title.replace("\n", ""),
+                        "thumb_media_id": "2olmh7kAnR5KVR0BuHzAiOuWEFkBF8ITqi6AQxTUR3bQiFpnP2UukUn9xNtk-LvIm",
+                        "author": "锐大神",
+                        "content_source_url": "https://www.fglt.net/index.php",
+                        "content": content,
+                        "digest": digest,
+                    }
+                ]
+            },
+        }
+
+        resp = self._request("POST", url, json=payload)
+        result = resp.json()
+
+        # token 失效，自动刷新再来一次
+        if result.get("errcode") in (40014, 42001):
+            self._access_token = None
+            token = self._get_access_token()
+            payload_url = (
+                "https://qyapi.weixin.qq.com/cgi-bin/message/send"
+                f"?access_token={token}"
+            )
+            resp = self._request("POST", payload_url, json=payload)
+            result = resp.json()
+
+        return result
+
+
+# 去除html标签函数
+def remove_html_tags_precise(text):
+    # 更精确的HTML标签匹配
+    clean_text = re.sub(r'<[^>]+>', '', text)
+    return clean_text
+
+
+def get_sentence():
+    sen_url = 'https://v1.hitokoto.cn'
+    try:
+        get_sen = requests.get(url=sen_url, timeout=5).json()
+        sentence = get_sen['hitokoto']
+        source = get_sen.get('from', '佚名')
+        author = get_sen.get('from_who', '佚名')
+        quote_line = f"“{sentence}”"
+        source_line = f"—— {source} · {author}" if bool(author) else f"—— {source}"
+        # 让引用来源尽量靠右对齐在引用的末尾
+        padding = max(0, len(quote_line) - len(source_line))
+        aligned_source = ' ' * padding + source_line
+        formatted = f"{quote_line}\n{aligned_source}"
+        return formatted
+    except:
+        return "欲买桂花同载酒，终不似，少年游。😁"
