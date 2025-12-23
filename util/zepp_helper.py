@@ -461,8 +461,8 @@ def get_sentence():
     try:
         get_sen = requests.get(url=sen_url, timeout=5).json()
         sentence = get_sen['hitokoto']
-        source = get_sen.get('from', '佚名')
-        author = get_sen.get('from_who', '佚名')
+        source = get_sen.get('from', '锐大神')
+        author = get_sen.get('from_who', '锐大神')
         quote_line = f"“{sentence}”"
         source_line = f"—— {source} · {author}" if bool(author) else f"—— {source}"
         # 让引用来源尽量靠右对齐在引用的末尾
