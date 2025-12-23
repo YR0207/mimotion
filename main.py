@@ -4,6 +4,10 @@ from datetime import datetime
 from util.aes_help import  encrypt_data, decrypt_data
 import util.zepp_helper as zeppHelper
 
+
+
+
+
 # 获取默认值转int
 def get_int_value_default(_config: dict, _key, default):
     _config.setdefault(_key, default)
@@ -53,101 +57,6 @@ def format_now():
 def get_time():
     current_time = get_beijing_time()
     return "%.0f" % (current_time.timestamp() * 1000)
-
-
-# 去除html标签函数
-def remove_html_tags_precise(text):
-    # 更精确的HTML标签匹配
-    clean_text = re.sub(r'<[^>]+>', '', text)
-    return clean_text
-
-
-def get_sentence():
-    sen_url = 'https://v1.hitokoto.cn'
-    try:
-        get_sen = requests.get(url=sen_url, timeout=5).json()
-        sentence = get_sen['hitokoto']
-        source = get_sen.get('from', '佚名')
-        author = get_sen.get('from_who', '佚名')
-        quote_line = f"“{sentence}”"
-        source_line = f"—— {source} · {author}" if bool(author) else f"—— {source}"
-        # 让引用来源尽量靠右对齐在引用的末尾
-        padding = max(0, len(quote_line)-len(source_line))
-        aligned_source = ' ' * padding + source_line
-        formatted = f"{quote_line}\n{aligned_source}"
-        return formatted
-    except:
-        return "欲买桂花同载酒，终不似，少年游。😁"
-
-
-# pushplus消息推送
-def push_plus(title, content):
-    token_list = PUSH_PLUS_TOKEN.split('#')
-    # 发送至企业微信
-    corpid = token_list[0]  # 企业ID
-    corpsecret = token_list[1]  # Secret
-    Agentid = token_list[2]
-    headers = {
-        "accept": "application/json, text/plain, */*",
-        "accept-encoding": "gzip, deflate, br",
-        "accept-language": "zh-CN,zh;q=0.9",
-        "content-type": "application/json;charset=UTF-8",
-        "user-agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 18_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148",
-    }
-    get_access_token_url = f'https://qyapi.weixin.qq.com/cgi-bin/gettoken?corpid={corpid}&corpsecret={corpsecret}'
-    access_token = requests.get(get_access_token_url).json()['access_token']
-    push_url = f'https://qyapi.weixin.qq.com/cgi-bin/message/send?access_token={access_token}'
-    digest = remove_html_tags_precise(content).split("🧾 每日一句：", 1)[0].strip()
-    data = {
-        "touser": "@all",
-        "msgtype": "mpnews",
-        "agentid": int(Agentid),
-        "mpnews": {
-            "articles": [
-                {
-                    "title": title.replace("\n", ""),
-                    "thumb_media_id": "2olmh7kAnR5KVR0BuHzAiOuWEFkBF8ITqi6AQxTUR3bQiFpnP2UukUn9xNtk-LvIm",
-                    "author": "锐大神",
-                    "content_source_url": "https://www.fglt.net/index.php",
-                    "content": content,
-                    "digest": digest.strip(),
-                }
-            ]
-        },
-    }
-    try:
-        response = requests.post(url=push_url, json=data, headers=headers)
-        if response.status_code == 200:
-            json_res = response.json()
-            print(f"企业微信推送完毕：{json_res['errcode']}-{json_res['errmsg']}")
-        else:
-            print("企业微信推送失败")
-    except:
-        print("企业微信推送异常")
-
-
-def Bark(title, message):
-    if not message or not title:
-        print("❌ 无需Bark消息推送。")
-        return
-    BARK_KEY = os.getenv("BARK_KEY")
-    if not BARK_KEY:
-        print("❌ 未配置 BARK_KEY，无法进行Bark消息推送。")
-        return
-    headers = {
-        "Content-Type": "application/json; charset=utf-8"
-    }
-    url = f"https://api.day.app/{BARK_KEY}"
-    message = remove_html_tags_precise(message)
-    data = {
-        "title": title.strip(),
-        "body": message.strip()
-    }
-    try:
-        response = requests.post(url, headers=headers, json=data)
-        print(f"状态码: {response.status_code}\n响应内容: {response.text}")
-    except requests.RequestException as e:
-        print("请求失败:", e)
 
 
 class MiMotionRunner:
@@ -261,6 +170,140 @@ class MiMotionRunner:
 # 处理账号超过7个字符显示
 def short(text, max_len=7):
     return text if len(text) <= max_len else text[:max_len] + "..."
+
+
+class WeComClient:
+    def __init__(self, corpid, corpsecret, agentid):
+        self.corpid = corpid
+        self.corpsecret = corpsecret
+        self.agentid = int(agentid)
+        self._access_token = None
+        self._expire_at = 0
+
+    def _request(self, method, url, **kwargs):
+        retries = 3
+        last_exc = None
+        for i in range(retries):
+            try:
+                return requests.request(method, url, timeout=(5, 15), **kwargs)
+            except requests.exceptions.RequestException as e:
+                last_exc = e
+                time.sleep(1)
+        raise last_exc
+
+    def _get_access_token(self):
+        now = time.time()
+        if self._access_token and now < self._expire_at:
+            return self._access_token
+        url = f"https://qyapi.weixin.qq.com/cgi-bin/gettoken?corpid={self.corpid}&corpsecret={self.corpsecret}"
+        resp = self._request("GET", url)
+        resp.raise_for_status()
+        data = resp.json()
+        if data.get("errcode") != 0:
+            raise RuntimeError(f"获取 token 失败：{data}")
+        self._access_token = data["access_token"]
+        self._expire_at = now + data.get("expires_in", 7200) - 300
+        return self._access_token
+
+    def send_mpnews(self, title, content, digest):
+        token = self._get_access_token()
+
+        url = f"https://qyapi.weixin.qq.com/cgi-bin/message/send?access_token={token}"
+
+        payload = {
+            "touser": "@all",
+            "msgtype": "mpnews",
+            "agentid": self.agentid,
+            "mpnews": {
+                "articles": [
+                    {
+                        "title": title.replace("\n", ""),
+                        "thumb_media_id": "2olmh7kAnR5KVR0BuHzAiOuWEFkBF8ITqi6AQxTUR3bQiFpnP2UukUn9xNtk-LvIm",
+                        "author": "锐大神",
+                        "content_source_url": "https://www.fglt.net/index.php",
+                        "content": content,
+                        "digest": digest,
+                    }
+                ]
+            },
+        }
+
+        resp = self._request("POST", url, json=payload)
+        result = resp.json()
+
+        # token 失效，自动刷新再来一次
+        if result.get("errcode") in (40014, 42001):
+            self._access_token = None
+            token = self._get_access_token()
+            payload_url = (
+                "https://qyapi.weixin.qq.com/cgi-bin/message/send"
+                f"?access_token={token}"
+            )
+            resp = self._request("POST", payload_url, json=payload)
+            result = resp.json()
+
+        return result
+
+
+# 去除html标签函数
+def remove_html_tags_precise(text):
+    # 更精确的HTML标签匹配
+    clean_text = re.sub(r'<[^>]+>', '', text)
+    return clean_text
+
+
+def get_sentence():
+    sen_url = 'https://v1.hitokoto.cn'
+    try:
+        get_sen = requests.get(url=sen_url, timeout=5).json()
+        sentence = get_sen['hitokoto']
+        source = get_sen.get('from', '佚名')
+        author = get_sen.get('from_who', '佚名')
+        quote_line = f"“{sentence}”"
+        source_line = f"—— {source} · {author}" if bool(author) else f"—— {source}"
+        # 让引用来源尽量靠右对齐在引用的末尾
+        padding = max(0, len(quote_line) - len(source_line))
+        aligned_source = ' ' * padding + source_line
+        formatted = f"{quote_line}\n{aligned_source}"
+        return formatted
+    except:
+        return "欲买桂花同载酒，终不似，少年游。😁"
+
+
+# pushplus消息推送
+def push_plus(title, content):
+    corpid, corpsecret, agentid = PUSH_PLUS_TOKEN.split("#")
+    client = WeComClient(corpid, corpsecret, agentid)
+    digest = remove_html_tags_precise(content).split("🧾 每日一句：", 1)[0].strip()
+    try:
+        res = client.send_mpnews(title=title, content=content, digest=digest)
+        print(f"企业微信推送完毕：{res.get('errcode')}-{res.get('errmsg')}")
+    except Exception as e:
+        print(f"企业微信推送失败：{e}")
+
+
+def Bark(title, message):
+    if not message or not title:
+        print("❌ 无需Bark消息推送。")
+        return
+    BARK_KEY = os.getenv("BARK_KEY")
+    if not BARK_KEY:
+        print("❌ 未配置 BARK_KEY，无法进行Bark消息推送。")
+        return
+    headers = {
+        "Content-Type": "application/json; charset=utf-8"
+    }
+    url = f"https://api.day.app/{BARK_KEY}"
+    message = remove_html_tags_precise(message)
+    data = {
+        "title": title.strip(),
+        "body": message.strip()
+    }
+    try:
+        response = requests.post(url, headers=headers, json=data)
+        print(f"状态码: {response.status_code}\n响应内容: {response.text}")
+    except requests.RequestException as e:
+        print("请求失败:", e)
 
 
 # 启动主函数
