@@ -176,28 +176,7 @@ def push_plus(title, content):
         print(f"企业微信推送失败：{e}")
 
 
-def Bark(title, message):
-    if not message or not title:
-        print("❌ 无需Bark消息推送。")
-        return
-    BARK_KEY = os.getenv("BARK_KEY")
-    if not BARK_KEY:
-        print("❌ 未配置 BARK_KEY，无法进行Bark消息推送。")
-        return
-    headers = {
-        "Content-Type": "application/json; charset=utf-8"
-    }
-    url = f"https://api.day.app/{BARK_KEY}"
-    message = zeppHelper.remove_html_tags_precise(message)
-    data = {
-        "title": title.strip(),
-        "body": message.strip()
-    }
-    try:
-        response = requests.post(url, headers=headers, json=data)
-        print(f"状态码: {response.status_code}\n响应内容: {response.text}")
-    except requests.RequestException as e:
-        print("请求失败:", e)
+
 
 
 # 启动主函数
@@ -226,7 +205,7 @@ def push_to_push_plus(exec_results, summary):
         html += f'\n<pre style="background:#f5f5f5; padding:10px; border-radius:6px; overflow:auto; max-height:100px;scrollbar-width: none;font-size: 12px;text-align: center;">{zeppHelper.get_sentence()}</pre>'
     date_obj = datetime.fromisoformat(str(get_beijing_time()))
     # 判断星期几（0=周一, 1=周二, ..., 5=周六, 6=周日）
-    Bark(summary, html) if date_obj.weekday() in (5, 6) else push_plus(summary, html)
+    zeppHelper.Bark(summary, html) if date_obj.weekday() in (5, 6) else push_plus(summary, html)
 
 
 def run_single_account(total, idx, user_mi, passwd_mi):

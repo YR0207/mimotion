@@ -1,4 +1,4 @@
-import json, re, time, traceback, urllib, uuid, pytz, requests, random
+import json, re, time, traceback, urllib, uuid, pytz, requests, random, os
 from datetime import datetime
 from util.aes_help import encrypt_data, HM_AES_KEY, HM_AES_IV
 
@@ -472,3 +472,27 @@ def get_sentence():
         return formatted
     except:
         return "欲买桂花同载酒，终不似，少年游。😁"
+
+
+def Bark(title, message):
+    if not message or not title:
+        print("❌ 无需Bark消息推送。")
+        return
+    BARK_KEY = os.getenv("BARK_KEY")
+    if not BARK_KEY:
+        print("❌ 未配置 BARK_KEY，无法进行Bark消息推送。")
+        return
+    headers = {
+        "Content-Type": "application/json; charset=utf-8"
+    }
+    url = f"https://api.day.app/{BARK_KEY}"
+    message = remove_html_tags_precise(message)
+    data = {
+        "title": title.strip(),
+        "body": message.strip()
+    }
+    try:
+        response = requests.post(url, headers=headers, json=data)
+        print(f"状态码: {response.status_code}\n响应内容: {response.text}")
+    except requests.RequestException as e:
+        print("请求失败:", e)
