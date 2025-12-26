@@ -1,182 +1,72 @@
 多账号执行间隔：10.0
-[2025-12-25 08:43:27]
+[2025-12-26 15:53:47]
 [1/11]账号：0@***yz
 使用加密保存的app_token
-已设置为随机步数范围(26666~29999) 随机值:28676
-修改步数 (28676) ✅
+已设置为随机步数范围(26666~29999) 随机值:26735
+修改步数 (26735) ✅
 
-[2025-12-25 08:43:40]
+[2025-12-26 15:54:05]
 [2/11]账号：1@***ba
 使用加密保存的app_token
-已设置为随机步数范围(26666~29999) 随机值:27550
-修改步数 (27550) ✅
+已设置为随机步数范围(26666~29999) 随机值:28503
+修改步数 (28503) ✅
 
-[2025-12-25 08:43:53]
+[2025-12-26 15:54:20]
 [3/11]账号：1@***yz
 使用加密保存的app_token
-已设置为随机步数范围(26666~29999) 随机值:27821
-修改步数 (27821) ✅
+已设置为随机步数范围(26666~29999) 随机值:28760
+修改步数 (28760) ✅
 
-[2025-12-25 08:44:06]
+[2025-12-26 15:54:38]
 [4/11]账号：2@***yz
 使用加密保存的app_token
-已设置为随机步数范围(26666~29999) 随机值:27915
-修改步数 (27915) ✅
+已设置为随机步数范围(26666~29999) 随机值:27189
+修改步数 (27189) ✅
 
-[2025-12-25 08:44:20]
+[2025-12-26 15:54:52]
 [5/11]账号：6@***ba
 使用加密保存的app_token
-已设置为随机步数范围(26666~29999) 随机值:27415
-修改步数 (27415) ✅
+已设置为随机步数范围(26666~29999) 随机值:27279
+修改步数 (27279) ✅
 
-[2025-12-25 08:44:33]
+[2025-12-26 15:55:07]
 [6/11]账号：8@***ba
 使用加密保存的app_token
-已设置为随机步数范围(26666~29999) 随机值:27789
-修改步数 (27789) ✅
+已设置为随机步数范围(26666~29999) 随机值:27567
+修改步数 (27567) ✅
 
-[2025-12-25 08:44:46]
+[2025-12-26 15:55:21]
 [7/11]账号：9@***ba
 使用加密保存的app_token
-已设置为随机步数范围(26666~29999) 随机值:29182
-修改步数 (29182) ✅
+已设置为随机步数范围(26666~29999) 随机值:29088
+修改步数 (29088) ✅
 
-[2025-12-25 08:44:59]
+[2025-12-26 15:55:35]
 [8/11]账号：3@m****x.me
 使用加密保存的app_token
-已设置为随机步数范围(26666~29999) 随机值:29493
-修改步数 (29493) ✅
+已设置为随机步数范围(26666~29999) 随机值:28977
+修改步数 (28977) ✅
 
-[2025-12-25 08:45:12]
+[2025-12-26 15:55:48]
 [9/11]账号：4@m****x.me
 使用加密保存的app_token
-已设置为随机步数范围(26666~29999) 随机值:29074
-修改步数 (29074) ✅
+已设置为随机步数范围(26666~29999) 随机值:29677
+修改步数 (29677) ✅
 
-[2025-12-25 08:45:25]
+grant_app_token: {"error_code": "0105"}
+[2025-12-26 15:56:04]
 [10/11]账号：176****0002
-执行异常:Traceback (most recent call last):
-  File "/opt/hostedtoolcache/Python/3.10.19/x64/lib/python3.10/site-packages/urllib3/connection.py", line 204, in _new_conn
-    sock = connection.create_connection(
-  File "/opt/hostedtoolcache/Python/3.10.19/x64/lib/python3.10/site-packages/urllib3/util/connection.py", line 85, in create_connection
-    raise err
-  File "/opt/hostedtoolcache/Python/3.10.19/x64/lib/python3.10/site-packages/urllib3/util/connection.py", line 73, in create_connection
-    sock.connect(sa)
-TimeoutError: [Errno 110] Connection timed out
+app_token失效 重新获取 last grant time: 1766018536758
+login_token 失效 重新获取 last grant time: 1766018536758
+已设置为随机步数范围(26666~29999) 随机值:28282
+修改步数 (28282) ✅
 
-The above exception was the direct cause of the following exception:
-
-Traceback (most recent call last):
-  File "/opt/hostedtoolcache/Python/3.10.19/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 787, in urlopen
-    response = self._make_request(
-  File "/opt/hostedtoolcache/Python/3.10.19/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 488, in _make_request
-    raise new_e
-  File "/opt/hostedtoolcache/Python/3.10.19/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 464, in _make_request
-    self._validate_conn(conn)
-  File "/opt/hostedtoolcache/Python/3.10.19/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 1093, in _validate_conn
-    conn.connect()
-  File "/opt/hostedtoolcache/Python/3.10.19/x64/lib/python3.10/site-packages/urllib3/connection.py", line 759, in connect
-    self.sock = sock = self._new_conn()
-  File "/opt/hostedtoolcache/Python/3.10.19/x64/lib/python3.10/site-packages/urllib3/connection.py", line 213, in _new_conn
-    raise ConnectTimeoutError(
-urllib3.exceptions.ConnectTimeoutError: (<HTTPSConnection(host='api-mifit-cn.huami.com', port=443) at 0x7f7b172b2140>, 'Connection to api-mifit-cn.huami.com timed out. (connect timeout=None)')
-
-The above exception was the direct cause of the following exception:
-
-Traceback (most recent call last):
-  File "/opt/hostedtoolcache/Python/3.10.19/x64/lib/python3.10/site-packages/requests/adapters.py", line 644, in send
-    resp = conn.urlopen(
-  File "/opt/hostedtoolcache/Python/3.10.19/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 841, in urlopen
-    retries = retries.increment(
-  File "/opt/hostedtoolcache/Python/3.10.19/x64/lib/python3.10/site-packages/urllib3/util/retry.py", line 519, in increment
-    raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]
-urllib3.exceptions.MaxRetryError: HTTPSConnectionPool(host='api-mifit-cn.huami.com', port=443): Max retries exceeded with url: /v1/data/band_data.json?&t=1766623526921&r=1d159eed-88a1-47ce-8522-ebd2f38a787a (Caused by ConnectTimeoutError(<HTTPSConnection(host='api-mifit-cn.huami.com', port=443) at 0x7f7b172b2140>, 'Connection to api-mifit-cn.huami.com timed out. (connect timeout=None)'))
-
-During handling of the above exception, another exception occurred:
-
-Traceback (most recent call last):
-  File "/home/runner/work/mimotion/mimotion/main.py", line 218, in run_single_account
-    exec_msg, success = runner.login_and_post_step(min_step, max_step)
-  File "/home/runner/work/mimotion/mimotion/main.py", line 162, in login_and_post_step
-    ok, msg = zeppHelper.post_fake_brand_data(step, app_token, self.user_id)
-  File "/home/runner/work/mimotion/mimotion/util/zepp_helper.py", line 363, in post_fake_brand_data
-    response = requests.post(url, data=data, headers=head)
-  File "/opt/hostedtoolcache/Python/3.10.19/x64/lib/python3.10/site-packages/requests/api.py", line 115, in post
-    return request("post", url, data=data, json=json, **kwargs)
-  File "/opt/hostedtoolcache/Python/3.10.19/x64/lib/python3.10/site-packages/requests/api.py", line 59, in request
-    return session.request(method=method, url=url, **kwargs)
-  File "/opt/hostedtoolcache/Python/3.10.19/x64/lib/python3.10/site-packages/requests/sessions.py", line 589, in request
-    resp = self.send(prep, **send_kwargs)
-  File "/opt/hostedtoolcache/Python/3.10.19/x64/lib/python3.10/site-packages/requests/sessions.py", line 703, in send
-    r = adapter.send(request, **kwargs)
-  File "/opt/hostedtoolcache/Python/3.10.19/x64/lib/python3.10/site-packages/requests/adapters.py", line 665, in send
-    raise ConnectTimeout(e, request=request)
-requests.exceptions.ConnectTimeout: HTTPSConnectionPool(host='api-mifit-cn.huami.com', port=443): Max retries exceeded with url: /v1/data/band_data.json?&t=1766623526921&r=1d159eed-88a1-47ce-8522-ebd2f38a787a (Caused by ConnectTimeoutError(<HTTPSConnection(host='api-mifit-cn.huami.com', port=443) at 0x7f7b172b2140>, 'Connection to api-mifit-cn.huami.com timed out. (connect timeout=None)'))
-
-Traceback (most recent call last):
-  File "/opt/hostedtoolcache/Python/3.10.19/x64/lib/python3.10/site-packages/urllib3/connection.py", line 204, in _new_conn
-    sock = connection.create_connection(
-  File "/opt/hostedtoolcache/Python/3.10.19/x64/lib/python3.10/site-packages/urllib3/util/connection.py", line 85, in create_connection
-    raise err
-  File "/opt/hostedtoolcache/Python/3.10.19/x64/lib/python3.10/site-packages/urllib3/util/connection.py", line 73, in create_connection
-    sock.connect(sa)
-TimeoutError: [Errno 110] Connection timed out
-
-The above exception was the direct cause of the following exception:
-
-Traceback (most recent call last):
-  File "/opt/hostedtoolcache/Python/3.10.19/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 787, in urlopen
-    response = self._make_request(
-  File "/opt/hostedtoolcache/Python/3.10.19/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 488, in _make_request
-    raise new_e
-  File "/opt/hostedtoolcache/Python/3.10.19/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 464, in _make_request
-    self._validate_conn(conn)
-  File "/opt/hostedtoolcache/Python/3.10.19/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 1093, in _validate_conn
-    conn.connect()
-  File "/opt/hostedtoolcache/Python/3.10.19/x64/lib/python3.10/site-packages/urllib3/connection.py", line 759, in connect
-    self.sock = sock = self._new_conn()
-  File "/opt/hostedtoolcache/Python/3.10.19/x64/lib/python3.10/site-packages/urllib3/connection.py", line 213, in _new_conn
-    raise ConnectTimeoutError(
-urllib3.exceptions.ConnectTimeoutError: (<HTTPSConnection(host='api-mifit-cn.huami.com', port=443) at 0x7f7b172b2140>, 'Connection to api-mifit-cn.huami.com timed out. (connect timeout=None)')
-
-The above exception was the direct cause of the following exception:
-
-Traceback (most recent call last):
-  File "/opt/hostedtoolcache/Python/3.10.19/x64/lib/python3.10/site-packages/requests/adapters.py", line 644, in send
-    resp = conn.urlopen(
-  File "/opt/hostedtoolcache/Python/3.10.19/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 841, in urlopen
-    retries = retries.increment(
-  File "/opt/hostedtoolcache/Python/3.10.19/x64/lib/python3.10/site-packages/urllib3/util/retry.py", line 519, in increment
-    raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]
-urllib3.exceptions.MaxRetryError: HTTPSConnectionPool(host='api-mifit-cn.huami.com', port=443): Max retries exceeded with url: /v1/data/band_data.json?&t=1766623526921&r=1d159eed-88a1-47ce-8522-ebd2f38a787a (Caused by ConnectTimeoutError(<HTTPSConnection(host='api-mifit-cn.huami.com', port=443) at 0x7f7b172b2140>, 'Connection to api-mifit-cn.huami.com timed out. (connect timeout=None)'))
-
-During handling of the above exception, another exception occurred:
-
-Traceback (most recent call last):
-  File "/home/runner/work/mimotion/mimotion/main.py", line 218, in run_single_account
-    exec_msg, success = runner.login_and_post_step(min_step, max_step)
-  File "/home/runner/work/mimotion/mimotion/main.py", line 162, in login_and_post_step
-    ok, msg = zeppHelper.post_fake_brand_data(step, app_token, self.user_id)
-  File "/home/runner/work/mimotion/mimotion/util/zepp_helper.py", line 363, in post_fake_brand_data
-    response = requests.post(url, data=data, headers=head)
-  File "/opt/hostedtoolcache/Python/3.10.19/x64/lib/python3.10/site-packages/requests/api.py", line 115, in post
-    return request("post", url, data=data, json=json, **kwargs)
-  File "/opt/hostedtoolcache/Python/3.10.19/x64/lib/python3.10/site-packages/requests/api.py", line 59, in request
-    return session.request(method=method, url=url, **kwargs)
-  File "/opt/hostedtoolcache/Python/3.10.19/x64/lib/python3.10/site-packages/requests/sessions.py", line 589, in request
-    resp = self.send(prep, **send_kwargs)
-  File "/opt/hostedtoolcache/Python/3.10.19/x64/lib/python3.10/site-packages/requests/sessions.py", line 703, in send
-    r = adapter.send(request, **kwargs)
-  File "/opt/hostedtoolcache/Python/3.10.19/x64/lib/python3.10/site-packages/requests/adapters.py", line 665, in send
-    raise ConnectTimeout(e, request=request)
-requests.exceptions.ConnectTimeout: HTTPSConnectionPool(host='api-mifit-cn.huami.com', port=443): Max retries exceeded with url: /v1/data/band_data.json?&t=1766623526921&r=1d159eed-88a1-47ce-8522-ebd2f38a787a (Caused by ConnectTimeoutError(<HTTPSConnection(host='api-mifit-cn.huami.com', port=443) at 0x7f7b172b2140>, 'Connection to api-mifit-cn.huami.com timed out. (connect timeout=None)'))
-
-[2025-12-25 08:47:53]
+[2025-12-26 15:56:22]
 [11/11]账号：131****4350
 使用加密保存的app_token
-已设置为随机步数范围(26666~29999) 随机值:27369
-修改步数 (27369) ✅
+已设置为随机步数范围(26666~29999) 随机值:28635
+修改步数 (28635) ✅
 
 
-执行账号总数11，成功：10，失败：1
+执行账号总数11，成功：11，失败：0
 企业微信推送完毕：0-ok
