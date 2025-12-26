@@ -196,8 +196,10 @@ def push_to_push_plus(exec_results, summary):
                     userId = exec_result["user"].replace("@", "<span>@</span>").replace(".", "<span>.</span>")
                 else:
                     userId = exec_result["user"].strip()
+                chosen_emoji = random.choice(emojis) # 从emojis列表中随机选择一个表情符号
                 # 样式预览 😢：93094681@4681.me修改步数：(28413) ✅
-                html += f'\n<li>{random.choice(emojis)}：{userId}<strong style="float: right;margin-right:60px;">修改步数：{exec_result["msg"]}</strong></li>'
+                html += f'\n<li>{chosen_emoji}：{userId}<strong style="float: right;margin-right:60px;">修改步数：{exec_result["msg"]}</strong></li>'
+                emojis.remove(random.choice(emojis)) # 删除已使用的表情符号
             else:
                 html += f'\n<li><span>账号：{exec_result["user"]}</span>刷步数失败，失败原因：{exec_result["msg"]}</li>'
         html += '</ul>'
