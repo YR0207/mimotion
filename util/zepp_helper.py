@@ -431,7 +431,6 @@ class WeComClient:
         }
         resp = self._request("POST", url, json=payload)
         result = resp.json()
-
         # token 失效，自动刷新再来一次
         if result.get("errcode") in (40014, 42001):
             self._access_token = None
