@@ -411,9 +411,7 @@ class WeComClient:
 
     def send_mpnews(self, title, content, digest):
         token = self._get_access_token()
-
         url = f"https://qyapi.weixin.qq.com/cgi-bin/message/send?access_token={token}"
-
         payload = {
             "touser": "@all",
             "msgtype": "mpnews",
@@ -431,7 +429,6 @@ class WeComClient:
                 ]
             },
         }
-
         resp = self._request("POST", url, json=payload)
         result = resp.json()
 
@@ -439,10 +436,7 @@ class WeComClient:
         if result.get("errcode") in (40014, 42001):
             self._access_token = None
             token = self._get_access_token()
-            payload_url = (
-                "https://qyapi.weixin.qq.com/cgi-bin/message/send"
-                f"?access_token={token}"
-            )
+            payload_url = f"https://qyapi.weixin.qq.com/cgi-bin/message/send?access_token={token}"
             resp = self._request("POST", payload_url, json=payload)
             result = resp.json()
 
