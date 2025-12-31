@@ -176,11 +176,9 @@ def push_plus(title, content):
         print(f"企业微信推送失败：{e}")
 
 
-
-
-
 # 启动主函数
 def push_to_push_plus(exec_results, summary):
+    userDesensitization = lambda user: f'{user[:3]}****{user[-4:]}' if len(user) > 8 else user
     # 判断是否需要pushplus推送
     emojis = ["😀", "😁", "😃", "😄", "😊", "🙂", "😉", "😍", "😘", "😚", "😜", "🤪", "😎", "😏", "🤔", "🤨", "😔", "😢", "😭", "😡", "😴", "🤯", "👋", "🤝", "👍", "👎", "👏", "🙌", "👶", "🧒", "👦", "👧", "👨", "👩", "🧑", "🧓", "🏃", "🧘", "💃", "👮", "💂", "🥷", "👷", "🫅", "🤴", "👸", "👳", "👲", "🧕", "👰", "🤰", "🤱", "👼", "🎅", "🤶", "🦸", "🦹", "🧙", "🧚", "🧛", "🧜", "🧝", "🧞", "🧟", "🧌"]
     html = f'<div>{format_now()} 刷步数通知</div>'
@@ -193,13 +191,13 @@ def push_to_push_plus(exec_results, summary):
             if success is not None and success is True:
                 color = "#" + "".join([random.choice("0123456789ABCDEF") for j in range(6)])
                 if "@" in exec_result["user"].strip():
-                    userId = exec_result["user"].replace("@", "<span>@</span>").replace(".", "<span>.</span>")
+                    userId = userDesensitization(exec_result["user"]).replace("@", "<span>@</span>").replace(".", "<span>.</span>")
                 else:
-                    userId = exec_result["user"].strip()
+                    userId = userDesensitization(exec_result["user"]).strip()
                 chosen_emoji = random.choice(emojis) # 随机选择一个表情
                 # 样式预览 😢：93094681@4681.me修改步数：(28413) ✅
-                html += f'\n<li>{random.choice(emojis)}：{userId}<strong style="float: right;margin-right:60px;">修改步数：{exec_result["msg"]}</strong></li>'
-                emojis.remove(random.choice(emojis)) # 从列表中移除已使用的表情
+                html += f'\n<li>{chosen_emoji}：{userId}<strong style="float: right;margin-right:60px;">修改步数：{exec_result["msg"]}</strong></li>'
+                emojis.remove(chosen_emoji) # 从列表中移除已使用的表情
             else:
                 html += f'\n<li><span>账号：{exec_result["user"]}</span>刷步数失败，失败原因：{exec_result["msg"]}</li>'
         html += '</ul>'
