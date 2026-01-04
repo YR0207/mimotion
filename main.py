@@ -168,7 +168,7 @@ class MiMotionRunner:
 def push_plus(title, content):
     corpid, corpsecret, agentid = PUSH_PLUS_TOKEN.split("#")
     client = zeppHelper.WeComClient(corpid, corpsecret, agentid)
-    digest = zeppHelper.remove_html_tags_precise(content).split("🧾 每日一句：", 1)[0].strip()
+    digest = zeppHelper.remove_html_tags_precise(content).split("🧾 每日一句：", 1)[0].strip()[:305]
     try:
         res = client.send_mpnews(title=title, content=content, digest=digest)
         print(f"企业微信推送完毕：{res.get('errcode')}-{res.get('errmsg')}")
