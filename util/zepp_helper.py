@@ -400,7 +400,7 @@ class WeComClient:
         if self._access_token and now < self._expire_at:
             return self._access_token
         url = f"https://qyapi.weixin.qq.com/cgi-bin/gettoken?corpid={self.corpid}&corpsecret={self.corpsecret}"
-        resp = self._request("GET", url, timeout=(10, 30))
+        resp = self._request("GET", url)
         resp.raise_for_status()
         data = resp.json()
         if data.get("errcode") != 0:
@@ -429,7 +429,7 @@ class WeComClient:
                 ]
             },
         }
-        resp = self._request("POST", url, json=payload, timeout=(10, 30))
+        resp = self._request("POST", url, json=payload)
         result = resp.json()
         # token 失效，自动刷新再来一次
         if result.get("errcode") in (40014, 42001):
