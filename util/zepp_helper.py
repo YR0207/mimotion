@@ -389,7 +389,7 @@ class WeComClient:
         last_exc = None
         for i in range(retries):
             try:
-                return requests.request(method, url, timeout=(5, 15), **kwargs)
+                return requests.request(method, url, timeout=(10, 30), **kwargs)
             except requests.exceptions.RequestException as e:
                 last_exc = e
                 time.sleep(1)
@@ -400,7 +400,7 @@ class WeComClient:
         if self._access_token and now < self._expire_at:
             return self._access_token
         url = f"https://qyapi.weixin.qq.com/cgi-bin/gettoken?corpid={self.corpid}&corpsecret={self.corpsecret}"
-        resp = self._request("GET", url)
+        resp = self._request("GET", url, timeout=(10, 30))
         resp.raise_for_status()
         data = resp.json()
         if data.get("errcode") != 0:
@@ -429,7 +429,7 @@ class WeComClient:
                 ]
             },
         }
-        resp = self._request("POST", url, json=payload)
+        resp = self._request("POST", url, json=payload, timeout=(10, 30))
         result = resp.json()
         # token 失效，自动刷新再来一次
         if result.get("errcode") in (40014, 42001):
@@ -452,7 +452,7 @@ def remove_html_tags_precise(text):
 def get_sentence():
     sen_url = 'https://v1.hitokoto.cn'
     try:
-        get_sen = requests.get(url=sen_url, timeout=5).json()
+        get_sen = requests.get(url=sen_url, timeout=(10, 30)).json()
         sentence = get_sen['hitokoto']
         source = get_sen.get('from', '锐大神')
         author = get_sen.get('from_who', '锐大神')
