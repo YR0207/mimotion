@@ -1,82 +1,208 @@
 多账号执行间隔：10.0
-[2026-02-04 08:53:32]
+[2026-02-05 08:56:54]
 [1/13]账号：0@***yz
 使用加密保存的app_token
-已设置为随机步数范围(26666~29999) 随机值:28397
-修改步数 (28397) ✅
+已设置为随机步数范围(26666~29999) 随机值:29539
+修改步数 (29539) ✅
 
-[2026-02-04 08:53:45]
+[2026-02-05 08:57:08]
 [2/13]账号：1@***ba
 使用加密保存的app_token
-已设置为随机步数范围(26666~29999) 随机值:27869
-修改步数 (27869) ✅
+已设置为随机步数范围(26666~29999) 随机值:27441
+修改步数 (27441) ✅
 
-[2026-02-04 08:53:58]
+[2026-02-05 08:57:22]
 [3/13]账号：1@***yz
 使用加密保存的app_token
-已设置为随机步数范围(26666~29999) 随机值:28995
-修改步数 (28995) ✅
+已设置为随机步数范围(26666~29999) 随机值:26960
+修改步数 (26960) ✅
 
-[2026-02-04 08:54:11]
+[2026-02-05 08:57:35]
 [4/13]账号：2@***yz
 使用加密保存的app_token
-已设置为随机步数范围(26666~29999) 随机值:27530
-修改步数 (27530) ✅
+已设置为随机步数范围(26666~29999) 随机值:28213
+修改步数 (28213) ✅
 
-[2026-02-04 08:54:23]
+[2026-02-05 08:57:48]
 [5/13]账号：6@***ba
 使用加密保存的app_token
-已设置为随机步数范围(26666~29999) 随机值:29212
-修改步数 (29212) ✅
+已设置为随机步数范围(26666~29999) 随机值:29084
+修改步数 (29084) ✅
 
-[2026-02-04 08:54:36]
+[2026-02-05 08:58:02]
 [6/13]账号：8@***ba
 使用加密保存的app_token
-已设置为随机步数范围(26666~29999) 随机值:28810
-修改步数 (28810) ✅
+已设置为随机步数范围(26666~29999) 随机值:27677
+修改步数 (27677) ✅
 
-[2026-02-04 08:54:48]
+[2026-02-05 08:58:15]
 [7/13]账号：9@***ba
 使用加密保存的app_token
-已设置为随机步数范围(26666~29999) 随机值:29896
-修改步数 (29896) ✅
+已设置为随机步数范围(26666~29999) 随机值:29432
+修改步数 (29432) ✅
 
-[2026-02-04 08:55:01]
+[2026-02-05 08:58:28]
 [8/13]账号：4@m****x.me
 使用加密保存的app_token
-已设置为随机步数范围(26666~29999) 随机值:28335
-修改步数 (28335) ✅
+已设置为随机步数范围(26666~29999) 随机值:29822
+修改步数 (29822) ✅
 
-[2026-02-04 08:55:13]
+[2026-02-05 08:58:41]
 [9/13]账号：3@m****x.me
-使用加密保存的app_token
-已设置为随机步数范围(26666~29999) 随机值:29988
-修改步数 (29988) ✅
+执行异常:Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.19/x64/lib/python3.10/site-packages/urllib3/connection.py", line 204, in _new_conn
+    sock = connection.create_connection(
+  File "/opt/hostedtoolcache/Python/3.10.19/x64/lib/python3.10/site-packages/urllib3/util/connection.py", line 85, in create_connection
+    raise err
+  File "/opt/hostedtoolcache/Python/3.10.19/x64/lib/python3.10/site-packages/urllib3/util/connection.py", line 73, in create_connection
+    sock.connect(sa)
+TimeoutError: [Errno 110] Connection timed out
 
-[2026-02-04 08:55:26]
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.19/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 787, in urlopen
+    response = self._make_request(
+  File "/opt/hostedtoolcache/Python/3.10.19/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 488, in _make_request
+    raise new_e
+  File "/opt/hostedtoolcache/Python/3.10.19/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 464, in _make_request
+    self._validate_conn(conn)
+  File "/opt/hostedtoolcache/Python/3.10.19/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 1093, in _validate_conn
+    conn.connect()
+  File "/opt/hostedtoolcache/Python/3.10.19/x64/lib/python3.10/site-packages/urllib3/connection.py", line 759, in connect
+    self.sock = sock = self._new_conn()
+  File "/opt/hostedtoolcache/Python/3.10.19/x64/lib/python3.10/site-packages/urllib3/connection.py", line 213, in _new_conn
+    raise ConnectTimeoutError(
+urllib3.exceptions.ConnectTimeoutError: (<HTTPSConnection(host='api-mifit-cn3.zepp.com', port=443) at 0x7f83441ae500>, 'Connection to api-mifit-cn3.zepp.com timed out. (connect timeout=None)')
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.19/x64/lib/python3.10/site-packages/requests/adapters.py", line 644, in send
+    resp = conn.urlopen(
+  File "/opt/hostedtoolcache/Python/3.10.19/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 841, in urlopen
+    retries = retries.increment(
+  File "/opt/hostedtoolcache/Python/3.10.19/x64/lib/python3.10/site-packages/urllib3/util/retry.py", line 535, in increment
+    raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]
+urllib3.exceptions.MaxRetryError: HTTPSConnectionPool(host='api-mifit-cn3.zepp.com', port=443): Max retries exceeded with url: /users/1196750585/devices?enableMultiDevice=1&enableMultiDeviceOnMultiType=1 (Caused by ConnectTimeoutError(<HTTPSConnection(host='api-mifit-cn3.zepp.com', port=443) at 0x7f83441ae500>, 'Connection to api-mifit-cn3.zepp.com timed out. (connect timeout=None)'))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/runner/work/mimotion/mimotion/util/zepp_helper.py", line 334, in info_device
+    response = requests.get(url, headers=headers)
+  File "/opt/hostedtoolcache/Python/3.10.19/x64/lib/python3.10/site-packages/requests/api.py", line 73, in get
+    return request("get", url, params=params, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.19/x64/lib/python3.10/site-packages/requests/api.py", line 59, in request
+    return session.request(method=method, url=url, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.19/x64/lib/python3.10/site-packages/requests/sessions.py", line 589, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.19/x64/lib/python3.10/site-packages/requests/sessions.py", line 703, in send
+    r = adapter.send(request, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.19/x64/lib/python3.10/site-packages/requests/adapters.py", line 665, in send
+    raise ConnectTimeout(e, request=request)
+requests.exceptions.ConnectTimeout: HTTPSConnectionPool(host='api-mifit-cn3.zepp.com', port=443): Max retries exceeded with url: /users/1196750585/devices?enableMultiDevice=1&enableMultiDeviceOnMultiType=1 (Caused by ConnectTimeoutError(<HTTPSConnection(host='api-mifit-cn3.zepp.com', port=443) at 0x7f83441ae500>, 'Connection to api-mifit-cn3.zepp.com timed out. (connect timeout=None)'))
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/runner/work/mimotion/mimotion/main.py", line 218, in run_single_account
+    exec_msg, success = runner.login_and_post_step(min_step, max_step)
+  File "/home/runner/work/mimotion/mimotion/main.py", line 159, in login_and_post_step
+    0 if bool(zeppHelper.info_device(app_token, self.user_id).get("items")) else zeppHelper.bind_device(app_token, self.user_id)
+  File "/home/runner/work/mimotion/mimotion/util/zepp_helper.py", line 339, in info_device
+    raise ValueError(
+ValueError: 获取设备信息失败: N/A - HTTPSConnectionPool(host='api-mifit-cn3.zepp.com', port=443): Max retries exceeded with url: /users/1196750585/devices?enableMultiDevice=1&enableMultiDeviceOnMultiType=1 (Caused by ConnectTimeoutError(<HTTPSConnection(host='api-mifit-cn3.zepp.com', port=443) at 0x7f83441ae500>, 'Connection to api-mifit-cn3.zepp.com timed out. (connect timeout=None)'))
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.19/x64/lib/python3.10/site-packages/urllib3/connection.py", line 204, in _new_conn
+    sock = connection.create_connection(
+  File "/opt/hostedtoolcache/Python/3.10.19/x64/lib/python3.10/site-packages/urllib3/util/connection.py", line 85, in create_connection
+    raise err
+  File "/opt/hostedtoolcache/Python/3.10.19/x64/lib/python3.10/site-packages/urllib3/util/connection.py", line 73, in create_connection
+    sock.connect(sa)
+TimeoutError: [Errno 110] Connection timed out
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.19/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 787, in urlopen
+    response = self._make_request(
+  File "/opt/hostedtoolcache/Python/3.10.19/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 488, in _make_request
+    raise new_e
+  File "/opt/hostedtoolcache/Python/3.10.19/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 464, in _make_request
+    self._validate_conn(conn)
+  File "/opt/hostedtoolcache/Python/3.10.19/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 1093, in _validate_conn
+    conn.connect()
+  File "/opt/hostedtoolcache/Python/3.10.19/x64/lib/python3.10/site-packages/urllib3/connection.py", line 759, in connect
+    self.sock = sock = self._new_conn()
+  File "/opt/hostedtoolcache/Python/3.10.19/x64/lib/python3.10/site-packages/urllib3/connection.py", line 213, in _new_conn
+    raise ConnectTimeoutError(
+urllib3.exceptions.ConnectTimeoutError: (<HTTPSConnection(host='api-mifit-cn3.zepp.com', port=443) at 0x7f83441ae500>, 'Connection to api-mifit-cn3.zepp.com timed out. (connect timeout=None)')
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.19/x64/lib/python3.10/site-packages/requests/adapters.py", line 644, in send
+    resp = conn.urlopen(
+  File "/opt/hostedtoolcache/Python/3.10.19/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 841, in urlopen
+    retries = retries.increment(
+  File "/opt/hostedtoolcache/Python/3.10.19/x64/lib/python3.10/site-packages/urllib3/util/retry.py", line 535, in increment
+    raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]
+urllib3.exceptions.MaxRetryError: HTTPSConnectionPool(host='api-mifit-cn3.zepp.com', port=443): Max retries exceeded with url: /users/1196750585/devices?enableMultiDevice=1&enableMultiDeviceOnMultiType=1 (Caused by ConnectTimeoutError(<HTTPSConnection(host='api-mifit-cn3.zepp.com', port=443) at 0x7f83441ae500>, 'Connection to api-mifit-cn3.zepp.com timed out. (connect timeout=None)'))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/runner/work/mimotion/mimotion/util/zepp_helper.py", line 334, in info_device
+    response = requests.get(url, headers=headers)
+  File "/opt/hostedtoolcache/Python/3.10.19/x64/lib/python3.10/site-packages/requests/api.py", line 73, in get
+    return request("get", url, params=params, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.19/x64/lib/python3.10/site-packages/requests/api.py", line 59, in request
+    return session.request(method=method, url=url, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.19/x64/lib/python3.10/site-packages/requests/sessions.py", line 589, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.19/x64/lib/python3.10/site-packages/requests/sessions.py", line 703, in send
+    r = adapter.send(request, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.19/x64/lib/python3.10/site-packages/requests/adapters.py", line 665, in send
+    raise ConnectTimeout(e, request=request)
+requests.exceptions.ConnectTimeout: HTTPSConnectionPool(host='api-mifit-cn3.zepp.com', port=443): Max retries exceeded with url: /users/1196750585/devices?enableMultiDevice=1&enableMultiDeviceOnMultiType=1 (Caused by ConnectTimeoutError(<HTTPSConnection(host='api-mifit-cn3.zepp.com', port=443) at 0x7f83441ae500>, 'Connection to api-mifit-cn3.zepp.com timed out. (connect timeout=None)'))
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/runner/work/mimotion/mimotion/main.py", line 218, in run_single_account
+    exec_msg, success = runner.login_and_post_step(min_step, max_step)
+  File "/home/runner/work/mimotion/mimotion/main.py", line 159, in login_and_post_step
+    0 if bool(zeppHelper.info_device(app_token, self.user_id).get("items")) else zeppHelper.bind_device(app_token, self.user_id)
+  File "/home/runner/work/mimotion/mimotion/util/zepp_helper.py", line 339, in info_device
+    raise ValueError(
+ValueError: 获取设备信息失败: N/A - HTTPSConnectionPool(host='api-mifit-cn3.zepp.com', port=443): Max retries exceeded with url: /users/1196750585/devices?enableMultiDevice=1&enableMultiDeviceOnMultiType=1 (Caused by ConnectTimeoutError(<HTTPSConnection(host='api-mifit-cn3.zepp.com', port=443) at 0x7f83441ae500>, 'Connection to api-mifit-cn3.zepp.com timed out. (connect timeout=None)'))
+
+[2026-02-05 09:01:06]
 [10/13]账号：176****0002
 使用加密保存的app_token
-已设置为随机步数范围(26666~29999) 随机值:29984
-修改步数 (29984) ✅
+已设置为随机步数范围(26666~29999) 随机值:27269
+修改步数 (27269) ✅
 
-[2026-02-04 08:55:38]
+[2026-02-05 09:01:55]
 [11/13]账号：131****4350
 使用加密保存的app_token
-已设置为随机步数范围(26666~29999) 随机值:29409
-修改步数 (29409) ✅
+已设置为随机步数范围(26666~29999) 随机值:29719
+修改步数 (29719) ✅
 
-[2026-02-04 08:55:50]
+[2026-02-05 09:02:09]
 [12/13]账号：wu1****.com
 使用加密保存的app_token
-已设置为随机步数范围(26666~29999) 随机值:28577
-修改步数 (28577) ✅
+已设置为随机步数范围(26666~29999) 随机值:27158
+修改步数 (27158) ✅
 
-[2026-02-04 08:56:03]
+[2026-02-05 09:02:22]
 [13/13]账号：yua****.com
 使用加密保存的app_token
-已设置为随机步数范围(26666~29999) 随机值:26950
-修改步数 (26950) ✅
+已设置为随机步数范围(26666~29999) 随机值:26915
+修改步数 (26915) ✅
 
 
-执行账号总数13，成功：13
+执行账号总数13，成功：12，失败：1
 企业微信推送完毕：0-ok
