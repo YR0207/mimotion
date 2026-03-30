@@ -4,41 +4,65 @@ on:
   schedule:
     - cron: '58 23 * * *'
   workflow_dispatch:
+    inputs:
+      retry:
+        description: '是否为重试运行'
+        required: false
+        default: 'false'
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    timeout-minutes: 60
+    timeout-minutes: 60  # 全局超时，保留安全边界
     steps:
       - name: Checkout codes
         uses: actions/checkout@v5
         with:
-          token: ${{ secrets.PAT }} #此处PAT需要申请，教程详见：README
+          token: ${{ secrets.PAT }}
+
       - name: Update system and install zsh
         run: |
           sudo -E apt-get -qq update
           sudo -E apt-get install zsh -y
-          
+
       - name: 初始化Python
         uses: actions/setup-python@v6
         with:
           python-version: "3.10"
-          
+
       - name: 开始
         env:
-            CONFIG: ${{ secrets.CONFIG }}
-            AES_KEY: ${{ secrets.AES_KEY }}
-            BARK_KEY: ${{ secrets.BARK_KEY }}
+          CONFIG: ${{ secrets.CONFIG }}
+          AES_KEY: ${{ secrets.AES_KEY }}
+          BARK_KEY: ${{ secrets.BARK_KEY }}
         run: |
           pip3 install requests pytz pycryptodome
-          # python3 main.py > script_output.log 2>&1
-          python3 main.py 2>&1 | tee script_output.log
+          # 使用 timeout 命令限制整个 Python 脚本运行不超过 5 分钟
+          timeout 5m python3 main.py 2>&1 | tee script_output.log
+          # 检查 timeout 的退出码（124 表示超时）
+          if [ $? -eq 124 ]; then
+            echo "脚本执行超时（5分钟）" >&2
+            exit 124
+          fi
           echo "Python脚本执行完成"
+
+      - name: 超时重试
+        if: failure() && github.event.inputs.retry != 'true' && (steps.开始.outcome == 'failure')
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # 需要具有 actions:write 权限，默认可能不足，推荐使用 PAT
+        run: |
+          # 获取当前仓库信息
+          REPO="${{ github.repository }}"
+          # 触发工作流重新运行，传入 retry=true 避免二次重试
+          gh workflow run "${{ github.workflow }}" --ref "${{ github.ref }}" -f retry=true
+          echo "已触发工作流重试，当前运行将被终止（由于超时）"
+          # 主动退出，让当前运行失败
+          exit 1
 
       - name: persist tokens
         run: |
           git config user.name github-actions
           git config user.email github-actions@users.noreply.github.com
           git add .
-          git commit -m "persist tokens trigger by ${{ github.event_name }}"
+          git commit -m "persist tokens trigger by ${{ github.event_name }}" || echo "无变更提交"
           git push origin master
