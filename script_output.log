@@ -1,95 +1,1834 @@
 多账号执行间隔：10.0
-[2026-03-29 09:08:14]
+[2026-03-30 09:07:31]
 [1/15]账号：0@***yz
-使用加密保存的app_token
-已设置为随机步数范围(26666~29999) 随机值:29891
-修改步数 (29891) ✅
+执行异常:Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connection.py", line 204, in _new_conn
+    sock = connection.create_connection(
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/util/connection.py", line 85, in create_connection
+    raise err
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/util/connection.py", line 73, in create_connection
+    sock.connect(sa)
+TimeoutError: [Errno 110] Connection timed out
 
-[2026-03-29 09:08:28]
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 787, in urlopen
+    response = self._make_request(
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 488, in _make_request
+    raise new_e
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 464, in _make_request
+    self._validate_conn(conn)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 1093, in _validate_conn
+    conn.connect()
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connection.py", line 759, in connect
+    self.sock = sock = self._new_conn()
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connection.py", line 213, in _new_conn
+    raise ConnectTimeoutError(
+urllib3.exceptions.ConnectTimeoutError: (<HTTPSConnection(host='api-mifit-cn3.zepp.com', port=443) at 0x7f3ce8805c90>, 'Connection to api-mifit-cn3.zepp.com timed out. (connect timeout=None)')
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/adapters.py", line 645, in send
+    resp = conn.urlopen(
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 841, in urlopen
+    retries = retries.increment(
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/util/retry.py", line 535, in increment
+    raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]
+urllib3.exceptions.MaxRetryError: HTTPSConnectionPool(host='api-mifit-cn3.zepp.com', port=443): Max retries exceeded with url: /huami.health.getUserInfo.json?r=00b7912b-790a-4552-81b1-3742f9dd1e76&userid=1188760659&appid=428135909242707968&channel=Normal&country=CN&cv=50818_6.14.0&device=android_31&device_type=android_phone&lang=zh_CN&timezone=Asia%2FShanghai&v=2.0 (Caused by ConnectTimeoutError(<HTTPSConnection(host='api-mifit-cn3.zepp.com', port=443) at 0x7f3ce8805c90>, 'Connection to api-mifit-cn3.zepp.com timed out. (connect timeout=None)'))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/runner/work/mimotion/mimotion/main.py", line 218, in run_single_account
+    exec_msg, success = runner.login_and_post_step(min_step, max_step)
+  File "/home/runner/work/mimotion/mimotion/main.py", line 156, in login_and_post_step
+    app_token = self.login()
+  File "/home/runner/work/mimotion/mimotion/main.py", line 97, in login
+    ok,msg = zeppHelper.check_app_token(app_token)
+  File "/home/runner/work/mimotion/mimotion/util/zepp_helper.py", line 189, in check_app_token
+    response = requests.get(url, params=params, headers=headers)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/api.py", line 73, in get
+    return request("get", url, params=params, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/api.py", line 59, in request
+    return session.request(method=method, url=url, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/sessions.py", line 592, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/sessions.py", line 706, in send
+    r = adapter.send(request, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/adapters.py", line 666, in send
+    raise ConnectTimeout(e, request=request)
+requests.exceptions.ConnectTimeout: HTTPSConnectionPool(host='api-mifit-cn3.zepp.com', port=443): Max retries exceeded with url: /huami.health.getUserInfo.json?r=00b7912b-790a-4552-81b1-3742f9dd1e76&userid=1188760659&appid=428135909242707968&channel=Normal&country=CN&cv=50818_6.14.0&device=android_31&device_type=android_phone&lang=zh_CN&timezone=Asia%2FShanghai&v=2.0 (Caused by ConnectTimeoutError(<HTTPSConnection(host='api-mifit-cn3.zepp.com', port=443) at 0x7f3ce8805c90>, 'Connection to api-mifit-cn3.zepp.com timed out. (connect timeout=None)'))
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connection.py", line 204, in _new_conn
+    sock = connection.create_connection(
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/util/connection.py", line 85, in create_connection
+    raise err
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/util/connection.py", line 73, in create_connection
+    sock.connect(sa)
+TimeoutError: [Errno 110] Connection timed out
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 787, in urlopen
+    response = self._make_request(
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 488, in _make_request
+    raise new_e
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 464, in _make_request
+    self._validate_conn(conn)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 1093, in _validate_conn
+    conn.connect()
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connection.py", line 759, in connect
+    self.sock = sock = self._new_conn()
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connection.py", line 213, in _new_conn
+    raise ConnectTimeoutError(
+urllib3.exceptions.ConnectTimeoutError: (<HTTPSConnection(host='api-mifit-cn3.zepp.com', port=443) at 0x7f3ce8805c90>, 'Connection to api-mifit-cn3.zepp.com timed out. (connect timeout=None)')
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/adapters.py", line 645, in send
+    resp = conn.urlopen(
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 841, in urlopen
+    retries = retries.increment(
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/util/retry.py", line 535, in increment
+    raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]
+urllib3.exceptions.MaxRetryError: HTTPSConnectionPool(host='api-mifit-cn3.zepp.com', port=443): Max retries exceeded with url: /huami.health.getUserInfo.json?r=00b7912b-790a-4552-81b1-3742f9dd1e76&userid=1188760659&appid=428135909242707968&channel=Normal&country=CN&cv=50818_6.14.0&device=android_31&device_type=android_phone&lang=zh_CN&timezone=Asia%2FShanghai&v=2.0 (Caused by ConnectTimeoutError(<HTTPSConnection(host='api-mifit-cn3.zepp.com', port=443) at 0x7f3ce8805c90>, 'Connection to api-mifit-cn3.zepp.com timed out. (connect timeout=None)'))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/runner/work/mimotion/mimotion/main.py", line 218, in run_single_account
+    exec_msg, success = runner.login_and_post_step(min_step, max_step)
+  File "/home/runner/work/mimotion/mimotion/main.py", line 156, in login_and_post_step
+    app_token = self.login()
+  File "/home/runner/work/mimotion/mimotion/main.py", line 97, in login
+    ok,msg = zeppHelper.check_app_token(app_token)
+  File "/home/runner/work/mimotion/mimotion/util/zepp_helper.py", line 189, in check_app_token
+    response = requests.get(url, params=params, headers=headers)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/api.py", line 73, in get
+    return request("get", url, params=params, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/api.py", line 59, in request
+    return session.request(method=method, url=url, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/sessions.py", line 592, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/sessions.py", line 706, in send
+    r = adapter.send(request, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/adapters.py", line 666, in send
+    raise ConnectTimeout(e, request=request)
+requests.exceptions.ConnectTimeout: HTTPSConnectionPool(host='api-mifit-cn3.zepp.com', port=443): Max retries exceeded with url: /huami.health.getUserInfo.json?r=00b7912b-790a-4552-81b1-3742f9dd1e76&userid=1188760659&appid=428135909242707968&channel=Normal&country=CN&cv=50818_6.14.0&device=android_31&device_type=android_phone&lang=zh_CN&timezone=Asia%2FShanghai&v=2.0 (Caused by ConnectTimeoutError(<HTTPSConnection(host='api-mifit-cn3.zepp.com', port=443) at 0x7f3ce8805c90>, 'Connection to api-mifit-cn3.zepp.com timed out. (connect timeout=None)'))
+
+[2026-03-30 09:09:55]
 [2/15]账号：1@***ba
-使用加密保存的app_token
-已设置为随机步数范围(26666~29999) 随机值:28320
-修改步数 (28320) ✅
+执行异常:Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connection.py", line 204, in _new_conn
+    sock = connection.create_connection(
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/util/connection.py", line 85, in create_connection
+    raise err
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/util/connection.py", line 73, in create_connection
+    sock.connect(sa)
+TimeoutError: [Errno 110] Connection timed out
 
-[2026-03-29 09:08:42]
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 787, in urlopen
+    response = self._make_request(
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 488, in _make_request
+    raise new_e
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 464, in _make_request
+    self._validate_conn(conn)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 1093, in _validate_conn
+    conn.connect()
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connection.py", line 759, in connect
+    self.sock = sock = self._new_conn()
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connection.py", line 213, in _new_conn
+    raise ConnectTimeoutError(
+urllib3.exceptions.ConnectTimeoutError: (<HTTPSConnection(host='api-mifit-cn3.zepp.com', port=443) at 0x7f3ce8805420>, 'Connection to api-mifit-cn3.zepp.com timed out. (connect timeout=None)')
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/adapters.py", line 645, in send
+    resp = conn.urlopen(
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 841, in urlopen
+    retries = retries.increment(
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/util/retry.py", line 535, in increment
+    raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]
+urllib3.exceptions.MaxRetryError: HTTPSConnectionPool(host='api-mifit-cn3.zepp.com', port=443): Max retries exceeded with url: /huami.health.getUserInfo.json?r=00b7912b-790a-4552-81b1-3742f9dd1e76&userid=1188760659&appid=428135909242707968&channel=Normal&country=CN&cv=50818_6.14.0&device=android_31&device_type=android_phone&lang=zh_CN&timezone=Asia%2FShanghai&v=2.0 (Caused by ConnectTimeoutError(<HTTPSConnection(host='api-mifit-cn3.zepp.com', port=443) at 0x7f3ce8805420>, 'Connection to api-mifit-cn3.zepp.com timed out. (connect timeout=None)'))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/runner/work/mimotion/mimotion/main.py", line 218, in run_single_account
+    exec_msg, success = runner.login_and_post_step(min_step, max_step)
+  File "/home/runner/work/mimotion/mimotion/main.py", line 156, in login_and_post_step
+    app_token = self.login()
+  File "/home/runner/work/mimotion/mimotion/main.py", line 97, in login
+    ok,msg = zeppHelper.check_app_token(app_token)
+  File "/home/runner/work/mimotion/mimotion/util/zepp_helper.py", line 189, in check_app_token
+    response = requests.get(url, params=params, headers=headers)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/api.py", line 73, in get
+    return request("get", url, params=params, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/api.py", line 59, in request
+    return session.request(method=method, url=url, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/sessions.py", line 592, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/sessions.py", line 706, in send
+    r = adapter.send(request, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/adapters.py", line 666, in send
+    raise ConnectTimeout(e, request=request)
+requests.exceptions.ConnectTimeout: HTTPSConnectionPool(host='api-mifit-cn3.zepp.com', port=443): Max retries exceeded with url: /huami.health.getUserInfo.json?r=00b7912b-790a-4552-81b1-3742f9dd1e76&userid=1188760659&appid=428135909242707968&channel=Normal&country=CN&cv=50818_6.14.0&device=android_31&device_type=android_phone&lang=zh_CN&timezone=Asia%2FShanghai&v=2.0 (Caused by ConnectTimeoutError(<HTTPSConnection(host='api-mifit-cn3.zepp.com', port=443) at 0x7f3ce8805420>, 'Connection to api-mifit-cn3.zepp.com timed out. (connect timeout=None)'))
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connection.py", line 204, in _new_conn
+    sock = connection.create_connection(
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/util/connection.py", line 85, in create_connection
+    raise err
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/util/connection.py", line 73, in create_connection
+    sock.connect(sa)
+TimeoutError: [Errno 110] Connection timed out
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 787, in urlopen
+    response = self._make_request(
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 488, in _make_request
+    raise new_e
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 464, in _make_request
+    self._validate_conn(conn)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 1093, in _validate_conn
+    conn.connect()
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connection.py", line 759, in connect
+    self.sock = sock = self._new_conn()
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connection.py", line 213, in _new_conn
+    raise ConnectTimeoutError(
+urllib3.exceptions.ConnectTimeoutError: (<HTTPSConnection(host='api-mifit-cn3.zepp.com', port=443) at 0x7f3ce8805420>, 'Connection to api-mifit-cn3.zepp.com timed out. (connect timeout=None)')
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/adapters.py", line 645, in send
+    resp = conn.urlopen(
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 841, in urlopen
+    retries = retries.increment(
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/util/retry.py", line 535, in increment
+    raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]
+urllib3.exceptions.MaxRetryError: HTTPSConnectionPool(host='api-mifit-cn3.zepp.com', port=443): Max retries exceeded with url: /huami.health.getUserInfo.json?r=00b7912b-790a-4552-81b1-3742f9dd1e76&userid=1188760659&appid=428135909242707968&channel=Normal&country=CN&cv=50818_6.14.0&device=android_31&device_type=android_phone&lang=zh_CN&timezone=Asia%2FShanghai&v=2.0 (Caused by ConnectTimeoutError(<HTTPSConnection(host='api-mifit-cn3.zepp.com', port=443) at 0x7f3ce8805420>, 'Connection to api-mifit-cn3.zepp.com timed out. (connect timeout=None)'))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/runner/work/mimotion/mimotion/main.py", line 218, in run_single_account
+    exec_msg, success = runner.login_and_post_step(min_step, max_step)
+  File "/home/runner/work/mimotion/mimotion/main.py", line 156, in login_and_post_step
+    app_token = self.login()
+  File "/home/runner/work/mimotion/mimotion/main.py", line 97, in login
+    ok,msg = zeppHelper.check_app_token(app_token)
+  File "/home/runner/work/mimotion/mimotion/util/zepp_helper.py", line 189, in check_app_token
+    response = requests.get(url, params=params, headers=headers)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/api.py", line 73, in get
+    return request("get", url, params=params, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/api.py", line 59, in request
+    return session.request(method=method, url=url, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/sessions.py", line 592, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/sessions.py", line 706, in send
+    r = adapter.send(request, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/adapters.py", line 666, in send
+    raise ConnectTimeout(e, request=request)
+requests.exceptions.ConnectTimeout: HTTPSConnectionPool(host='api-mifit-cn3.zepp.com', port=443): Max retries exceeded with url: /huami.health.getUserInfo.json?r=00b7912b-790a-4552-81b1-3742f9dd1e76&userid=1188760659&appid=428135909242707968&channel=Normal&country=CN&cv=50818_6.14.0&device=android_31&device_type=android_phone&lang=zh_CN&timezone=Asia%2FShanghai&v=2.0 (Caused by ConnectTimeoutError(<HTTPSConnection(host='api-mifit-cn3.zepp.com', port=443) at 0x7f3ce8805420>, 'Connection to api-mifit-cn3.zepp.com timed out. (connect timeout=None)'))
+
+[2026-03-30 09:12:18]
 [3/15]账号：1@***yz
-使用加密保存的app_token
-已设置为随机步数范围(26666~29999) 随机值:29803
-修改步数 (29803) ✅
+执行异常:Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connection.py", line 204, in _new_conn
+    sock = connection.create_connection(
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/util/connection.py", line 85, in create_connection
+    raise err
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/util/connection.py", line 73, in create_connection
+    sock.connect(sa)
+TimeoutError: [Errno 110] Connection timed out
 
-[2026-03-29 09:08:56]
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 787, in urlopen
+    response = self._make_request(
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 488, in _make_request
+    raise new_e
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 464, in _make_request
+    self._validate_conn(conn)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 1093, in _validate_conn
+    conn.connect()
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connection.py", line 759, in connect
+    self.sock = sock = self._new_conn()
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connection.py", line 213, in _new_conn
+    raise ConnectTimeoutError(
+urllib3.exceptions.ConnectTimeoutError: (<HTTPSConnection(host='api-mifit-cn3.zepp.com', port=443) at 0x7f3ce8805ff0>, 'Connection to api-mifit-cn3.zepp.com timed out. (connect timeout=None)')
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/adapters.py", line 645, in send
+    resp = conn.urlopen(
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 841, in urlopen
+    retries = retries.increment(
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/util/retry.py", line 535, in increment
+    raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]
+urllib3.exceptions.MaxRetryError: HTTPSConnectionPool(host='api-mifit-cn3.zepp.com', port=443): Max retries exceeded with url: /huami.health.getUserInfo.json?r=00b7912b-790a-4552-81b1-3742f9dd1e76&userid=1188760659&appid=428135909242707968&channel=Normal&country=CN&cv=50818_6.14.0&device=android_31&device_type=android_phone&lang=zh_CN&timezone=Asia%2FShanghai&v=2.0 (Caused by ConnectTimeoutError(<HTTPSConnection(host='api-mifit-cn3.zepp.com', port=443) at 0x7f3ce8805ff0>, 'Connection to api-mifit-cn3.zepp.com timed out. (connect timeout=None)'))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/runner/work/mimotion/mimotion/main.py", line 218, in run_single_account
+    exec_msg, success = runner.login_and_post_step(min_step, max_step)
+  File "/home/runner/work/mimotion/mimotion/main.py", line 156, in login_and_post_step
+    app_token = self.login()
+  File "/home/runner/work/mimotion/mimotion/main.py", line 97, in login
+    ok,msg = zeppHelper.check_app_token(app_token)
+  File "/home/runner/work/mimotion/mimotion/util/zepp_helper.py", line 189, in check_app_token
+    response = requests.get(url, params=params, headers=headers)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/api.py", line 73, in get
+    return request("get", url, params=params, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/api.py", line 59, in request
+    return session.request(method=method, url=url, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/sessions.py", line 592, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/sessions.py", line 706, in send
+    r = adapter.send(request, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/adapters.py", line 666, in send
+    raise ConnectTimeout(e, request=request)
+requests.exceptions.ConnectTimeout: HTTPSConnectionPool(host='api-mifit-cn3.zepp.com', port=443): Max retries exceeded with url: /huami.health.getUserInfo.json?r=00b7912b-790a-4552-81b1-3742f9dd1e76&userid=1188760659&appid=428135909242707968&channel=Normal&country=CN&cv=50818_6.14.0&device=android_31&device_type=android_phone&lang=zh_CN&timezone=Asia%2FShanghai&v=2.0 (Caused by ConnectTimeoutError(<HTTPSConnection(host='api-mifit-cn3.zepp.com', port=443) at 0x7f3ce8805ff0>, 'Connection to api-mifit-cn3.zepp.com timed out. (connect timeout=None)'))
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connection.py", line 204, in _new_conn
+    sock = connection.create_connection(
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/util/connection.py", line 85, in create_connection
+    raise err
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/util/connection.py", line 73, in create_connection
+    sock.connect(sa)
+TimeoutError: [Errno 110] Connection timed out
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 787, in urlopen
+    response = self._make_request(
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 488, in _make_request
+    raise new_e
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 464, in _make_request
+    self._validate_conn(conn)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 1093, in _validate_conn
+    conn.connect()
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connection.py", line 759, in connect
+    self.sock = sock = self._new_conn()
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connection.py", line 213, in _new_conn
+    raise ConnectTimeoutError(
+urllib3.exceptions.ConnectTimeoutError: (<HTTPSConnection(host='api-mifit-cn3.zepp.com', port=443) at 0x7f3ce8805ff0>, 'Connection to api-mifit-cn3.zepp.com timed out. (connect timeout=None)')
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/adapters.py", line 645, in send
+    resp = conn.urlopen(
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 841, in urlopen
+    retries = retries.increment(
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/util/retry.py", line 535, in increment
+    raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]
+urllib3.exceptions.MaxRetryError: HTTPSConnectionPool(host='api-mifit-cn3.zepp.com', port=443): Max retries exceeded with url: /huami.health.getUserInfo.json?r=00b7912b-790a-4552-81b1-3742f9dd1e76&userid=1188760659&appid=428135909242707968&channel=Normal&country=CN&cv=50818_6.14.0&device=android_31&device_type=android_phone&lang=zh_CN&timezone=Asia%2FShanghai&v=2.0 (Caused by ConnectTimeoutError(<HTTPSConnection(host='api-mifit-cn3.zepp.com', port=443) at 0x7f3ce8805ff0>, 'Connection to api-mifit-cn3.zepp.com timed out. (connect timeout=None)'))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/runner/work/mimotion/mimotion/main.py", line 218, in run_single_account
+    exec_msg, success = runner.login_and_post_step(min_step, max_step)
+  File "/home/runner/work/mimotion/mimotion/main.py", line 156, in login_and_post_step
+    app_token = self.login()
+  File "/home/runner/work/mimotion/mimotion/main.py", line 97, in login
+    ok,msg = zeppHelper.check_app_token(app_token)
+  File "/home/runner/work/mimotion/mimotion/util/zepp_helper.py", line 189, in check_app_token
+    response = requests.get(url, params=params, headers=headers)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/api.py", line 73, in get
+    return request("get", url, params=params, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/api.py", line 59, in request
+    return session.request(method=method, url=url, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/sessions.py", line 592, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/sessions.py", line 706, in send
+    r = adapter.send(request, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/adapters.py", line 666, in send
+    raise ConnectTimeout(e, request=request)
+requests.exceptions.ConnectTimeout: HTTPSConnectionPool(host='api-mifit-cn3.zepp.com', port=443): Max retries exceeded with url: /huami.health.getUserInfo.json?r=00b7912b-790a-4552-81b1-3742f9dd1e76&userid=1188760659&appid=428135909242707968&channel=Normal&country=CN&cv=50818_6.14.0&device=android_31&device_type=android_phone&lang=zh_CN&timezone=Asia%2FShanghai&v=2.0 (Caused by ConnectTimeoutError(<HTTPSConnection(host='api-mifit-cn3.zepp.com', port=443) at 0x7f3ce8805ff0>, 'Connection to api-mifit-cn3.zepp.com timed out. (connect timeout=None)'))
+
+[2026-03-30 09:14:42]
 [4/15]账号：2@***yz
-使用加密保存的app_token
-已设置为随机步数范围(26666~29999) 随机值:28187
-修改步数 (28187) ✅
+执行异常:Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connection.py", line 204, in _new_conn
+    sock = connection.create_connection(
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/util/connection.py", line 85, in create_connection
+    raise err
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/util/connection.py", line 73, in create_connection
+    sock.connect(sa)
+TimeoutError: [Errno 110] Connection timed out
 
-[2026-03-29 09:09:09]
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 787, in urlopen
+    response = self._make_request(
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 488, in _make_request
+    raise new_e
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 464, in _make_request
+    self._validate_conn(conn)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 1093, in _validate_conn
+    conn.connect()
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connection.py", line 759, in connect
+    self.sock = sock = self._new_conn()
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connection.py", line 213, in _new_conn
+    raise ConnectTimeoutError(
+urllib3.exceptions.ConnectTimeoutError: (<HTTPSConnection(host='api-mifit-cn3.zepp.com', port=443) at 0x7f3ce8804d60>, 'Connection to api-mifit-cn3.zepp.com timed out. (connect timeout=None)')
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/adapters.py", line 645, in send
+    resp = conn.urlopen(
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 841, in urlopen
+    retries = retries.increment(
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/util/retry.py", line 535, in increment
+    raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]
+urllib3.exceptions.MaxRetryError: HTTPSConnectionPool(host='api-mifit-cn3.zepp.com', port=443): Max retries exceeded with url: /huami.health.getUserInfo.json?r=00b7912b-790a-4552-81b1-3742f9dd1e76&userid=1188760659&appid=428135909242707968&channel=Normal&country=CN&cv=50818_6.14.0&device=android_31&device_type=android_phone&lang=zh_CN&timezone=Asia%2FShanghai&v=2.0 (Caused by ConnectTimeoutError(<HTTPSConnection(host='api-mifit-cn3.zepp.com', port=443) at 0x7f3ce8804d60>, 'Connection to api-mifit-cn3.zepp.com timed out. (connect timeout=None)'))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/runner/work/mimotion/mimotion/main.py", line 218, in run_single_account
+    exec_msg, success = runner.login_and_post_step(min_step, max_step)
+  File "/home/runner/work/mimotion/mimotion/main.py", line 156, in login_and_post_step
+    app_token = self.login()
+  File "/home/runner/work/mimotion/mimotion/main.py", line 97, in login
+    ok,msg = zeppHelper.check_app_token(app_token)
+  File "/home/runner/work/mimotion/mimotion/util/zepp_helper.py", line 189, in check_app_token
+    response = requests.get(url, params=params, headers=headers)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/api.py", line 73, in get
+    return request("get", url, params=params, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/api.py", line 59, in request
+    return session.request(method=method, url=url, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/sessions.py", line 592, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/sessions.py", line 706, in send
+    r = adapter.send(request, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/adapters.py", line 666, in send
+    raise ConnectTimeout(e, request=request)
+requests.exceptions.ConnectTimeout: HTTPSConnectionPool(host='api-mifit-cn3.zepp.com', port=443): Max retries exceeded with url: /huami.health.getUserInfo.json?r=00b7912b-790a-4552-81b1-3742f9dd1e76&userid=1188760659&appid=428135909242707968&channel=Normal&country=CN&cv=50818_6.14.0&device=android_31&device_type=android_phone&lang=zh_CN&timezone=Asia%2FShanghai&v=2.0 (Caused by ConnectTimeoutError(<HTTPSConnection(host='api-mifit-cn3.zepp.com', port=443) at 0x7f3ce8804d60>, 'Connection to api-mifit-cn3.zepp.com timed out. (connect timeout=None)'))
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connection.py", line 204, in _new_conn
+    sock = connection.create_connection(
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/util/connection.py", line 85, in create_connection
+    raise err
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/util/connection.py", line 73, in create_connection
+    sock.connect(sa)
+TimeoutError: [Errno 110] Connection timed out
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 787, in urlopen
+    response = self._make_request(
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 488, in _make_request
+    raise new_e
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 464, in _make_request
+    self._validate_conn(conn)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 1093, in _validate_conn
+    conn.connect()
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connection.py", line 759, in connect
+    self.sock = sock = self._new_conn()
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connection.py", line 213, in _new_conn
+    raise ConnectTimeoutError(
+urllib3.exceptions.ConnectTimeoutError: (<HTTPSConnection(host='api-mifit-cn3.zepp.com', port=443) at 0x7f3ce8804d60>, 'Connection to api-mifit-cn3.zepp.com timed out. (connect timeout=None)')
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/adapters.py", line 645, in send
+    resp = conn.urlopen(
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 841, in urlopen
+    retries = retries.increment(
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/util/retry.py", line 535, in increment
+    raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]
+urllib3.exceptions.MaxRetryError: HTTPSConnectionPool(host='api-mifit-cn3.zepp.com', port=443): Max retries exceeded with url: /huami.health.getUserInfo.json?r=00b7912b-790a-4552-81b1-3742f9dd1e76&userid=1188760659&appid=428135909242707968&channel=Normal&country=CN&cv=50818_6.14.0&device=android_31&device_type=android_phone&lang=zh_CN&timezone=Asia%2FShanghai&v=2.0 (Caused by ConnectTimeoutError(<HTTPSConnection(host='api-mifit-cn3.zepp.com', port=443) at 0x7f3ce8804d60>, 'Connection to api-mifit-cn3.zepp.com timed out. (connect timeout=None)'))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/runner/work/mimotion/mimotion/main.py", line 218, in run_single_account
+    exec_msg, success = runner.login_and_post_step(min_step, max_step)
+  File "/home/runner/work/mimotion/mimotion/main.py", line 156, in login_and_post_step
+    app_token = self.login()
+  File "/home/runner/work/mimotion/mimotion/main.py", line 97, in login
+    ok,msg = zeppHelper.check_app_token(app_token)
+  File "/home/runner/work/mimotion/mimotion/util/zepp_helper.py", line 189, in check_app_token
+    response = requests.get(url, params=params, headers=headers)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/api.py", line 73, in get
+    return request("get", url, params=params, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/api.py", line 59, in request
+    return session.request(method=method, url=url, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/sessions.py", line 592, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/sessions.py", line 706, in send
+    r = adapter.send(request, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/adapters.py", line 666, in send
+    raise ConnectTimeout(e, request=request)
+requests.exceptions.ConnectTimeout: HTTPSConnectionPool(host='api-mifit-cn3.zepp.com', port=443): Max retries exceeded with url: /huami.health.getUserInfo.json?r=00b7912b-790a-4552-81b1-3742f9dd1e76&userid=1188760659&appid=428135909242707968&channel=Normal&country=CN&cv=50818_6.14.0&device=android_31&device_type=android_phone&lang=zh_CN&timezone=Asia%2FShanghai&v=2.0 (Caused by ConnectTimeoutError(<HTTPSConnection(host='api-mifit-cn3.zepp.com', port=443) at 0x7f3ce8804d60>, 'Connection to api-mifit-cn3.zepp.com timed out. (connect timeout=None)'))
+
+[2026-03-30 09:17:05]
 [5/15]账号：6@***ba
-使用加密保存的app_token
-已设置为随机步数范围(26666~29999) 随机值:27418
-修改步数 (27418) ✅
+执行异常:Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connection.py", line 204, in _new_conn
+    sock = connection.create_connection(
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/util/connection.py", line 85, in create_connection
+    raise err
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/util/connection.py", line 73, in create_connection
+    sock.connect(sa)
+TimeoutError: [Errno 110] Connection timed out
 
-[2026-03-29 09:09:23]
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 787, in urlopen
+    response = self._make_request(
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 488, in _make_request
+    raise new_e
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 464, in _make_request
+    self._validate_conn(conn)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 1093, in _validate_conn
+    conn.connect()
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connection.py", line 759, in connect
+    self.sock = sock = self._new_conn()
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connection.py", line 213, in _new_conn
+    raise ConnectTimeoutError(
+urllib3.exceptions.ConnectTimeoutError: (<HTTPSConnection(host='api-mifit-cn3.zepp.com', port=443) at 0x7f3ce8845120>, 'Connection to api-mifit-cn3.zepp.com timed out. (connect timeout=None)')
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/adapters.py", line 645, in send
+    resp = conn.urlopen(
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 841, in urlopen
+    retries = retries.increment(
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/util/retry.py", line 535, in increment
+    raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]
+urllib3.exceptions.MaxRetryError: HTTPSConnectionPool(host='api-mifit-cn3.zepp.com', port=443): Max retries exceeded with url: /huami.health.getUserInfo.json?r=00b7912b-790a-4552-81b1-3742f9dd1e76&userid=1188760659&appid=428135909242707968&channel=Normal&country=CN&cv=50818_6.14.0&device=android_31&device_type=android_phone&lang=zh_CN&timezone=Asia%2FShanghai&v=2.0 (Caused by ConnectTimeoutError(<HTTPSConnection(host='api-mifit-cn3.zepp.com', port=443) at 0x7f3ce8845120>, 'Connection to api-mifit-cn3.zepp.com timed out. (connect timeout=None)'))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/runner/work/mimotion/mimotion/main.py", line 218, in run_single_account
+    exec_msg, success = runner.login_and_post_step(min_step, max_step)
+  File "/home/runner/work/mimotion/mimotion/main.py", line 156, in login_and_post_step
+    app_token = self.login()
+  File "/home/runner/work/mimotion/mimotion/main.py", line 97, in login
+    ok,msg = zeppHelper.check_app_token(app_token)
+  File "/home/runner/work/mimotion/mimotion/util/zepp_helper.py", line 189, in check_app_token
+    response = requests.get(url, params=params, headers=headers)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/api.py", line 73, in get
+    return request("get", url, params=params, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/api.py", line 59, in request
+    return session.request(method=method, url=url, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/sessions.py", line 592, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/sessions.py", line 706, in send
+    r = adapter.send(request, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/adapters.py", line 666, in send
+    raise ConnectTimeout(e, request=request)
+requests.exceptions.ConnectTimeout: HTTPSConnectionPool(host='api-mifit-cn3.zepp.com', port=443): Max retries exceeded with url: /huami.health.getUserInfo.json?r=00b7912b-790a-4552-81b1-3742f9dd1e76&userid=1188760659&appid=428135909242707968&channel=Normal&country=CN&cv=50818_6.14.0&device=android_31&device_type=android_phone&lang=zh_CN&timezone=Asia%2FShanghai&v=2.0 (Caused by ConnectTimeoutError(<HTTPSConnection(host='api-mifit-cn3.zepp.com', port=443) at 0x7f3ce8845120>, 'Connection to api-mifit-cn3.zepp.com timed out. (connect timeout=None)'))
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connection.py", line 204, in _new_conn
+    sock = connection.create_connection(
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/util/connection.py", line 85, in create_connection
+    raise err
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/util/connection.py", line 73, in create_connection
+    sock.connect(sa)
+TimeoutError: [Errno 110] Connection timed out
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 787, in urlopen
+    response = self._make_request(
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 488, in _make_request
+    raise new_e
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 464, in _make_request
+    self._validate_conn(conn)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 1093, in _validate_conn
+    conn.connect()
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connection.py", line 759, in connect
+    self.sock = sock = self._new_conn()
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connection.py", line 213, in _new_conn
+    raise ConnectTimeoutError(
+urllib3.exceptions.ConnectTimeoutError: (<HTTPSConnection(host='api-mifit-cn3.zepp.com', port=443) at 0x7f3ce8845120>, 'Connection to api-mifit-cn3.zepp.com timed out. (connect timeout=None)')
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/adapters.py", line 645, in send
+    resp = conn.urlopen(
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 841, in urlopen
+    retries = retries.increment(
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/util/retry.py", line 535, in increment
+    raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]
+urllib3.exceptions.MaxRetryError: HTTPSConnectionPool(host='api-mifit-cn3.zepp.com', port=443): Max retries exceeded with url: /huami.health.getUserInfo.json?r=00b7912b-790a-4552-81b1-3742f9dd1e76&userid=1188760659&appid=428135909242707968&channel=Normal&country=CN&cv=50818_6.14.0&device=android_31&device_type=android_phone&lang=zh_CN&timezone=Asia%2FShanghai&v=2.0 (Caused by ConnectTimeoutError(<HTTPSConnection(host='api-mifit-cn3.zepp.com', port=443) at 0x7f3ce8845120>, 'Connection to api-mifit-cn3.zepp.com timed out. (connect timeout=None)'))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/runner/work/mimotion/mimotion/main.py", line 218, in run_single_account
+    exec_msg, success = runner.login_and_post_step(min_step, max_step)
+  File "/home/runner/work/mimotion/mimotion/main.py", line 156, in login_and_post_step
+    app_token = self.login()
+  File "/home/runner/work/mimotion/mimotion/main.py", line 97, in login
+    ok,msg = zeppHelper.check_app_token(app_token)
+  File "/home/runner/work/mimotion/mimotion/util/zepp_helper.py", line 189, in check_app_token
+    response = requests.get(url, params=params, headers=headers)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/api.py", line 73, in get
+    return request("get", url, params=params, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/api.py", line 59, in request
+    return session.request(method=method, url=url, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/sessions.py", line 592, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/sessions.py", line 706, in send
+    r = adapter.send(request, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/adapters.py", line 666, in send
+    raise ConnectTimeout(e, request=request)
+requests.exceptions.ConnectTimeout: HTTPSConnectionPool(host='api-mifit-cn3.zepp.com', port=443): Max retries exceeded with url: /huami.health.getUserInfo.json?r=00b7912b-790a-4552-81b1-3742f9dd1e76&userid=1188760659&appid=428135909242707968&channel=Normal&country=CN&cv=50818_6.14.0&device=android_31&device_type=android_phone&lang=zh_CN&timezone=Asia%2FShanghai&v=2.0 (Caused by ConnectTimeoutError(<HTTPSConnection(host='api-mifit-cn3.zepp.com', port=443) at 0x7f3ce8845120>, 'Connection to api-mifit-cn3.zepp.com timed out. (connect timeout=None)'))
+
+[2026-03-30 09:19:28]
 [6/15]账号：8@***ba
-使用加密保存的app_token
-已设置为随机步数范围(26666~29999) 随机值:29724
-修改步数 (29724) ✅
+执行异常:Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connection.py", line 204, in _new_conn
+    sock = connection.create_connection(
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/util/connection.py", line 85, in create_connection
+    raise err
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/util/connection.py", line 73, in create_connection
+    sock.connect(sa)
+TimeoutError: [Errno 110] Connection timed out
 
-[2026-03-29 09:09:36]
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 787, in urlopen
+    response = self._make_request(
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 488, in _make_request
+    raise new_e
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 464, in _make_request
+    self._validate_conn(conn)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 1093, in _validate_conn
+    conn.connect()
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connection.py", line 759, in connect
+    self.sock = sock = self._new_conn()
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connection.py", line 213, in _new_conn
+    raise ConnectTimeoutError(
+urllib3.exceptions.ConnectTimeoutError: (<HTTPSConnection(host='api-mifit-cn3.zepp.com', port=443) at 0x7f3ce8845c90>, 'Connection to api-mifit-cn3.zepp.com timed out. (connect timeout=None)')
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/adapters.py", line 645, in send
+    resp = conn.urlopen(
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 841, in urlopen
+    retries = retries.increment(
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/util/retry.py", line 535, in increment
+    raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]
+urllib3.exceptions.MaxRetryError: HTTPSConnectionPool(host='api-mifit-cn3.zepp.com', port=443): Max retries exceeded with url: /huami.health.getUserInfo.json?r=00b7912b-790a-4552-81b1-3742f9dd1e76&userid=1188760659&appid=428135909242707968&channel=Normal&country=CN&cv=50818_6.14.0&device=android_31&device_type=android_phone&lang=zh_CN&timezone=Asia%2FShanghai&v=2.0 (Caused by ConnectTimeoutError(<HTTPSConnection(host='api-mifit-cn3.zepp.com', port=443) at 0x7f3ce8845c90>, 'Connection to api-mifit-cn3.zepp.com timed out. (connect timeout=None)'))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/runner/work/mimotion/mimotion/main.py", line 218, in run_single_account
+    exec_msg, success = runner.login_and_post_step(min_step, max_step)
+  File "/home/runner/work/mimotion/mimotion/main.py", line 156, in login_and_post_step
+    app_token = self.login()
+  File "/home/runner/work/mimotion/mimotion/main.py", line 97, in login
+    ok,msg = zeppHelper.check_app_token(app_token)
+  File "/home/runner/work/mimotion/mimotion/util/zepp_helper.py", line 189, in check_app_token
+    response = requests.get(url, params=params, headers=headers)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/api.py", line 73, in get
+    return request("get", url, params=params, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/api.py", line 59, in request
+    return session.request(method=method, url=url, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/sessions.py", line 592, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/sessions.py", line 706, in send
+    r = adapter.send(request, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/adapters.py", line 666, in send
+    raise ConnectTimeout(e, request=request)
+requests.exceptions.ConnectTimeout: HTTPSConnectionPool(host='api-mifit-cn3.zepp.com', port=443): Max retries exceeded with url: /huami.health.getUserInfo.json?r=00b7912b-790a-4552-81b1-3742f9dd1e76&userid=1188760659&appid=428135909242707968&channel=Normal&country=CN&cv=50818_6.14.0&device=android_31&device_type=android_phone&lang=zh_CN&timezone=Asia%2FShanghai&v=2.0 (Caused by ConnectTimeoutError(<HTTPSConnection(host='api-mifit-cn3.zepp.com', port=443) at 0x7f3ce8845c90>, 'Connection to api-mifit-cn3.zepp.com timed out. (connect timeout=None)'))
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connection.py", line 204, in _new_conn
+    sock = connection.create_connection(
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/util/connection.py", line 85, in create_connection
+    raise err
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/util/connection.py", line 73, in create_connection
+    sock.connect(sa)
+TimeoutError: [Errno 110] Connection timed out
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 787, in urlopen
+    response = self._make_request(
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 488, in _make_request
+    raise new_e
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 464, in _make_request
+    self._validate_conn(conn)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 1093, in _validate_conn
+    conn.connect()
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connection.py", line 759, in connect
+    self.sock = sock = self._new_conn()
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connection.py", line 213, in _new_conn
+    raise ConnectTimeoutError(
+urllib3.exceptions.ConnectTimeoutError: (<HTTPSConnection(host='api-mifit-cn3.zepp.com', port=443) at 0x7f3ce8845c90>, 'Connection to api-mifit-cn3.zepp.com timed out. (connect timeout=None)')
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/adapters.py", line 645, in send
+    resp = conn.urlopen(
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 841, in urlopen
+    retries = retries.increment(
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/util/retry.py", line 535, in increment
+    raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]
+urllib3.exceptions.MaxRetryError: HTTPSConnectionPool(host='api-mifit-cn3.zepp.com', port=443): Max retries exceeded with url: /huami.health.getUserInfo.json?r=00b7912b-790a-4552-81b1-3742f9dd1e76&userid=1188760659&appid=428135909242707968&channel=Normal&country=CN&cv=50818_6.14.0&device=android_31&device_type=android_phone&lang=zh_CN&timezone=Asia%2FShanghai&v=2.0 (Caused by ConnectTimeoutError(<HTTPSConnection(host='api-mifit-cn3.zepp.com', port=443) at 0x7f3ce8845c90>, 'Connection to api-mifit-cn3.zepp.com timed out. (connect timeout=None)'))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/runner/work/mimotion/mimotion/main.py", line 218, in run_single_account
+    exec_msg, success = runner.login_and_post_step(min_step, max_step)
+  File "/home/runner/work/mimotion/mimotion/main.py", line 156, in login_and_post_step
+    app_token = self.login()
+  File "/home/runner/work/mimotion/mimotion/main.py", line 97, in login
+    ok,msg = zeppHelper.check_app_token(app_token)
+  File "/home/runner/work/mimotion/mimotion/util/zepp_helper.py", line 189, in check_app_token
+    response = requests.get(url, params=params, headers=headers)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/api.py", line 73, in get
+    return request("get", url, params=params, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/api.py", line 59, in request
+    return session.request(method=method, url=url, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/sessions.py", line 592, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/sessions.py", line 706, in send
+    r = adapter.send(request, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/adapters.py", line 666, in send
+    raise ConnectTimeout(e, request=request)
+requests.exceptions.ConnectTimeout: HTTPSConnectionPool(host='api-mifit-cn3.zepp.com', port=443): Max retries exceeded with url: /huami.health.getUserInfo.json?r=00b7912b-790a-4552-81b1-3742f9dd1e76&userid=1188760659&appid=428135909242707968&channel=Normal&country=CN&cv=50818_6.14.0&device=android_31&device_type=android_phone&lang=zh_CN&timezone=Asia%2FShanghai&v=2.0 (Caused by ConnectTimeoutError(<HTTPSConnection(host='api-mifit-cn3.zepp.com', port=443) at 0x7f3ce8845c90>, 'Connection to api-mifit-cn3.zepp.com timed out. (connect timeout=None)'))
+
+[2026-03-30 09:21:52]
 [7/15]账号：9@***ba
-使用加密保存的app_token
-已设置为随机步数范围(26666~29999) 随机值:27210
-修改步数 (27210) ✅
+执行异常:Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connection.py", line 204, in _new_conn
+    sock = connection.create_connection(
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/util/connection.py", line 85, in create_connection
+    raise err
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/util/connection.py", line 73, in create_connection
+    sock.connect(sa)
+TimeoutError: [Errno 110] Connection timed out
 
-[2026-03-29 09:09:50]
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 787, in urlopen
+    response = self._make_request(
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 488, in _make_request
+    raise new_e
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 464, in _make_request
+    self._validate_conn(conn)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 1093, in _validate_conn
+    conn.connect()
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connection.py", line 759, in connect
+    self.sock = sock = self._new_conn()
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connection.py", line 213, in _new_conn
+    raise ConnectTimeoutError(
+urllib3.exceptions.ConnectTimeoutError: (<HTTPSConnection(host='api-mifit-cn3.zepp.com', port=443) at 0x7f3ce8804730>, 'Connection to api-mifit-cn3.zepp.com timed out. (connect timeout=None)')
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/adapters.py", line 645, in send
+    resp = conn.urlopen(
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 841, in urlopen
+    retries = retries.increment(
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/util/retry.py", line 535, in increment
+    raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]
+urllib3.exceptions.MaxRetryError: HTTPSConnectionPool(host='api-mifit-cn3.zepp.com', port=443): Max retries exceeded with url: /huami.health.getUserInfo.json?r=00b7912b-790a-4552-81b1-3742f9dd1e76&userid=1188760659&appid=428135909242707968&channel=Normal&country=CN&cv=50818_6.14.0&device=android_31&device_type=android_phone&lang=zh_CN&timezone=Asia%2FShanghai&v=2.0 (Caused by ConnectTimeoutError(<HTTPSConnection(host='api-mifit-cn3.zepp.com', port=443) at 0x7f3ce8804730>, 'Connection to api-mifit-cn3.zepp.com timed out. (connect timeout=None)'))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/runner/work/mimotion/mimotion/main.py", line 218, in run_single_account
+    exec_msg, success = runner.login_and_post_step(min_step, max_step)
+  File "/home/runner/work/mimotion/mimotion/main.py", line 156, in login_and_post_step
+    app_token = self.login()
+  File "/home/runner/work/mimotion/mimotion/main.py", line 97, in login
+    ok,msg = zeppHelper.check_app_token(app_token)
+  File "/home/runner/work/mimotion/mimotion/util/zepp_helper.py", line 189, in check_app_token
+    response = requests.get(url, params=params, headers=headers)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/api.py", line 73, in get
+    return request("get", url, params=params, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/api.py", line 59, in request
+    return session.request(method=method, url=url, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/sessions.py", line 592, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/sessions.py", line 706, in send
+    r = adapter.send(request, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/adapters.py", line 666, in send
+    raise ConnectTimeout(e, request=request)
+requests.exceptions.ConnectTimeout: HTTPSConnectionPool(host='api-mifit-cn3.zepp.com', port=443): Max retries exceeded with url: /huami.health.getUserInfo.json?r=00b7912b-790a-4552-81b1-3742f9dd1e76&userid=1188760659&appid=428135909242707968&channel=Normal&country=CN&cv=50818_6.14.0&device=android_31&device_type=android_phone&lang=zh_CN&timezone=Asia%2FShanghai&v=2.0 (Caused by ConnectTimeoutError(<HTTPSConnection(host='api-mifit-cn3.zepp.com', port=443) at 0x7f3ce8804730>, 'Connection to api-mifit-cn3.zepp.com timed out. (connect timeout=None)'))
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connection.py", line 204, in _new_conn
+    sock = connection.create_connection(
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/util/connection.py", line 85, in create_connection
+    raise err
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/util/connection.py", line 73, in create_connection
+    sock.connect(sa)
+TimeoutError: [Errno 110] Connection timed out
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 787, in urlopen
+    response = self._make_request(
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 488, in _make_request
+    raise new_e
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 464, in _make_request
+    self._validate_conn(conn)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 1093, in _validate_conn
+    conn.connect()
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connection.py", line 759, in connect
+    self.sock = sock = self._new_conn()
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connection.py", line 213, in _new_conn
+    raise ConnectTimeoutError(
+urllib3.exceptions.ConnectTimeoutError: (<HTTPSConnection(host='api-mifit-cn3.zepp.com', port=443) at 0x7f3ce8804730>, 'Connection to api-mifit-cn3.zepp.com timed out. (connect timeout=None)')
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/adapters.py", line 645, in send
+    resp = conn.urlopen(
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 841, in urlopen
+    retries = retries.increment(
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/util/retry.py", line 535, in increment
+    raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]
+urllib3.exceptions.MaxRetryError: HTTPSConnectionPool(host='api-mifit-cn3.zepp.com', port=443): Max retries exceeded with url: /huami.health.getUserInfo.json?r=00b7912b-790a-4552-81b1-3742f9dd1e76&userid=1188760659&appid=428135909242707968&channel=Normal&country=CN&cv=50818_6.14.0&device=android_31&device_type=android_phone&lang=zh_CN&timezone=Asia%2FShanghai&v=2.0 (Caused by ConnectTimeoutError(<HTTPSConnection(host='api-mifit-cn3.zepp.com', port=443) at 0x7f3ce8804730>, 'Connection to api-mifit-cn3.zepp.com timed out. (connect timeout=None)'))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/runner/work/mimotion/mimotion/main.py", line 218, in run_single_account
+    exec_msg, success = runner.login_and_post_step(min_step, max_step)
+  File "/home/runner/work/mimotion/mimotion/main.py", line 156, in login_and_post_step
+    app_token = self.login()
+  File "/home/runner/work/mimotion/mimotion/main.py", line 97, in login
+    ok,msg = zeppHelper.check_app_token(app_token)
+  File "/home/runner/work/mimotion/mimotion/util/zepp_helper.py", line 189, in check_app_token
+    response = requests.get(url, params=params, headers=headers)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/api.py", line 73, in get
+    return request("get", url, params=params, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/api.py", line 59, in request
+    return session.request(method=method, url=url, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/sessions.py", line 592, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/sessions.py", line 706, in send
+    r = adapter.send(request, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/adapters.py", line 666, in send
+    raise ConnectTimeout(e, request=request)
+requests.exceptions.ConnectTimeout: HTTPSConnectionPool(host='api-mifit-cn3.zepp.com', port=443): Max retries exceeded with url: /huami.health.getUserInfo.json?r=00b7912b-790a-4552-81b1-3742f9dd1e76&userid=1188760659&appid=428135909242707968&channel=Normal&country=CN&cv=50818_6.14.0&device=android_31&device_type=android_phone&lang=zh_CN&timezone=Asia%2FShanghai&v=2.0 (Caused by ConnectTimeoutError(<HTTPSConnection(host='api-mifit-cn3.zepp.com', port=443) at 0x7f3ce8804730>, 'Connection to api-mifit-cn3.zepp.com timed out. (connect timeout=None)'))
+
+[2026-03-30 09:24:15]
 [8/15]账号：4@m****x.me
-使用加密保存的app_token
-已设置为随机步数范围(26666~29999) 随机值:27145
-修改步数 (27145) ✅
+执行异常:Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connection.py", line 204, in _new_conn
+    sock = connection.create_connection(
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/util/connection.py", line 85, in create_connection
+    raise err
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/util/connection.py", line 73, in create_connection
+    sock.connect(sa)
+TimeoutError: [Errno 110] Connection timed out
 
-[2026-03-29 09:10:03]
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 787, in urlopen
+    response = self._make_request(
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 488, in _make_request
+    raise new_e
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 464, in _make_request
+    self._validate_conn(conn)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 1093, in _validate_conn
+    conn.connect()
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connection.py", line 759, in connect
+    self.sock = sock = self._new_conn()
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connection.py", line 213, in _new_conn
+    raise ConnectTimeoutError(
+urllib3.exceptions.ConnectTimeoutError: (<HTTPSConnection(host='api-mifit-cn3.zepp.com', port=443) at 0x7f3ce8804d90>, 'Connection to api-mifit-cn3.zepp.com timed out. (connect timeout=None)')
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/adapters.py", line 645, in send
+    resp = conn.urlopen(
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 841, in urlopen
+    retries = retries.increment(
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/util/retry.py", line 535, in increment
+    raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]
+urllib3.exceptions.MaxRetryError: HTTPSConnectionPool(host='api-mifit-cn3.zepp.com', port=443): Max retries exceeded with url: /huami.health.getUserInfo.json?r=00b7912b-790a-4552-81b1-3742f9dd1e76&userid=1188760659&appid=428135909242707968&channel=Normal&country=CN&cv=50818_6.14.0&device=android_31&device_type=android_phone&lang=zh_CN&timezone=Asia%2FShanghai&v=2.0 (Caused by ConnectTimeoutError(<HTTPSConnection(host='api-mifit-cn3.zepp.com', port=443) at 0x7f3ce8804d90>, 'Connection to api-mifit-cn3.zepp.com timed out. (connect timeout=None)'))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/runner/work/mimotion/mimotion/main.py", line 218, in run_single_account
+    exec_msg, success = runner.login_and_post_step(min_step, max_step)
+  File "/home/runner/work/mimotion/mimotion/main.py", line 156, in login_and_post_step
+    app_token = self.login()
+  File "/home/runner/work/mimotion/mimotion/main.py", line 97, in login
+    ok,msg = zeppHelper.check_app_token(app_token)
+  File "/home/runner/work/mimotion/mimotion/util/zepp_helper.py", line 189, in check_app_token
+    response = requests.get(url, params=params, headers=headers)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/api.py", line 73, in get
+    return request("get", url, params=params, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/api.py", line 59, in request
+    return session.request(method=method, url=url, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/sessions.py", line 592, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/sessions.py", line 706, in send
+    r = adapter.send(request, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/adapters.py", line 666, in send
+    raise ConnectTimeout(e, request=request)
+requests.exceptions.ConnectTimeout: HTTPSConnectionPool(host='api-mifit-cn3.zepp.com', port=443): Max retries exceeded with url: /huami.health.getUserInfo.json?r=00b7912b-790a-4552-81b1-3742f9dd1e76&userid=1188760659&appid=428135909242707968&channel=Normal&country=CN&cv=50818_6.14.0&device=android_31&device_type=android_phone&lang=zh_CN&timezone=Asia%2FShanghai&v=2.0 (Caused by ConnectTimeoutError(<HTTPSConnection(host='api-mifit-cn3.zepp.com', port=443) at 0x7f3ce8804d90>, 'Connection to api-mifit-cn3.zepp.com timed out. (connect timeout=None)'))
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connection.py", line 204, in _new_conn
+    sock = connection.create_connection(
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/util/connection.py", line 85, in create_connection
+    raise err
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/util/connection.py", line 73, in create_connection
+    sock.connect(sa)
+TimeoutError: [Errno 110] Connection timed out
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 787, in urlopen
+    response = self._make_request(
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 488, in _make_request
+    raise new_e
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 464, in _make_request
+    self._validate_conn(conn)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 1093, in _validate_conn
+    conn.connect()
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connection.py", line 759, in connect
+    self.sock = sock = self._new_conn()
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connection.py", line 213, in _new_conn
+    raise ConnectTimeoutError(
+urllib3.exceptions.ConnectTimeoutError: (<HTTPSConnection(host='api-mifit-cn3.zepp.com', port=443) at 0x7f3ce8804d90>, 'Connection to api-mifit-cn3.zepp.com timed out. (connect timeout=None)')
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/adapters.py", line 645, in send
+    resp = conn.urlopen(
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 841, in urlopen
+    retries = retries.increment(
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/util/retry.py", line 535, in increment
+    raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]
+urllib3.exceptions.MaxRetryError: HTTPSConnectionPool(host='api-mifit-cn3.zepp.com', port=443): Max retries exceeded with url: /huami.health.getUserInfo.json?r=00b7912b-790a-4552-81b1-3742f9dd1e76&userid=1188760659&appid=428135909242707968&channel=Normal&country=CN&cv=50818_6.14.0&device=android_31&device_type=android_phone&lang=zh_CN&timezone=Asia%2FShanghai&v=2.0 (Caused by ConnectTimeoutError(<HTTPSConnection(host='api-mifit-cn3.zepp.com', port=443) at 0x7f3ce8804d90>, 'Connection to api-mifit-cn3.zepp.com timed out. (connect timeout=None)'))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/runner/work/mimotion/mimotion/main.py", line 218, in run_single_account
+    exec_msg, success = runner.login_and_post_step(min_step, max_step)
+  File "/home/runner/work/mimotion/mimotion/main.py", line 156, in login_and_post_step
+    app_token = self.login()
+  File "/home/runner/work/mimotion/mimotion/main.py", line 97, in login
+    ok,msg = zeppHelper.check_app_token(app_token)
+  File "/home/runner/work/mimotion/mimotion/util/zepp_helper.py", line 189, in check_app_token
+    response = requests.get(url, params=params, headers=headers)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/api.py", line 73, in get
+    return request("get", url, params=params, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/api.py", line 59, in request
+    return session.request(method=method, url=url, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/sessions.py", line 592, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/sessions.py", line 706, in send
+    r = adapter.send(request, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/adapters.py", line 666, in send
+    raise ConnectTimeout(e, request=request)
+requests.exceptions.ConnectTimeout: HTTPSConnectionPool(host='api-mifit-cn3.zepp.com', port=443): Max retries exceeded with url: /huami.health.getUserInfo.json?r=00b7912b-790a-4552-81b1-3742f9dd1e76&userid=1188760659&appid=428135909242707968&channel=Normal&country=CN&cv=50818_6.14.0&device=android_31&device_type=android_phone&lang=zh_CN&timezone=Asia%2FShanghai&v=2.0 (Caused by ConnectTimeoutError(<HTTPSConnection(host='api-mifit-cn3.zepp.com', port=443) at 0x7f3ce8804d90>, 'Connection to api-mifit-cn3.zepp.com timed out. (connect timeout=None)'))
+
+[2026-03-30 09:26:39]
 [9/15]账号：3@m****x.me
-使用加密保存的app_token
-已设置为随机步数范围(26666~29999) 随机值:27912
-修改步数 (27912) ✅
+执行异常:Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connection.py", line 204, in _new_conn
+    sock = connection.create_connection(
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/util/connection.py", line 85, in create_connection
+    raise err
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/util/connection.py", line 73, in create_connection
+    sock.connect(sa)
+TimeoutError: [Errno 110] Connection timed out
 
-[2026-03-29 09:10:17]
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 787, in urlopen
+    response = self._make_request(
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 488, in _make_request
+    raise new_e
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 464, in _make_request
+    self._validate_conn(conn)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 1093, in _validate_conn
+    conn.connect()
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connection.py", line 759, in connect
+    self.sock = sock = self._new_conn()
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connection.py", line 213, in _new_conn
+    raise ConnectTimeoutError(
+urllib3.exceptions.ConnectTimeoutError: (<HTTPSConnection(host='api-mifit-cn3.zepp.com', port=443) at 0x7f3ce8807c10>, 'Connection to api-mifit-cn3.zepp.com timed out. (connect timeout=None)')
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/adapters.py", line 645, in send
+    resp = conn.urlopen(
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 841, in urlopen
+    retries = retries.increment(
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/util/retry.py", line 535, in increment
+    raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]
+urllib3.exceptions.MaxRetryError: HTTPSConnectionPool(host='api-mifit-cn3.zepp.com', port=443): Max retries exceeded with url: /huami.health.getUserInfo.json?r=00b7912b-790a-4552-81b1-3742f9dd1e76&userid=1188760659&appid=428135909242707968&channel=Normal&country=CN&cv=50818_6.14.0&device=android_31&device_type=android_phone&lang=zh_CN&timezone=Asia%2FShanghai&v=2.0 (Caused by ConnectTimeoutError(<HTTPSConnection(host='api-mifit-cn3.zepp.com', port=443) at 0x7f3ce8807c10>, 'Connection to api-mifit-cn3.zepp.com timed out. (connect timeout=None)'))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/runner/work/mimotion/mimotion/main.py", line 218, in run_single_account
+    exec_msg, success = runner.login_and_post_step(min_step, max_step)
+  File "/home/runner/work/mimotion/mimotion/main.py", line 156, in login_and_post_step
+    app_token = self.login()
+  File "/home/runner/work/mimotion/mimotion/main.py", line 97, in login
+    ok,msg = zeppHelper.check_app_token(app_token)
+  File "/home/runner/work/mimotion/mimotion/util/zepp_helper.py", line 189, in check_app_token
+    response = requests.get(url, params=params, headers=headers)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/api.py", line 73, in get
+    return request("get", url, params=params, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/api.py", line 59, in request
+    return session.request(method=method, url=url, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/sessions.py", line 592, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/sessions.py", line 706, in send
+    r = adapter.send(request, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/adapters.py", line 666, in send
+    raise ConnectTimeout(e, request=request)
+requests.exceptions.ConnectTimeout: HTTPSConnectionPool(host='api-mifit-cn3.zepp.com', port=443): Max retries exceeded with url: /huami.health.getUserInfo.json?r=00b7912b-790a-4552-81b1-3742f9dd1e76&userid=1188760659&appid=428135909242707968&channel=Normal&country=CN&cv=50818_6.14.0&device=android_31&device_type=android_phone&lang=zh_CN&timezone=Asia%2FShanghai&v=2.0 (Caused by ConnectTimeoutError(<HTTPSConnection(host='api-mifit-cn3.zepp.com', port=443) at 0x7f3ce8807c10>, 'Connection to api-mifit-cn3.zepp.com timed out. (connect timeout=None)'))
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connection.py", line 204, in _new_conn
+    sock = connection.create_connection(
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/util/connection.py", line 85, in create_connection
+    raise err
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/util/connection.py", line 73, in create_connection
+    sock.connect(sa)
+TimeoutError: [Errno 110] Connection timed out
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 787, in urlopen
+    response = self._make_request(
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 488, in _make_request
+    raise new_e
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 464, in _make_request
+    self._validate_conn(conn)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 1093, in _validate_conn
+    conn.connect()
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connection.py", line 759, in connect
+    self.sock = sock = self._new_conn()
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connection.py", line 213, in _new_conn
+    raise ConnectTimeoutError(
+urllib3.exceptions.ConnectTimeoutError: (<HTTPSConnection(host='api-mifit-cn3.zepp.com', port=443) at 0x7f3ce8807c10>, 'Connection to api-mifit-cn3.zepp.com timed out. (connect timeout=None)')
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/adapters.py", line 645, in send
+    resp = conn.urlopen(
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 841, in urlopen
+    retries = retries.increment(
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/util/retry.py", line 535, in increment
+    raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]
+urllib3.exceptions.MaxRetryError: HTTPSConnectionPool(host='api-mifit-cn3.zepp.com', port=443): Max retries exceeded with url: /huami.health.getUserInfo.json?r=00b7912b-790a-4552-81b1-3742f9dd1e76&userid=1188760659&appid=428135909242707968&channel=Normal&country=CN&cv=50818_6.14.0&device=android_31&device_type=android_phone&lang=zh_CN&timezone=Asia%2FShanghai&v=2.0 (Caused by ConnectTimeoutError(<HTTPSConnection(host='api-mifit-cn3.zepp.com', port=443) at 0x7f3ce8807c10>, 'Connection to api-mifit-cn3.zepp.com timed out. (connect timeout=None)'))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/runner/work/mimotion/mimotion/main.py", line 218, in run_single_account
+    exec_msg, success = runner.login_and_post_step(min_step, max_step)
+  File "/home/runner/work/mimotion/mimotion/main.py", line 156, in login_and_post_step
+    app_token = self.login()
+  File "/home/runner/work/mimotion/mimotion/main.py", line 97, in login
+    ok,msg = zeppHelper.check_app_token(app_token)
+  File "/home/runner/work/mimotion/mimotion/util/zepp_helper.py", line 189, in check_app_token
+    response = requests.get(url, params=params, headers=headers)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/api.py", line 73, in get
+    return request("get", url, params=params, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/api.py", line 59, in request
+    return session.request(method=method, url=url, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/sessions.py", line 592, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/sessions.py", line 706, in send
+    r = adapter.send(request, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/adapters.py", line 666, in send
+    raise ConnectTimeout(e, request=request)
+requests.exceptions.ConnectTimeout: HTTPSConnectionPool(host='api-mifit-cn3.zepp.com', port=443): Max retries exceeded with url: /huami.health.getUserInfo.json?r=00b7912b-790a-4552-81b1-3742f9dd1e76&userid=1188760659&appid=428135909242707968&channel=Normal&country=CN&cv=50818_6.14.0&device=android_31&device_type=android_phone&lang=zh_CN&timezone=Asia%2FShanghai&v=2.0 (Caused by ConnectTimeoutError(<HTTPSConnection(host='api-mifit-cn3.zepp.com', port=443) at 0x7f3ce8807c10>, 'Connection to api-mifit-cn3.zepp.com timed out. (connect timeout=None)'))
+
+[2026-03-30 09:29:02]
 [10/15]账号：176****0002
-使用加密保存的app_token
-已设置为随机步数范围(26666~29999) 随机值:29555
-修改步数 (29555) ✅
+执行异常:Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connection.py", line 204, in _new_conn
+    sock = connection.create_connection(
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/util/connection.py", line 85, in create_connection
+    raise err
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/util/connection.py", line 73, in create_connection
+    sock.connect(sa)
+TimeoutError: [Errno 110] Connection timed out
 
-[2026-03-29 09:10:30]
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 787, in urlopen
+    response = self._make_request(
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 488, in _make_request
+    raise new_e
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 464, in _make_request
+    self._validate_conn(conn)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 1093, in _validate_conn
+    conn.connect()
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connection.py", line 759, in connect
+    self.sock = sock = self._new_conn()
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connection.py", line 213, in _new_conn
+    raise ConnectTimeoutError(
+urllib3.exceptions.ConnectTimeoutError: (<HTTPSConnection(host='api-mifit-cn3.zepp.com', port=443) at 0x7f3ce8845cc0>, 'Connection to api-mifit-cn3.zepp.com timed out. (connect timeout=None)')
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/adapters.py", line 645, in send
+    resp = conn.urlopen(
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 841, in urlopen
+    retries = retries.increment(
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/util/retry.py", line 535, in increment
+    raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]
+urllib3.exceptions.MaxRetryError: HTTPSConnectionPool(host='api-mifit-cn3.zepp.com', port=443): Max retries exceeded with url: /huami.health.getUserInfo.json?r=00b7912b-790a-4552-81b1-3742f9dd1e76&userid=1188760659&appid=428135909242707968&channel=Normal&country=CN&cv=50818_6.14.0&device=android_31&device_type=android_phone&lang=zh_CN&timezone=Asia%2FShanghai&v=2.0 (Caused by ConnectTimeoutError(<HTTPSConnection(host='api-mifit-cn3.zepp.com', port=443) at 0x7f3ce8845cc0>, 'Connection to api-mifit-cn3.zepp.com timed out. (connect timeout=None)'))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/runner/work/mimotion/mimotion/main.py", line 218, in run_single_account
+    exec_msg, success = runner.login_and_post_step(min_step, max_step)
+  File "/home/runner/work/mimotion/mimotion/main.py", line 156, in login_and_post_step
+    app_token = self.login()
+  File "/home/runner/work/mimotion/mimotion/main.py", line 97, in login
+    ok,msg = zeppHelper.check_app_token(app_token)
+  File "/home/runner/work/mimotion/mimotion/util/zepp_helper.py", line 189, in check_app_token
+    response = requests.get(url, params=params, headers=headers)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/api.py", line 73, in get
+    return request("get", url, params=params, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/api.py", line 59, in request
+    return session.request(method=method, url=url, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/sessions.py", line 592, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/sessions.py", line 706, in send
+    r = adapter.send(request, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/adapters.py", line 666, in send
+    raise ConnectTimeout(e, request=request)
+requests.exceptions.ConnectTimeout: HTTPSConnectionPool(host='api-mifit-cn3.zepp.com', port=443): Max retries exceeded with url: /huami.health.getUserInfo.json?r=00b7912b-790a-4552-81b1-3742f9dd1e76&userid=1188760659&appid=428135909242707968&channel=Normal&country=CN&cv=50818_6.14.0&device=android_31&device_type=android_phone&lang=zh_CN&timezone=Asia%2FShanghai&v=2.0 (Caused by ConnectTimeoutError(<HTTPSConnection(host='api-mifit-cn3.zepp.com', port=443) at 0x7f3ce8845cc0>, 'Connection to api-mifit-cn3.zepp.com timed out. (connect timeout=None)'))
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connection.py", line 204, in _new_conn
+    sock = connection.create_connection(
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/util/connection.py", line 85, in create_connection
+    raise err
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/util/connection.py", line 73, in create_connection
+    sock.connect(sa)
+TimeoutError: [Errno 110] Connection timed out
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 787, in urlopen
+    response = self._make_request(
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 488, in _make_request
+    raise new_e
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 464, in _make_request
+    self._validate_conn(conn)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 1093, in _validate_conn
+    conn.connect()
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connection.py", line 759, in connect
+    self.sock = sock = self._new_conn()
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connection.py", line 213, in _new_conn
+    raise ConnectTimeoutError(
+urllib3.exceptions.ConnectTimeoutError: (<HTTPSConnection(host='api-mifit-cn3.zepp.com', port=443) at 0x7f3ce8845cc0>, 'Connection to api-mifit-cn3.zepp.com timed out. (connect timeout=None)')
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/adapters.py", line 645, in send
+    resp = conn.urlopen(
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 841, in urlopen
+    retries = retries.increment(
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/util/retry.py", line 535, in increment
+    raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]
+urllib3.exceptions.MaxRetryError: HTTPSConnectionPool(host='api-mifit-cn3.zepp.com', port=443): Max retries exceeded with url: /huami.health.getUserInfo.json?r=00b7912b-790a-4552-81b1-3742f9dd1e76&userid=1188760659&appid=428135909242707968&channel=Normal&country=CN&cv=50818_6.14.0&device=android_31&device_type=android_phone&lang=zh_CN&timezone=Asia%2FShanghai&v=2.0 (Caused by ConnectTimeoutError(<HTTPSConnection(host='api-mifit-cn3.zepp.com', port=443) at 0x7f3ce8845cc0>, 'Connection to api-mifit-cn3.zepp.com timed out. (connect timeout=None)'))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/runner/work/mimotion/mimotion/main.py", line 218, in run_single_account
+    exec_msg, success = runner.login_and_post_step(min_step, max_step)
+  File "/home/runner/work/mimotion/mimotion/main.py", line 156, in login_and_post_step
+    app_token = self.login()
+  File "/home/runner/work/mimotion/mimotion/main.py", line 97, in login
+    ok,msg = zeppHelper.check_app_token(app_token)
+  File "/home/runner/work/mimotion/mimotion/util/zepp_helper.py", line 189, in check_app_token
+    response = requests.get(url, params=params, headers=headers)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/api.py", line 73, in get
+    return request("get", url, params=params, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/api.py", line 59, in request
+    return session.request(method=method, url=url, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/sessions.py", line 592, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/sessions.py", line 706, in send
+    r = adapter.send(request, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/adapters.py", line 666, in send
+    raise ConnectTimeout(e, request=request)
+requests.exceptions.ConnectTimeout: HTTPSConnectionPool(host='api-mifit-cn3.zepp.com', port=443): Max retries exceeded with url: /huami.health.getUserInfo.json?r=00b7912b-790a-4552-81b1-3742f9dd1e76&userid=1188760659&appid=428135909242707968&channel=Normal&country=CN&cv=50818_6.14.0&device=android_31&device_type=android_phone&lang=zh_CN&timezone=Asia%2FShanghai&v=2.0 (Caused by ConnectTimeoutError(<HTTPSConnection(host='api-mifit-cn3.zepp.com', port=443) at 0x7f3ce8845cc0>, 'Connection to api-mifit-cn3.zepp.com timed out. (connect timeout=None)'))
+
+[2026-03-30 09:31:25]
 [11/15]账号：131****4350
-使用加密保存的app_token
-已设置为随机步数范围(26666~29999) 随机值:29465
-修改步数 (29465) ✅
+执行异常:Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connection.py", line 204, in _new_conn
+    sock = connection.create_connection(
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/util/connection.py", line 85, in create_connection
+    raise err
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/util/connection.py", line 73, in create_connection
+    sock.connect(sa)
+TimeoutError: [Errno 110] Connection timed out
 
-[2026-03-29 09:10:44]
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 787, in urlopen
+    response = self._make_request(
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 488, in _make_request
+    raise new_e
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 464, in _make_request
+    self._validate_conn(conn)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 1093, in _validate_conn
+    conn.connect()
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connection.py", line 759, in connect
+    self.sock = sock = self._new_conn()
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connection.py", line 213, in _new_conn
+    raise ConnectTimeoutError(
+urllib3.exceptions.ConnectTimeoutError: (<HTTPSConnection(host='api-mifit-cn3.zepp.com', port=443) at 0x7f3ce88464d0>, 'Connection to api-mifit-cn3.zepp.com timed out. (connect timeout=None)')
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/adapters.py", line 645, in send
+    resp = conn.urlopen(
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 841, in urlopen
+    retries = retries.increment(
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/util/retry.py", line 535, in increment
+    raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]
+urllib3.exceptions.MaxRetryError: HTTPSConnectionPool(host='api-mifit-cn3.zepp.com', port=443): Max retries exceeded with url: /huami.health.getUserInfo.json?r=00b7912b-790a-4552-81b1-3742f9dd1e76&userid=1188760659&appid=428135909242707968&channel=Normal&country=CN&cv=50818_6.14.0&device=android_31&device_type=android_phone&lang=zh_CN&timezone=Asia%2FShanghai&v=2.0 (Caused by ConnectTimeoutError(<HTTPSConnection(host='api-mifit-cn3.zepp.com', port=443) at 0x7f3ce88464d0>, 'Connection to api-mifit-cn3.zepp.com timed out. (connect timeout=None)'))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/runner/work/mimotion/mimotion/main.py", line 218, in run_single_account
+    exec_msg, success = runner.login_and_post_step(min_step, max_step)
+  File "/home/runner/work/mimotion/mimotion/main.py", line 156, in login_and_post_step
+    app_token = self.login()
+  File "/home/runner/work/mimotion/mimotion/main.py", line 97, in login
+    ok,msg = zeppHelper.check_app_token(app_token)
+  File "/home/runner/work/mimotion/mimotion/util/zepp_helper.py", line 189, in check_app_token
+    response = requests.get(url, params=params, headers=headers)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/api.py", line 73, in get
+    return request("get", url, params=params, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/api.py", line 59, in request
+    return session.request(method=method, url=url, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/sessions.py", line 592, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/sessions.py", line 706, in send
+    r = adapter.send(request, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/adapters.py", line 666, in send
+    raise ConnectTimeout(e, request=request)
+requests.exceptions.ConnectTimeout: HTTPSConnectionPool(host='api-mifit-cn3.zepp.com', port=443): Max retries exceeded with url: /huami.health.getUserInfo.json?r=00b7912b-790a-4552-81b1-3742f9dd1e76&userid=1188760659&appid=428135909242707968&channel=Normal&country=CN&cv=50818_6.14.0&device=android_31&device_type=android_phone&lang=zh_CN&timezone=Asia%2FShanghai&v=2.0 (Caused by ConnectTimeoutError(<HTTPSConnection(host='api-mifit-cn3.zepp.com', port=443) at 0x7f3ce88464d0>, 'Connection to api-mifit-cn3.zepp.com timed out. (connect timeout=None)'))
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connection.py", line 204, in _new_conn
+    sock = connection.create_connection(
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/util/connection.py", line 85, in create_connection
+    raise err
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/util/connection.py", line 73, in create_connection
+    sock.connect(sa)
+TimeoutError: [Errno 110] Connection timed out
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 787, in urlopen
+    response = self._make_request(
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 488, in _make_request
+    raise new_e
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 464, in _make_request
+    self._validate_conn(conn)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 1093, in _validate_conn
+    conn.connect()
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connection.py", line 759, in connect
+    self.sock = sock = self._new_conn()
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connection.py", line 213, in _new_conn
+    raise ConnectTimeoutError(
+urllib3.exceptions.ConnectTimeoutError: (<HTTPSConnection(host='api-mifit-cn3.zepp.com', port=443) at 0x7f3ce88464d0>, 'Connection to api-mifit-cn3.zepp.com timed out. (connect timeout=None)')
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/adapters.py", line 645, in send
+    resp = conn.urlopen(
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 841, in urlopen
+    retries = retries.increment(
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/util/retry.py", line 535, in increment
+    raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]
+urllib3.exceptions.MaxRetryError: HTTPSConnectionPool(host='api-mifit-cn3.zepp.com', port=443): Max retries exceeded with url: /huami.health.getUserInfo.json?r=00b7912b-790a-4552-81b1-3742f9dd1e76&userid=1188760659&appid=428135909242707968&channel=Normal&country=CN&cv=50818_6.14.0&device=android_31&device_type=android_phone&lang=zh_CN&timezone=Asia%2FShanghai&v=2.0 (Caused by ConnectTimeoutError(<HTTPSConnection(host='api-mifit-cn3.zepp.com', port=443) at 0x7f3ce88464d0>, 'Connection to api-mifit-cn3.zepp.com timed out. (connect timeout=None)'))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/runner/work/mimotion/mimotion/main.py", line 218, in run_single_account
+    exec_msg, success = runner.login_and_post_step(min_step, max_step)
+  File "/home/runner/work/mimotion/mimotion/main.py", line 156, in login_and_post_step
+    app_token = self.login()
+  File "/home/runner/work/mimotion/mimotion/main.py", line 97, in login
+    ok,msg = zeppHelper.check_app_token(app_token)
+  File "/home/runner/work/mimotion/mimotion/util/zepp_helper.py", line 189, in check_app_token
+    response = requests.get(url, params=params, headers=headers)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/api.py", line 73, in get
+    return request("get", url, params=params, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/api.py", line 59, in request
+    return session.request(method=method, url=url, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/sessions.py", line 592, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/sessions.py", line 706, in send
+    r = adapter.send(request, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/adapters.py", line 666, in send
+    raise ConnectTimeout(e, request=request)
+requests.exceptions.ConnectTimeout: HTTPSConnectionPool(host='api-mifit-cn3.zepp.com', port=443): Max retries exceeded with url: /huami.health.getUserInfo.json?r=00b7912b-790a-4552-81b1-3742f9dd1e76&userid=1188760659&appid=428135909242707968&channel=Normal&country=CN&cv=50818_6.14.0&device=android_31&device_type=android_phone&lang=zh_CN&timezone=Asia%2FShanghai&v=2.0 (Caused by ConnectTimeoutError(<HTTPSConnection(host='api-mifit-cn3.zepp.com', port=443) at 0x7f3ce88464d0>, 'Connection to api-mifit-cn3.zepp.com timed out. (connect timeout=None)'))
+
+[2026-03-30 09:33:49]
 [12/15]账号：wu1****.com
-使用加密保存的app_token
-已设置为随机步数范围(26666~29999) 随机值:29077
-修改步数 (29077) ✅
+执行异常:Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connection.py", line 204, in _new_conn
+    sock = connection.create_connection(
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/util/connection.py", line 85, in create_connection
+    raise err
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/util/connection.py", line 73, in create_connection
+    sock.connect(sa)
+TimeoutError: [Errno 110] Connection timed out
 
-[2026-03-29 09:10:58]
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 787, in urlopen
+    response = self._make_request(
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 488, in _make_request
+    raise new_e
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 464, in _make_request
+    self._validate_conn(conn)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 1093, in _validate_conn
+    conn.connect()
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connection.py", line 759, in connect
+    self.sock = sock = self._new_conn()
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connection.py", line 213, in _new_conn
+    raise ConnectTimeoutError(
+urllib3.exceptions.ConnectTimeoutError: (<HTTPSConnection(host='api-mifit-cn3.zepp.com', port=443) at 0x7f3ce8846ce0>, 'Connection to api-mifit-cn3.zepp.com timed out. (connect timeout=None)')
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/adapters.py", line 645, in send
+    resp = conn.urlopen(
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 841, in urlopen
+    retries = retries.increment(
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/util/retry.py", line 535, in increment
+    raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]
+urllib3.exceptions.MaxRetryError: HTTPSConnectionPool(host='api-mifit-cn3.zepp.com', port=443): Max retries exceeded with url: /huami.health.getUserInfo.json?r=00b7912b-790a-4552-81b1-3742f9dd1e76&userid=1188760659&appid=428135909242707968&channel=Normal&country=CN&cv=50818_6.14.0&device=android_31&device_type=android_phone&lang=zh_CN&timezone=Asia%2FShanghai&v=2.0 (Caused by ConnectTimeoutError(<HTTPSConnection(host='api-mifit-cn3.zepp.com', port=443) at 0x7f3ce8846ce0>, 'Connection to api-mifit-cn3.zepp.com timed out. (connect timeout=None)'))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/runner/work/mimotion/mimotion/main.py", line 218, in run_single_account
+    exec_msg, success = runner.login_and_post_step(min_step, max_step)
+  File "/home/runner/work/mimotion/mimotion/main.py", line 156, in login_and_post_step
+    app_token = self.login()
+  File "/home/runner/work/mimotion/mimotion/main.py", line 97, in login
+    ok,msg = zeppHelper.check_app_token(app_token)
+  File "/home/runner/work/mimotion/mimotion/util/zepp_helper.py", line 189, in check_app_token
+    response = requests.get(url, params=params, headers=headers)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/api.py", line 73, in get
+    return request("get", url, params=params, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/api.py", line 59, in request
+    return session.request(method=method, url=url, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/sessions.py", line 592, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/sessions.py", line 706, in send
+    r = adapter.send(request, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/adapters.py", line 666, in send
+    raise ConnectTimeout(e, request=request)
+requests.exceptions.ConnectTimeout: HTTPSConnectionPool(host='api-mifit-cn3.zepp.com', port=443): Max retries exceeded with url: /huami.health.getUserInfo.json?r=00b7912b-790a-4552-81b1-3742f9dd1e76&userid=1188760659&appid=428135909242707968&channel=Normal&country=CN&cv=50818_6.14.0&device=android_31&device_type=android_phone&lang=zh_CN&timezone=Asia%2FShanghai&v=2.0 (Caused by ConnectTimeoutError(<HTTPSConnection(host='api-mifit-cn3.zepp.com', port=443) at 0x7f3ce8846ce0>, 'Connection to api-mifit-cn3.zepp.com timed out. (connect timeout=None)'))
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connection.py", line 204, in _new_conn
+    sock = connection.create_connection(
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/util/connection.py", line 85, in create_connection
+    raise err
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/util/connection.py", line 73, in create_connection
+    sock.connect(sa)
+TimeoutError: [Errno 110] Connection timed out
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 787, in urlopen
+    response = self._make_request(
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 488, in _make_request
+    raise new_e
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 464, in _make_request
+    self._validate_conn(conn)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 1093, in _validate_conn
+    conn.connect()
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connection.py", line 759, in connect
+    self.sock = sock = self._new_conn()
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connection.py", line 213, in _new_conn
+    raise ConnectTimeoutError(
+urllib3.exceptions.ConnectTimeoutError: (<HTTPSConnection(host='api-mifit-cn3.zepp.com', port=443) at 0x7f3ce8846ce0>, 'Connection to api-mifit-cn3.zepp.com timed out. (connect timeout=None)')
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/adapters.py", line 645, in send
+    resp = conn.urlopen(
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 841, in urlopen
+    retries = retries.increment(
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/util/retry.py", line 535, in increment
+    raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]
+urllib3.exceptions.MaxRetryError: HTTPSConnectionPool(host='api-mifit-cn3.zepp.com', port=443): Max retries exceeded with url: /huami.health.getUserInfo.json?r=00b7912b-790a-4552-81b1-3742f9dd1e76&userid=1188760659&appid=428135909242707968&channel=Normal&country=CN&cv=50818_6.14.0&device=android_31&device_type=android_phone&lang=zh_CN&timezone=Asia%2FShanghai&v=2.0 (Caused by ConnectTimeoutError(<HTTPSConnection(host='api-mifit-cn3.zepp.com', port=443) at 0x7f3ce8846ce0>, 'Connection to api-mifit-cn3.zepp.com timed out. (connect timeout=None)'))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/runner/work/mimotion/mimotion/main.py", line 218, in run_single_account
+    exec_msg, success = runner.login_and_post_step(min_step, max_step)
+  File "/home/runner/work/mimotion/mimotion/main.py", line 156, in login_and_post_step
+    app_token = self.login()
+  File "/home/runner/work/mimotion/mimotion/main.py", line 97, in login
+    ok,msg = zeppHelper.check_app_token(app_token)
+  File "/home/runner/work/mimotion/mimotion/util/zepp_helper.py", line 189, in check_app_token
+    response = requests.get(url, params=params, headers=headers)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/api.py", line 73, in get
+    return request("get", url, params=params, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/api.py", line 59, in request
+    return session.request(method=method, url=url, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/sessions.py", line 592, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/sessions.py", line 706, in send
+    r = adapter.send(request, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/adapters.py", line 666, in send
+    raise ConnectTimeout(e, request=request)
+requests.exceptions.ConnectTimeout: HTTPSConnectionPool(host='api-mifit-cn3.zepp.com', port=443): Max retries exceeded with url: /huami.health.getUserInfo.json?r=00b7912b-790a-4552-81b1-3742f9dd1e76&userid=1188760659&appid=428135909242707968&channel=Normal&country=CN&cv=50818_6.14.0&device=android_31&device_type=android_phone&lang=zh_CN&timezone=Asia%2FShanghai&v=2.0 (Caused by ConnectTimeoutError(<HTTPSConnection(host='api-mifit-cn3.zepp.com', port=443) at 0x7f3ce8846ce0>, 'Connection to api-mifit-cn3.zepp.com timed out. (connect timeout=None)'))
+
+[2026-03-30 09:36:12]
 [13/15]账号：yua****.com
-使用加密保存的app_token
-已设置为随机步数范围(26666~29999) 随机值:28531
-修改步数 (28531) ✅
+执行异常:Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connection.py", line 204, in _new_conn
+    sock = connection.create_connection(
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/util/connection.py", line 85, in create_connection
+    raise err
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/util/connection.py", line 73, in create_connection
+    sock.connect(sa)
+TimeoutError: [Errno 110] Connection timed out
 
-[2026-03-29 09:11:11]
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 787, in urlopen
+    response = self._make_request(
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 488, in _make_request
+    raise new_e
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 464, in _make_request
+    self._validate_conn(conn)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 1093, in _validate_conn
+    conn.connect()
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connection.py", line 759, in connect
+    self.sock = sock = self._new_conn()
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connection.py", line 213, in _new_conn
+    raise ConnectTimeoutError(
+urllib3.exceptions.ConnectTimeoutError: (<HTTPSConnection(host='api-mifit-cn3.zepp.com', port=443) at 0x7f3ce8805f30>, 'Connection to api-mifit-cn3.zepp.com timed out. (connect timeout=None)')
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/adapters.py", line 645, in send
+    resp = conn.urlopen(
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 841, in urlopen
+    retries = retries.increment(
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/util/retry.py", line 535, in increment
+    raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]
+urllib3.exceptions.MaxRetryError: HTTPSConnectionPool(host='api-mifit-cn3.zepp.com', port=443): Max retries exceeded with url: /huami.health.getUserInfo.json?r=00b7912b-790a-4552-81b1-3742f9dd1e76&userid=1188760659&appid=428135909242707968&channel=Normal&country=CN&cv=50818_6.14.0&device=android_31&device_type=android_phone&lang=zh_CN&timezone=Asia%2FShanghai&v=2.0 (Caused by ConnectTimeoutError(<HTTPSConnection(host='api-mifit-cn3.zepp.com', port=443) at 0x7f3ce8805f30>, 'Connection to api-mifit-cn3.zepp.com timed out. (connect timeout=None)'))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/runner/work/mimotion/mimotion/main.py", line 218, in run_single_account
+    exec_msg, success = runner.login_and_post_step(min_step, max_step)
+  File "/home/runner/work/mimotion/mimotion/main.py", line 156, in login_and_post_step
+    app_token = self.login()
+  File "/home/runner/work/mimotion/mimotion/main.py", line 97, in login
+    ok,msg = zeppHelper.check_app_token(app_token)
+  File "/home/runner/work/mimotion/mimotion/util/zepp_helper.py", line 189, in check_app_token
+    response = requests.get(url, params=params, headers=headers)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/api.py", line 73, in get
+    return request("get", url, params=params, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/api.py", line 59, in request
+    return session.request(method=method, url=url, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/sessions.py", line 592, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/sessions.py", line 706, in send
+    r = adapter.send(request, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/adapters.py", line 666, in send
+    raise ConnectTimeout(e, request=request)
+requests.exceptions.ConnectTimeout: HTTPSConnectionPool(host='api-mifit-cn3.zepp.com', port=443): Max retries exceeded with url: /huami.health.getUserInfo.json?r=00b7912b-790a-4552-81b1-3742f9dd1e76&userid=1188760659&appid=428135909242707968&channel=Normal&country=CN&cv=50818_6.14.0&device=android_31&device_type=android_phone&lang=zh_CN&timezone=Asia%2FShanghai&v=2.0 (Caused by ConnectTimeoutError(<HTTPSConnection(host='api-mifit-cn3.zepp.com', port=443) at 0x7f3ce8805f30>, 'Connection to api-mifit-cn3.zepp.com timed out. (connect timeout=None)'))
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connection.py", line 204, in _new_conn
+    sock = connection.create_connection(
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/util/connection.py", line 85, in create_connection
+    raise err
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/util/connection.py", line 73, in create_connection
+    sock.connect(sa)
+TimeoutError: [Errno 110] Connection timed out
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 787, in urlopen
+    response = self._make_request(
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 488, in _make_request
+    raise new_e
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 464, in _make_request
+    self._validate_conn(conn)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 1093, in _validate_conn
+    conn.connect()
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connection.py", line 759, in connect
+    self.sock = sock = self._new_conn()
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connection.py", line 213, in _new_conn
+    raise ConnectTimeoutError(
+urllib3.exceptions.ConnectTimeoutError: (<HTTPSConnection(host='api-mifit-cn3.zepp.com', port=443) at 0x7f3ce8805f30>, 'Connection to api-mifit-cn3.zepp.com timed out. (connect timeout=None)')
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/adapters.py", line 645, in send
+    resp = conn.urlopen(
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 841, in urlopen
+    retries = retries.increment(
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/util/retry.py", line 535, in increment
+    raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]
+urllib3.exceptions.MaxRetryError: HTTPSConnectionPool(host='api-mifit-cn3.zepp.com', port=443): Max retries exceeded with url: /huami.health.getUserInfo.json?r=00b7912b-790a-4552-81b1-3742f9dd1e76&userid=1188760659&appid=428135909242707968&channel=Normal&country=CN&cv=50818_6.14.0&device=android_31&device_type=android_phone&lang=zh_CN&timezone=Asia%2FShanghai&v=2.0 (Caused by ConnectTimeoutError(<HTTPSConnection(host='api-mifit-cn3.zepp.com', port=443) at 0x7f3ce8805f30>, 'Connection to api-mifit-cn3.zepp.com timed out. (connect timeout=None)'))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/runner/work/mimotion/mimotion/main.py", line 218, in run_single_account
+    exec_msg, success = runner.login_and_post_step(min_step, max_step)
+  File "/home/runner/work/mimotion/mimotion/main.py", line 156, in login_and_post_step
+    app_token = self.login()
+  File "/home/runner/work/mimotion/mimotion/main.py", line 97, in login
+    ok,msg = zeppHelper.check_app_token(app_token)
+  File "/home/runner/work/mimotion/mimotion/util/zepp_helper.py", line 189, in check_app_token
+    response = requests.get(url, params=params, headers=headers)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/api.py", line 73, in get
+    return request("get", url, params=params, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/api.py", line 59, in request
+    return session.request(method=method, url=url, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/sessions.py", line 592, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/sessions.py", line 706, in send
+    r = adapter.send(request, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/adapters.py", line 666, in send
+    raise ConnectTimeout(e, request=request)
+requests.exceptions.ConnectTimeout: HTTPSConnectionPool(host='api-mifit-cn3.zepp.com', port=443): Max retries exceeded with url: /huami.health.getUserInfo.json?r=00b7912b-790a-4552-81b1-3742f9dd1e76&userid=1188760659&appid=428135909242707968&channel=Normal&country=CN&cv=50818_6.14.0&device=android_31&device_type=android_phone&lang=zh_CN&timezone=Asia%2FShanghai&v=2.0 (Caused by ConnectTimeoutError(<HTTPSConnection(host='api-mifit-cn3.zepp.com', port=443) at 0x7f3ce8805f30>, 'Connection to api-mifit-cn3.zepp.com timed out. (connect timeout=None)'))
+
+[2026-03-30 09:38:35]
 [14/15]账号：410****.com
-使用加密保存的app_token
-已设置为随机步数范围(26666~29999) 随机值:28993
-修改步数 (28993) ✅
+执行异常:Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connection.py", line 204, in _new_conn
+    sock = connection.create_connection(
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/util/connection.py", line 85, in create_connection
+    raise err
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/util/connection.py", line 73, in create_connection
+    sock.connect(sa)
+TimeoutError: [Errno 110] Connection timed out
 
-[2026-03-29 09:11:24]
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 787, in urlopen
+    response = self._make_request(
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 488, in _make_request
+    raise new_e
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 464, in _make_request
+    self._validate_conn(conn)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 1093, in _validate_conn
+    conn.connect()
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connection.py", line 759, in connect
+    self.sock = sock = self._new_conn()
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connection.py", line 213, in _new_conn
+    raise ConnectTimeoutError(
+urllib3.exceptions.ConnectTimeoutError: (<HTTPSConnection(host='api-mifit-cn3.zepp.com', port=443) at 0x7f3ce88043d0>, 'Connection to api-mifit-cn3.zepp.com timed out. (connect timeout=None)')
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/adapters.py", line 645, in send
+    resp = conn.urlopen(
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 841, in urlopen
+    retries = retries.increment(
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/util/retry.py", line 535, in increment
+    raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]
+urllib3.exceptions.MaxRetryError: HTTPSConnectionPool(host='api-mifit-cn3.zepp.com', port=443): Max retries exceeded with url: /huami.health.getUserInfo.json?r=00b7912b-790a-4552-81b1-3742f9dd1e76&userid=1188760659&appid=428135909242707968&channel=Normal&country=CN&cv=50818_6.14.0&device=android_31&device_type=android_phone&lang=zh_CN&timezone=Asia%2FShanghai&v=2.0 (Caused by ConnectTimeoutError(<HTTPSConnection(host='api-mifit-cn3.zepp.com', port=443) at 0x7f3ce88043d0>, 'Connection to api-mifit-cn3.zepp.com timed out. (connect timeout=None)'))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/runner/work/mimotion/mimotion/main.py", line 218, in run_single_account
+    exec_msg, success = runner.login_and_post_step(min_step, max_step)
+  File "/home/runner/work/mimotion/mimotion/main.py", line 156, in login_and_post_step
+    app_token = self.login()
+  File "/home/runner/work/mimotion/mimotion/main.py", line 97, in login
+    ok,msg = zeppHelper.check_app_token(app_token)
+  File "/home/runner/work/mimotion/mimotion/util/zepp_helper.py", line 189, in check_app_token
+    response = requests.get(url, params=params, headers=headers)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/api.py", line 73, in get
+    return request("get", url, params=params, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/api.py", line 59, in request
+    return session.request(method=method, url=url, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/sessions.py", line 592, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/sessions.py", line 706, in send
+    r = adapter.send(request, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/adapters.py", line 666, in send
+    raise ConnectTimeout(e, request=request)
+requests.exceptions.ConnectTimeout: HTTPSConnectionPool(host='api-mifit-cn3.zepp.com', port=443): Max retries exceeded with url: /huami.health.getUserInfo.json?r=00b7912b-790a-4552-81b1-3742f9dd1e76&userid=1188760659&appid=428135909242707968&channel=Normal&country=CN&cv=50818_6.14.0&device=android_31&device_type=android_phone&lang=zh_CN&timezone=Asia%2FShanghai&v=2.0 (Caused by ConnectTimeoutError(<HTTPSConnection(host='api-mifit-cn3.zepp.com', port=443) at 0x7f3ce88043d0>, 'Connection to api-mifit-cn3.zepp.com timed out. (connect timeout=None)'))
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connection.py", line 204, in _new_conn
+    sock = connection.create_connection(
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/util/connection.py", line 85, in create_connection
+    raise err
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/util/connection.py", line 73, in create_connection
+    sock.connect(sa)
+TimeoutError: [Errno 110] Connection timed out
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 787, in urlopen
+    response = self._make_request(
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 488, in _make_request
+    raise new_e
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 464, in _make_request
+    self._validate_conn(conn)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 1093, in _validate_conn
+    conn.connect()
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connection.py", line 759, in connect
+    self.sock = sock = self._new_conn()
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connection.py", line 213, in _new_conn
+    raise ConnectTimeoutError(
+urllib3.exceptions.ConnectTimeoutError: (<HTTPSConnection(host='api-mifit-cn3.zepp.com', port=443) at 0x7f3ce88043d0>, 'Connection to api-mifit-cn3.zepp.com timed out. (connect timeout=None)')
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/adapters.py", line 645, in send
+    resp = conn.urlopen(
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 841, in urlopen
+    retries = retries.increment(
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/util/retry.py", line 535, in increment
+    raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]
+urllib3.exceptions.MaxRetryError: HTTPSConnectionPool(host='api-mifit-cn3.zepp.com', port=443): Max retries exceeded with url: /huami.health.getUserInfo.json?r=00b7912b-790a-4552-81b1-3742f9dd1e76&userid=1188760659&appid=428135909242707968&channel=Normal&country=CN&cv=50818_6.14.0&device=android_31&device_type=android_phone&lang=zh_CN&timezone=Asia%2FShanghai&v=2.0 (Caused by ConnectTimeoutError(<HTTPSConnection(host='api-mifit-cn3.zepp.com', port=443) at 0x7f3ce88043d0>, 'Connection to api-mifit-cn3.zepp.com timed out. (connect timeout=None)'))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/runner/work/mimotion/mimotion/main.py", line 218, in run_single_account
+    exec_msg, success = runner.login_and_post_step(min_step, max_step)
+  File "/home/runner/work/mimotion/mimotion/main.py", line 156, in login_and_post_step
+    app_token = self.login()
+  File "/home/runner/work/mimotion/mimotion/main.py", line 97, in login
+    ok,msg = zeppHelper.check_app_token(app_token)
+  File "/home/runner/work/mimotion/mimotion/util/zepp_helper.py", line 189, in check_app_token
+    response = requests.get(url, params=params, headers=headers)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/api.py", line 73, in get
+    return request("get", url, params=params, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/api.py", line 59, in request
+    return session.request(method=method, url=url, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/sessions.py", line 592, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/sessions.py", line 706, in send
+    r = adapter.send(request, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/adapters.py", line 666, in send
+    raise ConnectTimeout(e, request=request)
+requests.exceptions.ConnectTimeout: HTTPSConnectionPool(host='api-mifit-cn3.zepp.com', port=443): Max retries exceeded with url: /huami.health.getUserInfo.json?r=00b7912b-790a-4552-81b1-3742f9dd1e76&userid=1188760659&appid=428135909242707968&channel=Normal&country=CN&cv=50818_6.14.0&device=android_31&device_type=android_phone&lang=zh_CN&timezone=Asia%2FShanghai&v=2.0 (Caused by ConnectTimeoutError(<HTTPSConnection(host='api-mifit-cn3.zepp.com', port=443) at 0x7f3ce88043d0>, 'Connection to api-mifit-cn3.zepp.com timed out. (connect timeout=None)'))
+
+[2026-03-30 09:40:59]
 [15/15]账号：230****.com
-使用加密保存的app_token
-已设置为随机步数范围(26666~29999) 随机值:27195
-修改步数 (27195) ✅
+执行异常:Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connection.py", line 204, in _new_conn
+    sock = connection.create_connection(
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/util/connection.py", line 85, in create_connection
+    raise err
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/util/connection.py", line 73, in create_connection
+    sock.connect(sa)
+TimeoutError: [Errno 110] Connection timed out
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 787, in urlopen
+    response = self._make_request(
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 488, in _make_request
+    raise new_e
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 464, in _make_request
+    self._validate_conn(conn)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 1093, in _validate_conn
+    conn.connect()
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connection.py", line 759, in connect
+    self.sock = sock = self._new_conn()
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connection.py", line 213, in _new_conn
+    raise ConnectTimeoutError(
+urllib3.exceptions.ConnectTimeoutError: (<HTTPSConnection(host='api-mifit-cn3.zepp.com', port=443) at 0x7f3ce88467a0>, 'Connection to api-mifit-cn3.zepp.com timed out. (connect timeout=None)')
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/adapters.py", line 645, in send
+    resp = conn.urlopen(
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 841, in urlopen
+    retries = retries.increment(
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/util/retry.py", line 535, in increment
+    raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]
+urllib3.exceptions.MaxRetryError: HTTPSConnectionPool(host='api-mifit-cn3.zepp.com', port=443): Max retries exceeded with url: /huami.health.getUserInfo.json?r=00b7912b-790a-4552-81b1-3742f9dd1e76&userid=1188760659&appid=428135909242707968&channel=Normal&country=CN&cv=50818_6.14.0&device=android_31&device_type=android_phone&lang=zh_CN&timezone=Asia%2FShanghai&v=2.0 (Caused by ConnectTimeoutError(<HTTPSConnection(host='api-mifit-cn3.zepp.com', port=443) at 0x7f3ce88467a0>, 'Connection to api-mifit-cn3.zepp.com timed out. (connect timeout=None)'))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/runner/work/mimotion/mimotion/main.py", line 218, in run_single_account
+    exec_msg, success = runner.login_and_post_step(min_step, max_step)
+  File "/home/runner/work/mimotion/mimotion/main.py", line 156, in login_and_post_step
+    app_token = self.login()
+  File "/home/runner/work/mimotion/mimotion/main.py", line 97, in login
+    ok,msg = zeppHelper.check_app_token(app_token)
+  File "/home/runner/work/mimotion/mimotion/util/zepp_helper.py", line 189, in check_app_token
+    response = requests.get(url, params=params, headers=headers)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/api.py", line 73, in get
+    return request("get", url, params=params, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/api.py", line 59, in request
+    return session.request(method=method, url=url, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/sessions.py", line 592, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/sessions.py", line 706, in send
+    r = adapter.send(request, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/adapters.py", line 666, in send
+    raise ConnectTimeout(e, request=request)
+requests.exceptions.ConnectTimeout: HTTPSConnectionPool(host='api-mifit-cn3.zepp.com', port=443): Max retries exceeded with url: /huami.health.getUserInfo.json?r=00b7912b-790a-4552-81b1-3742f9dd1e76&userid=1188760659&appid=428135909242707968&channel=Normal&country=CN&cv=50818_6.14.0&device=android_31&device_type=android_phone&lang=zh_CN&timezone=Asia%2FShanghai&v=2.0 (Caused by ConnectTimeoutError(<HTTPSConnection(host='api-mifit-cn3.zepp.com', port=443) at 0x7f3ce88467a0>, 'Connection to api-mifit-cn3.zepp.com timed out. (connect timeout=None)'))
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connection.py", line 204, in _new_conn
+    sock = connection.create_connection(
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/util/connection.py", line 85, in create_connection
+    raise err
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/util/connection.py", line 73, in create_connection
+    sock.connect(sa)
+TimeoutError: [Errno 110] Connection timed out
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 787, in urlopen
+    response = self._make_request(
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 488, in _make_request
+    raise new_e
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 464, in _make_request
+    self._validate_conn(conn)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 1093, in _validate_conn
+    conn.connect()
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connection.py", line 759, in connect
+    self.sock = sock = self._new_conn()
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connection.py", line 213, in _new_conn
+    raise ConnectTimeoutError(
+urllib3.exceptions.ConnectTimeoutError: (<HTTPSConnection(host='api-mifit-cn3.zepp.com', port=443) at 0x7f3ce88467a0>, 'Connection to api-mifit-cn3.zepp.com timed out. (connect timeout=None)')
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/adapters.py", line 645, in send
+    resp = conn.urlopen(
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 841, in urlopen
+    retries = retries.increment(
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/urllib3/util/retry.py", line 535, in increment
+    raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]
+urllib3.exceptions.MaxRetryError: HTTPSConnectionPool(host='api-mifit-cn3.zepp.com', port=443): Max retries exceeded with url: /huami.health.getUserInfo.json?r=00b7912b-790a-4552-81b1-3742f9dd1e76&userid=1188760659&appid=428135909242707968&channel=Normal&country=CN&cv=50818_6.14.0&device=android_31&device_type=android_phone&lang=zh_CN&timezone=Asia%2FShanghai&v=2.0 (Caused by ConnectTimeoutError(<HTTPSConnection(host='api-mifit-cn3.zepp.com', port=443) at 0x7f3ce88467a0>, 'Connection to api-mifit-cn3.zepp.com timed out. (connect timeout=None)'))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/runner/work/mimotion/mimotion/main.py", line 218, in run_single_account
+    exec_msg, success = runner.login_and_post_step(min_step, max_step)
+  File "/home/runner/work/mimotion/mimotion/main.py", line 156, in login_and_post_step
+    app_token = self.login()
+  File "/home/runner/work/mimotion/mimotion/main.py", line 97, in login
+    ok,msg = zeppHelper.check_app_token(app_token)
+  File "/home/runner/work/mimotion/mimotion/util/zepp_helper.py", line 189, in check_app_token
+    response = requests.get(url, params=params, headers=headers)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/api.py", line 73, in get
+    return request("get", url, params=params, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/api.py", line 59, in request
+    return session.request(method=method, url=url, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/sessions.py", line 592, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/sessions.py", line 706, in send
+    r = adapter.send(request, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/requests/adapters.py", line 666, in send
+    raise ConnectTimeout(e, request=request)
+requests.exceptions.ConnectTimeout: HTTPSConnectionPool(host='api-mifit-cn3.zepp.com', port=443): Max retries exceeded with url: /huami.health.getUserInfo.json?r=00b7912b-790a-4552-81b1-3742f9dd1e76&userid=1188760659&appid=428135909242707968&channel=Normal&country=CN&cv=50818_6.14.0&device=android_31&device_type=android_phone&lang=zh_CN&timezone=Asia%2FShanghai&v=2.0 (Caused by ConnectTimeoutError(<HTTPSConnection(host='api-mifit-cn3.zepp.com', port=443) at 0x7f3ce88467a0>, 'Connection to api-mifit-cn3.zepp.com timed out. (connect timeout=None)'))
 
 
-执行账号总数15，成功：15
-状态码: 200
-响应内容: {"code":200,"message":"success","timestamp":1774746689}
+执行账号总数15，成功：0，失败：15
+企业微信推送完毕：0-ok
