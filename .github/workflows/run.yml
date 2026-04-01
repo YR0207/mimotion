@@ -16,7 +16,7 @@ env:
 jobs:
   main:
     runs-on: ubuntu-latest
-    timeout-minutes: 2      # 超时5分钟，超时后job将被取消
+    timeout-minutes: 5      # 超时5分钟，超时后job将被取消
     steps:
       - name: Checkout codes
         uses: actions/checkout@v5
@@ -57,6 +57,11 @@ jobs:
     needs: main
     if: always()   # 无论主Job成功、失败、取消都执行，以便检查是否需要重试
     steps:
+      - name: Checkout codes
+        uses: actions/checkout@v5
+        with:
+          token: ${{ secrets.PAT }}
+
       - name: 获取当前重试次数
         id: get_retry
         run: |
