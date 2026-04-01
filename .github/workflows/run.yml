@@ -11,12 +11,12 @@ on:
         default: '0'
 
 env:
-  MAX_RETRIES: 3
+  MAX_RETRIES: 1
 
 jobs:
   main:
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 1
     steps:
       - name: Checkout codes
         uses: actions/checkout@v5
