@@ -16,7 +16,7 @@ env:
 jobs:
   main:
     runs-on: ubuntu-latest
-    timeout-minutes: 5      # 超时5分钟，超时后job将被取消
+    timeout-minutes: 2      # 超时5分钟，超时后job将被取消
     steps:
       - name: Checkout codes
         uses: actions/checkout@v5
