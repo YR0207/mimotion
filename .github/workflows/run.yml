@@ -3,7 +3,7 @@ name: 刷步数
 # 触发条件
 on:
   schedule:
-    - cron: '58 23 * * *'   # 每天 23:58 定时运行
+    - cron: '57  23 * * *'   # 每天 23:57 定时运行
   workflow_dispatch:        # 支持手动触发（在 GitHub 界面点击运行）
     inputs:
       retry_count:
