@@ -1,37 +1,48 @@
 name: 刷步数
 
+# 触发条件
 on:
   schedule:
-    - cron: '58 23 * * *'
-  workflow_dispatch:
+    - cron: '57  23 * * *'   # 每天 23:57 定时运行
+  workflow_dispatch:        # 支持手动触发（在 GitHub 界面点击运行）
+    inputs:
+      retry_count:
+        description: '重试次数（内部使用，请勿手动修改）'
+        required: false
+        default: '0'
+
+# 全局环境变量，用于控制重试上限
+env:
+  MAX_RETRIES: 3            # 最大允许的重试次数
 
 jobs:
-  build:
+  # 主任务：实际执行刷步数脚本
+  main:
     runs-on: ubuntu-latest
-    timeout-minutes: 60
+    timeout-minutes: 5      # 任务超时限制（5分钟），超时后会被取消
     steps:
       - name: Checkout codes
         uses: actions/checkout@v5
         with:
-          token: ${{ secrets.PAT }} #此处PAT需要申请，教程详见：README
+          token: ${{ secrets.PAT }}   # 使用个人访问令牌，确保后续 git 操作有权限
+
       - name: Update system and install zsh
         run: |
           sudo -E apt-get -qq update
           sudo -E apt-get install zsh -y
-          
+
       - name: 初始化Python
         uses: actions/setup-python@v6
         with:
           python-version: "3.10"
-          
+
       - name: 开始
         env:
-            CONFIG: ${{ secrets.CONFIG }}
-            AES_KEY: ${{ secrets.AES_KEY }}
-            BARK_KEY: ${{ secrets.BARK_KEY }}
+          CONFIG: ${{ secrets.CONFIG }}
+          AES_KEY: ${{ secrets.AES_KEY }}
+          BARK_KEY: ${{ secrets.BARK_KEY }}
         run: |
           pip3 install requests pytz pycryptodome
-          # python3 main.py > script_output.log 2>&1
           python3 main.py 2>&1 | tee script_output.log
           echo "Python脚本执行完成"
 
@@ -42,3 +53,63 @@ jobs:
           git add .
           git commit -m "persist tokens trigger by ${{ github.event_name }}"
           git push origin master
+
+  # 重试任务：检查主任务是否失败或超时，如果是则重新触发整个工作流
+  retry:
+    runs-on: ubuntu-latest
+    needs: main                     # 依赖主任务，等待主任务完成
+    if: always()                    # 无论主任务结果如何都执行（因为 cancelled 状态不会触发 failure()）
+    steps:
+      - name: Checkout codes
+        uses: actions/checkout@v5
+        with:
+          token: ${{ secrets.PAT }}   # 需要仓库上下文，否则 gh 命令无法运行
+
+      - name: 获取当前重试次数
+        id: get_retry
+        run: |
+          # 如果手动触发时传入了 retry_count 参数则使用，否则默认为 0
+          if [ "${{ github.event.inputs.retry_count }}" != "" ]; then
+            echo "count=${{ github.event.inputs.retry_count }}" >> $GITHUB_OUTPUT
+          else
+            echo "count=0" >> $GITHUB_OUTPUT
+          fi
+
+      - name: 检查是否需要重试
+        id: check
+        run: |
+          # 判断主任务是否失败或超时（状态为 failure 或 cancelled）
+          if [[ "${{ needs.main.result }}" == "failure" || "${{ needs.main.result }}" == "cancelled" ]]; then
+            echo "主Job状态: ${{ needs.main.result }}，需要重试"
+            NEED_RETRY=true
+          else
+            echo "主Job成功，无需重试"
+            NEED_RETRY=false
+          fi
+
+          # 如果主任务需要重试，再检查是否已经达到最大重试次数
+          if [[ "$NEED_RETRY" == "true" ]]; then
+            RETRY_COUNT=${{ steps.get_retry.outputs.count }}
+            if [ $RETRY_COUNT -ge $MAX_RETRIES ]; then
+              echo "已达到最大重试次数 ($MAX_RETRIES)，不再重试"
+              NEED_RETRY=false
+            else
+              echo "继续重试，当前次数: $RETRY_COUNT"
+            fi
+          fi
+
+          # 将最终决定（是否重试）输出到步骤的输出变量，供下一步使用
+          echo "should_retry=$NEED_RETRY" >> $GITHUB_OUTPUT
+
+      - name: 重新触发工作流
+        # 只有当检查步骤明确输出 should_retry=true 时才执行，避免无限循环
+        if: steps.check.outputs.should_retry == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.PAT }}   # 必须具有 workflow 权限
+        run: |
+          NEW_RETRY_COUNT=$(( ${{ steps.get_retry.outputs.count }} + 1 ))
+          echo "重试次数: $NEW_RETRY_COUNT"
+          # 使用 gh 命令重新触发当前工作流，并传递更新后的重试次数参数
+          gh workflow run "${{ github.workflow }}" \
+            --ref "${{ github.ref }}" \
+            -f retry_count="$NEW_RETRY_COUNT"
