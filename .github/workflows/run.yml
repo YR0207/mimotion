@@ -2,7 +2,7 @@ name: 刷步数
 
 on:
   schedule:
-    - cron: '57 15 * * *'   # 修正为北京时间 23:57 (UTC 15:57)
+    - cron: '57 23 * * *'   # 修正为北京时间 23:57 (UTC 15:57)
   workflow_dispatch:
     inputs:
       retry_count:
