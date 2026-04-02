@@ -1,6 +1,8 @@
 import json, re, time, traceback, urllib, uuid, pytz, requests, random, os
 from datetime import datetime
 from util.aes_help import encrypt_data, HM_AES_KEY, HM_AES_IV
+from requests.adapters import HTTPAdapter
+from urllib3.util.retry import Retry
 
 
 # 通过账号密码获取access_token和refresh_token 但是refresh_token不知道怎么使用
@@ -154,7 +156,6 @@ def grant_app_token(login_token: str) -> (str | None, str | None):
 # 获取用户信息 主要用于检查app_token是否有效
 def check_app_token(app_token) -> (bool, str | None):
     url = "https://api-mifit-cn3.zepp.com/huami.health.getUserInfo.json"
-
     params = {
         "r": "00b7912b-790a-4552-81b1-3742f9dd1e76",
         "userid": "1188760659",
@@ -168,7 +169,6 @@ def check_app_token(app_token) -> (bool, str | None):
         "timezone": "Asia/Shanghai",
         "v": "2.0"
     }
-
     headers = {
         "User-Agent": "MiFit6.14.0 (M2007J1SC; Android 12; Density/2.75)",
         "Accept-Encoding": "gzip",
@@ -186,7 +186,32 @@ def check_app_token(app_token) -> (bool, str | None):
         "lang": "zh_CN",
         "clientid": "428135909242707968"
     }
-    response = requests.get(url, params=params, headers=headers)
+    # ========== 新增：重试 + 超时 ==========
+    session = requests.Session()
+    retry = Retry(
+        total=3,  # 最多重试3次
+        backoff_factor=2,  # 等待间隔：1s → 2s → 4s
+        status_forcelist=[429, 500, 502, 503, 504]
+    )
+    adapter = HTTPAdapter(max_retries=retry)
+    session.mount("https://", adapter)
+
+    try:
+        # 替换原来的 requests.get
+        response = session.get(
+            url,
+            params=params,
+            headers=headers,
+            timeout=15  # 15秒超时，解决timeout=None问题
+        )
+    except requests.exceptions.ConnectTimeout:
+        return False, "连接超时：无法连接Zepp服务器"
+    except requests.exceptions.ConnectionError:
+        return False, "网络异常：无法访问接口"
+    except requests.exceptions.RequestException as e:
+        return False, f"请求失败：{str(e)}"
+
+    # ========== 下面完全保持你原来的逻辑不变 ==========
     if response.status_code != 200:
         return False, "请求异常：%d" % response.status_code
     response = response.json()
