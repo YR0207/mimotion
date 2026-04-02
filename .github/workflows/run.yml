@@ -1,30 +1,28 @@
 name: 刷步数
 
-# 触发条件
 on:
   schedule:
-    - cron: '5  2 * * *'   # 每天 23:57 定时运行
-  workflow_dispatch:        # 支持手动触发（在 GitHub 界面点击运行）
+    - cron: '57 15 * * *'   # 修正为北京时间 23:57 (UTC 15:57)
+  workflow_dispatch:
     inputs:
       retry_count:
         description: '重试次数（内部使用，请勿手动修改）'
         required: false
         default: '0'
 
-# 全局环境变量，用于控制重试上限
 env:
-  MAX_RETRIES: 3            # 最大允许的重试次数
+  MAX_RETRIES: 2
 
 jobs:
-  # 主任务：实际执行刷步数脚本
   main:
     runs-on: ubuntu-latest
-    timeout-minutes: 5      # 任务超时限制（5分钟），超时后会被取消
+    # 移除 Job 级别的超时限制，改为仅针对“开始”步骤
+    # timeout-minutes: 6
     steps:
       - name: Checkout codes
         uses: actions/checkout@v5
         with:
-          token: ${{ secrets.PAT }}   # 使用个人访问令牌，确保后续 git 操作有权限
+          token: ${{ secrets.PAT }}
 
       - name: Update system and install zsh
         run: |
@@ -36,7 +34,13 @@ jobs:
         with:
           python-version: "3.10"
 
+      # ---------------------------------------------------------------
+      # 修改点 1：给“开始”步骤添加 id、超时控制，并允许失败后继续
+      # ---------------------------------------------------------------
       - name: 开始
+        id: run_script          # 给步骤起个 ID，方便后续引用状态
+        timeout-minutes: 5      # 仅针对此步骤设置超时时间 (例如 5 分钟)
+        continue-on-error: true # 关键：即使此步骤失败/超时，也继续执行后续步骤
         env:
           CONFIG: ${{ secrets.CONFIG }}
           AES_KEY: ${{ secrets.AES_KEY }}
@@ -46,70 +50,99 @@ jobs:
           python3 main.py 2>&1 | tee script_output.log
           echo "Python脚本执行完成"
 
+      # ---------------------------------------------------------------
+      # 修改点 2：新增步骤，专门记录“开始”步骤的执行结果
+      # ---------------------------------------------------------------
+      - name: 记录脚本执行状态
+        id: record_status
+        run: |
+          # 获取“开始”步骤的结论 (conclusion)
+          # 可能的值: success, failure, cancelled, skipped
+          SCRIPT_CONCLUSION=${{ steps.run_script.conclusion }}
+          
+          echo "脚本执行状态: $SCRIPT_CONCLUSION"
+          
+          # 将状态写入文件，以便后续 retry Job 读取判断
+          echo "$SCRIPT_CONCLUSION" > script_status.txt
+          
+          # 同时也将状态输出到 GITHUB_OUTPUT，虽然这里我们主要用文件方式
+          echo "status=$SCRIPT_CONCLUSION" >> $GITHUB_OUTPUT
+
       - name: persist tokens
         run: |
           git config user.name github-actions
           git config user.email github-actions@users.noreply.github.com
-          git add .
-          git commit -m "persist tokens trigger by ${{ github.event_name }}"
-          git push origin master
+          # 显式添加我们需要的文件 (日志和状态文件)，避免 git add . 的风险
+          git add script_output.log script_status.txt
+          # 如果有其他 token 文件需要提交，请在这里添加，例如：
+          # git add tokens.json
+          
+          # 只有当有变更时才 commit，避免报错 (虽然 git commit -a 可以处理，但为了稳妥)
+          git diff --quiet && git diff --staged --quiet || (git commit -m "persist tokens and logs trigger by ${{ github.event_name }}" && git push origin master)
 
-  # 重试任务：检查主任务是否失败或超时，如果是则重新触发整个工作流
   retry:
     runs-on: ubuntu-latest
-    needs: main                     # 依赖主任务，等待主任务完成
-    if: always()                    # 无论主任务结果如何都执行（因为 cancelled 状态不会触发 failure()）
+    needs: main
+    if: always() # 无论 main Job 成功与否都过来检查一下
     steps:
       - name: Checkout codes
         uses: actions/checkout@v5
         with:
-          token: ${{ secrets.PAT }}   # 需要仓库上下文，否则 gh 命令无法运行
+          token: ${{ secrets.PAT }}
 
       - name: 获取当前重试次数
         id: get_retry
         run: |
-          # 如果手动触发时传入了 retry_count 参数则使用，否则默认为 0
           if [ "${{ github.event.inputs.retry_count }}" != "" ]; then
             echo "count=${{ github.event.inputs.retry_count }}" >> $GITHUB_OUTPUT
           else
             echo "count=0" >> $GITHUB_OUTPUT
           fi
 
+      # ---------------------------------------------------------------
+      # 修改点 3：修改检查逻辑，读取文件状态而非 Job 状态
+      # ---------------------------------------------------------------
       - name: 检查是否需要重试
         id: check
         run: |
-          # 判断主任务是否失败或超时（状态为 failure 或 cancelled）
-          if [[ "${{ needs.main.result }}" == "failure" || "${{ needs.main.result }}" == "cancelled" ]]; then
-            echo "主Job状态: ${{ needs.main.result }}，需要重试"
-            NEED_RETRY=true
+          # 1. 读取上一步写入的状态文件
+          if [ -f "script_status.txt" ]; then
+            SCRIPT_CONCLUSION=$(cat script_status.txt)
+            echo "读取到脚本状态: $SCRIPT_CONCLUSION"
           else
-            echo "主Job成功，无需重试"
-            NEED_RETRY=false
+            SCRIPT_CONCLUSION="not_found"
+            echo "未找到状态文件，视为无需重试"
           fi
 
-          # 如果主任务需要重试，再检查是否已经达到最大重试次数
-          if [[ "$NEED_RETRY" == "true" ]]; then
+          NEED_RETRY=false
+
+          # 2. 判断状态是否为失败 (failure) 或 取消 (cancelled，通常由超时引起)
+          if [[ "$SCRIPT_CONCLUSION" == "failure" || "$SCRIPT_CONCLUSION" == "cancelled" ]]; then
+            echo "检测到脚本步骤失败或超时，考虑重试..."
             RETRY_COUNT=${{ steps.get_retry.outputs.count }}
+            
+            # 3. 检查是否超过最大重试次数
             if [ $RETRY_COUNT -ge $MAX_RETRIES ]; then
               echo "已达到最大重试次数 ($MAX_RETRIES)，不再重试"
               NEED_RETRY=false
             else
               echo "继续重试，当前次数: $RETRY_COUNT"
+              NEED_RETRY=true
             fi
+          else
+            echo "脚本状态为 $SCRIPT_CONCLUSION，无需重试"
+            NEED_RETRY=false
           fi
 
-          # 将最终决定（是否重试）输出到步骤的输出变量，供下一步使用
           echo "should_retry=$NEED_RETRY" >> $GITHUB_OUTPUT
 
       - name: 重新触发工作流
-        # 只有当检查步骤明确输出 should_retry=true 时才执行，避免无限循环
         if: steps.check.outputs.should_retry == 'true'
         env:
-          GH_TOKEN: ${{ secrets.PAT }}   # 必须具有 workflow 权限
+          GH_TOKEN: ${{ secrets.PAT }}
         run: |
           NEW_RETRY_COUNT=$(( ${{ steps.get_retry.outputs.count }} + 1 ))
           echo "重试次数: $NEW_RETRY_COUNT"
-          # 使用 gh 命令重新触发当前工作流，并传递更新后的重试次数参数
           gh workflow run "${{ github.workflow }}" \
             --ref "${{ github.ref }}" \
             -f retry_count="$NEW_RETRY_COUNT"
