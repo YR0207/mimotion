@@ -139,7 +139,31 @@ def grant_login_tokens(access_token, device_id, is_phone=False) -> (str | None, 
 def grant_app_token(login_token: str) -> (str | None, str | None):
     url = f"https://account-cn.huami.com/v1/client/app_tokens?app_name=com.xiaomi.hm.health&dn=api-user.huami.com%2Capi-mifit.huami.com%2Capp-analytics.huami.com&login_token={login_token}"
     headers = {'User-Agent': 'MiFit/5.3.0 (iPhone; iOS 14.7.1; Scale/3.00)'}
-    resp = requests.get(url, headers=headers)
+    # resp = requests.get(url, headers=headers)
+    # ========== 新增：重试 + 超时 ==========
+    session = requests.Session()
+    retry = Retry(
+        total=3,  # 最多重试3次
+        backoff_factor=2,  # 等待间隔：1s → 2s → 4s
+        status_forcelist=[429, 500, 502, 503, 504]
+    )
+    adapter = HTTPAdapter(max_retries=retry)
+    session.mount("https://", adapter)
+
+    try:
+        # 替换原来的 requests.get
+        resp = session.get(
+            url,
+            headers=headers,
+            timeout=15  # 15秒超时，解决timeout=None问题
+        )
+    except requests.exceptions.ConnectTimeout:
+        return False, "连接超时：无法连接华米服务器"
+    except requests.exceptions.ConnectionError:
+        return False, "网络异常：无法访问接口"
+    except requests.exceptions.RequestException as e:
+        return False, f"请求失败：{str(e)}"
+    # ========== 下面完全保持你原来的逻辑不变 ==========
     if resp.status_code != 200:
         return None, "请求异常：%d" % resp.status_code
     resp = resp.json()
