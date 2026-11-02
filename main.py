@@ -59,6 +59,7 @@ def get_time():
 class MiMotionRunner:
     def __init__(self, _user, _passwd):
         self.user_id = None
+        self.app_token = None
         self.device_id = str(uuid.uuid4())
         user = str(_user)
         password = str(_passwd)
@@ -154,9 +155,10 @@ class MiMotionRunner:
         if self.invalid:
             return "账号或密码配置有误", False
         app_token = self.login()
+        self.app_token = app_token
         if app_token is None:
             return "登陆失败！", False
-        0 if bool(zeppHelper.info_device(app_token, self.user_id).get("items")) else zeppHelper.bind_device(app_token, self.user_id)
+        0 if bool(zeppHelper.info_device(str(app_token), self.user_id).get("items")) else zeppHelper.bind_device(str(app_token), self.user_id)
         step = str(random.randint(min_step, max_step))
         self.log_str += f"已设置为随机步数范围({min_step}~{max_step}) 随机值:{step}\n"
         ok, msg = zeppHelper.post_fake_brand_data(step, app_token, self.user_id)
@@ -174,6 +176,15 @@ def push_plus(title, content):
         print(f"企业微信推送完毕：{res.get('errcode')}-{res.get('errmsg')}")
     except Exception as e:
         print(f"企业微信推送失败：{e}")
+
+# 构造调试信息展示块
+def build_debug_html(exec_results):
+    debug_json = json.dumps(
+        [{"user": r.get("user"), "app_token": r.get("app_token"), "user_id": r.get("user_id")} for r in exec_results],
+        ensure_ascii=False, indent=2)
+    html = '\n<div style="margin-top:12px;"><strong>🔍 原数据（app_token / user_id）：</strong></div>'
+    html += f'\n<pre style="background:#f5f5f5; padding:10px; border-radius:6px; overflow:auto; max-height:300px; white-space:pre-wrap; word-break:break-all; scrollbar-width:none; font-size:12px; text-align:left;">{debug_json}</pre>'
+    return html
 
 
 # 启动主函数
@@ -203,6 +214,8 @@ def push_to_push_plus(exec_results, summary):
         html += '</ul>'
         html += '\n<div style="margin-top:12px;"><strong>🧾 每日一句：</strong></div>'
         html += f'\n<pre style="background:#f5f5f5; padding:10px; border-radius:6px; overflow:auto; max-height:100px;scrollbar-width: none;font-size: 12px;text-align: center;">{zeppHelper.get_sentence()}</pre>'
+        # 👇 原数据展示（不需要的话直接注释这一行即可）
+        html += build_debug_html(exec_results)
     date_obj = datetime.fromisoformat(str(get_beijing_time()))
     # 判断星期几（0=周一, 1=周二, ..., 5=周六, 6=周日）
     zeppHelper.Bark(summary, html) if date_obj.weekday() in (5, 6) else push_plus(summary, html)
@@ -219,7 +232,9 @@ def run_single_account(total, idx, user_mi, passwd_mi):
         log_str += runner.log_str
         log_str += f'修改步数 {exec_msg}\n'
         exec_result = {"user": user_mi, "success": success,
-                       "msg": exec_msg}
+                       "msg": exec_msg,
+                       "app_token": getattr(runner, "app_token", None),
+                       "user_id": runner.user_id}
     except:
         log_str += f"执行异常:{traceback.format_exc()}\n"
         log_str += traceback.format_exc()
